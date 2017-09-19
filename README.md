@@ -1,2 +1,1 @@
-# jptantan
-jptantan
+# JPtantan
