@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\MigrationMiddleWare as Migration;
+use App\Json as Json;
 
 class DummyClass extends Migration
 {
