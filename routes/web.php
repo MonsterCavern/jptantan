@@ -20,7 +20,6 @@ Route::group([], function () {
         $path = Request::path();
         $request = explode('/', $path);
 
-        var_dump($path, $request);
         foreach ($request as $key => $value) {
             if ($value == '') {
                 continue;
@@ -28,21 +27,10 @@ Route::group([], function () {
             $url .= '/{key'. $key . '?}';
         }
 
-        // if ($path == '/') {
-        //     $request = ['home'];
-        //     $url = '/';
-        // }
-        //
-        // if (preg_match('/^([0-9]+)$/', $path)) {
-        //     $url = '/{id?}';
-        // }
-
-        var_dump($url);
         Route::get($url, function () {
             $view = '';
             $args = func_get_args();
             $url_info = [];
-            var_dump($args);
             $index = 0;
             foreach ($args as $k =>$value) {
                 if (preg_match('/^([0-9]+)$/', $value)) {
@@ -59,7 +47,6 @@ Route::group([], function () {
             }
             $data['url_info'] = $url_info;
             $view = ltrim($view, '.');
-            var_dump($view, $data);
             return view('errors.404', $data);
             //return view('errors.404', $data);
         });
