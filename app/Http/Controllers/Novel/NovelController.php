@@ -2,17 +2,19 @@
 namespace App\Http\Controllers\Novel;
 
 use DB;
-use Exception;
+use App\Exceptions\Exception as Exception;
 use Storage;
 use App\Http\Controllers\Controller as Controller;
 use App\Json;
 use Illuminate\Http\Request;
 use DiDom\Document;
 
-class NovelController extends Controller {
+class NovelController extends Controller
+{
     //
 
-    public function restGet_new(Request $request) {
+    public function restGet_new(Request $request)
+    {
         // url 網址
         if ($request->has('url')) {
             $url = $request->url;
@@ -38,6 +40,40 @@ class NovelController extends Controller {
 
         $lang = 'jp';//$request->lang;
         $status = $this->saveNew($data, $params, $lang);
+        $capters = $document->find('.index_box')[0]->children();
+        $temps = [];
+        $temp = [];
+        foreach ($capters as $key => $value) {
+            if ($value->has('.chapter_title')) {
+                //dump($value->text());
+                if (count($temp) > 0) {
+                    $temps[] = $temp;
+                    $temp = [];
+                }
+                $temp['title'] = $value->text();
+            }
+            if ($value->has('.subtitle')) {
+                $title = $value->find('a')[0]->text();
+                $href = $value->find('a')[0]->href;
+                // 新增或更新 章節
+                $temp['ids'][] = $title;
+            }
+        }
+        dump($temps);
+
+        // $capters = $document->find('.index_box')[0]->find('.subtitle');
+        // foreach ($capters as $key => $subtitle) {
+        //     $title = $subtitle->find('a')[0]->text();
+        //     $href = $subtitle->find('a')[0]->href;
+        //     dump($title, $href);
+        // }
+
+
+        if ($status == 'row_is_exist') {
+            // 更新章節
+        } elseif ($status == 'row_is_insert') {
+            // 新增章節
+        }
 
         return response()->jsonb($status);
 
@@ -59,7 +95,15 @@ class NovelController extends Controller {
      * @param $data(直接儲存的資料), $params(需要處理的資料), $lang(語系)
      * @return $status[true,fale], novel_capters_urls
      */
-    public function saveNew($data, $params, $lang) {
+    public function saveNew($data, $params, $lang)
+    {
+        ini_set('display_errors', 1);
+        $is_exist =  DB::table('novels')->where('url', '=', $data['url'])->count();
+        if ($is_exist > 0) {
+            return 'row_is_exist';
+            //throw new Exception("row_is_exist", 200, 'URL');
+        }
+
         $intros = preg_split('/\n|\r\n?/', $params['intros'], -1, PREG_SPLIT_NO_EMPTY);
         $intro = [];
         foreach ($intros as $value) {
@@ -74,14 +118,11 @@ class NovelController extends Controller {
             'intro' => $intro
         ];
         $data['intro'] = Json::Encode($intros);
-        try {
-            $status = DB::table('novels')->insert($data);
-        } catch (Exception $e) {
-            $code           = $e->getCode();
-            $res['status'] = false;
-            $res['code']   = $code;
-            return response()->json($res, 404);
+        $status = DB::table('novels')->insert($data);
+
+        if ($status) {
+            return 'row_is_insert';
         }
-        return $status;
+        return false;
     }
 }

@@ -168,7 +168,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Recca0120\LaravelTracy\LaravelTracyServiceProvider::class,
-
+        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         /*
          * Application Service Providers...
          */
