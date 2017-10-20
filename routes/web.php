@@ -45,9 +45,9 @@ Route::group([], function () {
             if (!$view) {
                 $view = 'home';
             }
-            $data['url_info'] = $url_info;
             $view = ltrim($view, '.');
-            return view('errors.404', $data);
+            $data['url_info'] = $url_info;
+            return view($view, $data);
             //return view('errors.404', $data);
         });
 

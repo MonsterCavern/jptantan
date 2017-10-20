@@ -40,15 +40,6 @@
 <div class="error">
 <div class="error-code m-b-10 m-t-20">404 <i class="fa fa-warning"></i></div>
 <h3 class="font-bold">找不到網頁</h3>
-
-<div class="error-desc">
-    <div>
-        <a class=" login-detail-panel-button btn" href="http://blog.webgolds.com">
-            <i class="fa fa-arrow-left"></i>
-            Go back to Homepage
-        </a>
-    </div>
-</div>
 </div>
 </body>
 </html>

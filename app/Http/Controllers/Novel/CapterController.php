@@ -1,27 +1,29 @@
 <?php
-
 namespace App\Http\Controllers\Novel;
 
 use App\Http\Controllers\Controller as Controller;
+use App\Json;
 use Illuminate\Http\Request;
 use DiDom\Document;
+use DB;
 
-class CapterController extends Controller
-{
+class CapterController extends Controller {
     //
-    public function restGet_saveNew($url='', $updated_at='')
-    {
+    public function restGet_saveNew($url='', $updated_at='') {
+        $updated_at = date('Y-m-d H:i:s');
         $url = 'http://ncode.syosetu.com/n9669bk/1';
         $document = new Document($url, true);
         $novel_subtitle = $document->find('.novel_subtitle')[0]->text();
         $novel_honbuns = $document->find('#novel_honbun')[0]->children();
 
-        var_dump($novel_subtitle);
+        $content['title'] = $novel_subtitle;
 
         foreach ($novel_honbuns as $key => $value) {
-            var_dump($value->html());
+            if ($value->html()) {
+                $content['content'][] = $value->html();
+            }
         }
-        exit;
+        $contents[] = $content;
         $intro = [
           'jp' =>[
             'name' => $novel_subtitle,
@@ -34,11 +36,10 @@ class CapterController extends Controller
         ];
 
         $data = [
-          'intro' => $intro,
-          'content' => $content,
+          'intro' => Json::Encode($intro),
+          'content' => Json::Encode($contents),
           'updated_at' => $updated_at
         ];
-
-        //$status = DB::table('novels')->insert($data);
+        $status = DB::table('novel_capters')->insert($data);
     }
 }

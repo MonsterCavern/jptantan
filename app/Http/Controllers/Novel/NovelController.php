@@ -9,12 +9,10 @@ use App\Json;
 use Illuminate\Http\Request;
 use DiDom\Document;
 
-class NovelController extends Controller
-{
+class NovelController extends Controller {
     //
 
-    public function restGet_new(Request $request)
-    {
+    public function restGet_new(Request $request) {
         // url 網址
         if ($request->has('url')) {
             $url = $request->url;
@@ -58,6 +56,9 @@ class NovelController extends Controller
                 // 新增或更新 章節
                 $temp['ids'][] = $title;
             }
+            if (condition) {
+                # code...
+            }
         }
         dump($temps);
 
@@ -95,8 +96,7 @@ class NovelController extends Controller
      * @param $data(直接儲存的資料), $params(需要處理的資料), $lang(語系)
      * @return $status[true,fale], novel_capters_urls
      */
-    public function saveNew($data, $params, $lang)
-    {
+    public function saveNew($data, $params, $lang) {
         ini_set('display_errors', 1);
         $is_exist =  DB::table('novels')->where('url', '=', $data['url'])->count();
         if ($is_exist > 0) {
