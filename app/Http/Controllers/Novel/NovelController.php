@@ -35,7 +35,6 @@ class NovelController extends Controller {
             $data['author_id'] = $author_id;
         }
 
-
         $lang = 'jp';//$request->lang;
         $status = $this->saveNew($data, $params, $lang);
         $capters = $document->find('.index_box')[0]->children();
@@ -56,9 +55,9 @@ class NovelController extends Controller {
                 // 新增或更新 章節
                 $temp['ids'][] = $title;
             }
-            if (condition) {
-                # code...
-            }
+            // if (condition) {
+            //     # code...
+            // }
         }
         dump($temps);
 
@@ -68,7 +67,6 @@ class NovelController extends Controller {
         //     $href = $subtitle->find('a')[0]->href;
         //     dump($title, $href);
         // }
-
 
         if ($status == 'row_is_exist') {
             // 更新章節
@@ -87,7 +85,6 @@ class NovelController extends Controller {
 
         // files
     }
-
 
     /**
      * 新建 小說目錄
