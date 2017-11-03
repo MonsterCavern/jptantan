@@ -47,13 +47,10 @@ class Handler extends ExceptionHandler {
      */
     public function render($request, Exception $exception) {
         if ($exception instanceof HttpException) {
-            var_dump($exception);
-            exit;
-            abort(404);
+            return response()->view('errors.404', [], 404);
         }
         
         if ($exception instanceof NotFoundHttpException) {
-            abort(404);
         }
         
         
