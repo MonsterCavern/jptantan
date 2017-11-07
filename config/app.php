@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Taipei',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Recca0120\LaravelTracy\LaravelTracyServiceProvider::class,
         GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         /*
          * Application Service Providers...
          */

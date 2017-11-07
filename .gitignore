@@ -2,6 +2,8 @@
 /public/hot
 /public/js
 /public/storage
+/public/mix-manifest.json
+/public/build
 /storage/*.key
 /vendor
 /.idea

@@ -1,5 +1,5 @@
-@extends('layout.master')
-@section('content')
+@extends('layouts.base', ['VueId' => 'home'])
+@section('body')
 
   <div class="row">
     <div class="col-xs-12 col-sm-9">
@@ -71,7 +71,4 @@
 
 @section('js')
   <script src="{{ asset('js/app.js') }}"></script>
-  <script>
-  </script>
-
 @endsection

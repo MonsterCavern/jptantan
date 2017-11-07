@@ -6,5 +6,8 @@
   "resources/assets/js/bootstrap.js": "resources/assets/js/bootstrap.js",
   "/js/header.js": "/js/header.js",
   "/js/novel.js": "/js/novel.js",
-  "/js/novel/list.js": "/js/novel/list.js"
+  "/js/novel/list.js": "/js/novel/list.js",
+  "/build/js/app.js": "/build/js/app.js",
+  "/build/js/list.js": "/build/js/list.js",
+  "/build/js/home.js": "/build/js/home.js"
 }

@@ -1,5 +1,5 @@
-@extends('layout.master')
-@section('content')
+@extends('layouts.base',['VueId'=>'novel'])
+@section('body')
 <div class="test">
 
 </div>

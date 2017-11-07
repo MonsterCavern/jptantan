@@ -5,16 +5,14 @@ use Response;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\JsonResponse;
 
-class ResponseMacroServiceProvider extends ServiceProvider
-{
+class ResponseMacroServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
 
-    public function boot()
-    {
+    public function boot() {
         //
         Response::macro('caps', function ($value) {
             return Response::make(strtoupper($value));
@@ -27,6 +25,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
                     'charset'      => 'utf-8'
                 ];
             }
+          
             $datas['code'] = $status;
             if ($data) {
                 $datas['data'] = $data;
@@ -34,7 +33,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
             if ($message) {
                 $datas['message'] = $message;
             }
-            
             return new JsonResponse($datas, $status, $headers, $options);
         });
     }
@@ -44,8 +42,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
 }

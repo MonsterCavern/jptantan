@@ -11,10 +11,12 @@ let mix = require('laravel-mix')
  |
  */
 
+var BaseJsPath = 'public/build/js';
+var BaseCssPath = 'public/build/css';
 
-mix.js('resources/assets/js/app.js', 'public/js')
-  .sass('resources/assets/sass/app.scss', 'public/css')//
+mix.js('resources/assets/js/app.js', BaseJsPath)
+  .sass('resources/assets/sass/app.scss', BaseCssPath)//
 
-mix.js('resources/assets/js/header.js', 'public/js')
+// mix.js('resources/assets/js/home.js', BaseJsPath)
 
-mix.js('resources/assets/js/novel/list', 'public/js/novel')
+mix.js('resources/assets/js/novel/list', BaseJsPath)

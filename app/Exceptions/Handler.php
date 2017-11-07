@@ -23,7 +23,6 @@ class Handler extends ExceptionHandler {
         ModelNotFoundException::class,
         TokenMismatchException::class,
         ValidationException::class,
-        //basicException::class,
     ];
 
     /**
@@ -46,44 +45,42 @@ class Handler extends ExceptionHandler {
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception) {
+        if ($exception instanceof \PDOException) {
+            return response()->jsonb([], 200, 'SQL'.$exception->getCode());
+        }
+        
+      
         if ($exception instanceof HttpException) {
+            if ($request->is('api/*')) {
+                return response()->jsonb([], 404, $exception->getMessage());
+            } else {
+                //dd($request->path());
+                $url = explode('/', $request->path());
+                if (count($url) == 1) {
+                    $url[1] = 'index';
+                }
+                $url = implode('.', $url);
+                
+                if (view()->exists($url)) {
+                    return response()->view($url);
+                }
+            }
             return response()->view('errors.404', [], 404);
         }
-        
-        if ($exception instanceof NotFoundHttpException) {
-        }
-        
         
         if ($exception instanceof ModelNotFoundException) {
             $exception = new NotFoundHttpException($exception->getMessage(), $exception);
         }
-        
-        
    
         return parent::render($request, $exception);
-        //
-        // if ($request->is('api/*')) {
-        //     return $this->handle($request, $exception);
-        // }
-
-        // if ($this->isHttpException($exception)) {
-        //     if ($request->is('api/*')) {
-        //         return response()->json(['error' => 'Not Found'], 404);
-        //     }
-        //
-        //     return $this->renderHttpException($exception);
-        // } else {
-        //     return parent::render($request, $exception);
-        // }
     }
 
     public function handle($request, Exception $e) {
         # code...
-        if ($e instanceof basicException) {
-            $data   = $e->toArray();
-            $status = $e->getStatus();
-        }
-
-        return response()->jsonb([], $status, $data);
+        // if ($e instanceof basicException) {
+        //     $data   = $e->toArray();
+        //     $status = $e->getStatus();
+        // }
+        return response()->jsonb([], $e->getCode(), $e->getMessage());
     }
 }
