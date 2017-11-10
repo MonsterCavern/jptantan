@@ -1,0 +1,20 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "id": "3",
+      "name": "Cosmos",
+      "user_group_id": "1"
+    },
+    {
+      "id": "1",
+      "name": "Cosmo",
+      "user_group_id": "1"
+    },
+    {
+      "id": "2",
+      "name": "Co",
+      "user_group_id": "0"
+    }
+  ]
+}
