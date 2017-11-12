@@ -22,6 +22,11 @@
   // drawTable
   // ...
 
+  // drawTableHead
+  // ...
+
+  // drawTableBody
+  // ...
 
   // runFunc
   Driver.prototype.runCond = function (target, op, value) {
