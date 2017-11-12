@@ -1452,16 +1452,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a"
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a1e8e1a30e1352f118feff1a8481066ddc2f234a",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/08131e7ff29de6bb9f12275c7d35df71f25f4d89",
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89",
                 "shasum": ""
             },
             "require": {
@@ -1499,7 +1499,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-09-02T17:10:46+00:00"
+            "time": "2017-11-04T11:48:34+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1648,16 +1648,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.13",
+            "version": "v0.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d"
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/91e53c16560bdb8b9592544bb38429ae00d6baee",
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee",
                 "shasum": ""
             },
             "require": {
@@ -1717,7 +1717,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-10-19T06:13:20+00:00"
+            "time": "2017-11-04T16:06:49+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -1803,16 +1803,16 @@
         },
         {
             "name": "recca0120/laravel-tracy",
-            "version": "v1.8.11",
+            "version": "v1.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-tracy.git",
-                "reference": "2bd0d91f34241ed3b5f4d30a5c3571be7a468978"
+                "reference": "fdf62957935fb52f67e6d47013a6c79f7c406f7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/2bd0d91f34241ed3b5f4d30a5c3571be7a468978",
-                "reference": "2bd0d91f34241ed3b5f4d30a5c3571be7a468978",
+                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/fdf62957935fb52f67e6d47013a6c79f7c406f7a",
+                "reference": "fdf62957935fb52f67e6d47013a6c79f7c406f7a",
                 "shasum": ""
             },
             "require": {
@@ -1824,7 +1824,7 @@
                 "illuminate/view": "^5.1",
                 "php": ">=5.5.9",
                 "recca0120/terminal": "^1.6.7",
-                "tracy/tracy": "^2.4.0"
+                "tracy/tracy": "^2.4.10"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9.4",
@@ -1869,7 +1869,7 @@
                 "tracy",
                 "webprofiler"
             ],
-            "time": "2017-08-18T01:27:33+00:00"
+            "time": "2017-11-05T12:54:49+00:00"
         },
         {
             "name": "recca0120/terminal",

@@ -1,31 +1,20 @@
 {
   "root":true,
-  "parser": "babel-eslint",
-  "extends":["standard","plugin:vue-libs/recommended"],
-  "parserOptions": {
-    "ecmaVersion": 8,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
+  "extends":["standard"],
   "env": {
     "es6": true,
     "node": true,
     "browser": true,
     "jquery":true
   },
-
   "plugins": [
+    "standard",
     "html",
     "vue",
     "import",
     "node",
-    "promise",
-    "standard"
+    "promise"
   ],
-
   "globals": {
     "$": false,
     "Vue":false,
@@ -34,6 +23,8 @@
     "window": false
   },
   "rules": {
+    "semi": [2,"always"],
+    "no-redeclare":[1,{"builtinGlobals": true}],
     "prefer-const": 0,
     "space-before-function-paren": ["error", {
         "anonymous": "ignore",
@@ -47,7 +38,6 @@
       "vars": "local",
       "args": "none"
     }],
-    "semi": [0],
     "no-multiple-empty-lines": [0, {"max": 100}],
     "no-mixed-spaces-and-tabs": [0]
   }

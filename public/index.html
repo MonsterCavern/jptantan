@@ -18,7 +18,66 @@
 
 </body>
 <script type="text/javascript">
-    driver = new driver();
+    var options = {
+        data: { // 首先執行,並放入 this.data 裡
+            'users': {
+                type: 'ajax',
+                returnType: 'array',
+                config: {
+                    params: ['data/user.json','get',{limit:100}]
+                },
+                columns: ['id', 'name', 'user_group_id'],
+                merge: {
+                    target: 'this.data.user_group',
+                    key: 'user_group_id'
+                },
+                transpose: false
+            },
+            'lang': ['tw','en'],
+            'method':'list',
+            'key': 'value'
+        },
+        columns: { // 靜態規範
+            'id': {
+                'title': 'this.data.lang',
+                'type': 'integer',
+                'htmlTag': {
+                    'new': 'this.draw.label',
+                    'edit': 'this.draw.input'
+                },
+                'config': {
+                    'new': {},
+                    'edit': {}
+                }
+            },
+            'name': {
+                'title': '姓名',
+                'type': 'string'
+            },
+            'status': {}
+        },
+        threads: { // 排程
+            'initDrawTable': { // key 單純描述執行內容, value 是執行的設定
+                before: {// 不會帶入 settings
+                    'runCond':['this.data.method', '=', 'list']
+                },
+                runFunc: { //會帶入 settings
+                    //'drawTable': ['this.data.users']
+                },
+                settings:{
+                    been_standard: true, // 被columns格式化
+                },
+                apply: [{
+                    'find': 'table.tr',
+                    'method': 'addClass',
+                    'value': []
+                }]
+            }
+        }
+    };
+    // 有個問題, driver 會存在 window 裏, 同 key 的話會被覆蓋
+    drivers = $('.row').driver(options);
+    console.log(driver);
 </script>
 
 </html>
