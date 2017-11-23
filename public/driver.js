@@ -21,12 +21,15 @@
 
   // drawTable
   // ...
+  Driver.prototype.drawTable = function () {};
 
   // drawTableHead
   // ...
+  Driver.prototype.drawTableHead = function () {};
 
   // drawTableBody
   // ...
+  Driver.prototype.drawTableBody = function () {};
 
   // runFunc
   Driver.prototype.runCond = function (target, op, value) {

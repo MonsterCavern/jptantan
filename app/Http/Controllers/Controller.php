@@ -6,25 +6,22 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
-// use Illuminate\Foundation\Bus\DispatchesJobs;
-// use Illuminate\Foundation\Validation\ValidatesRequests;
-// use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
 use App\Admins as admins;
 
 class Controller extends BaseController {
-    public function restGet(Request $request, $id) {
+    public function restGet(Request $request, $pid) {
         $uri = $request->path();
         $segments = explode('/', $uri);
         $tbl = $segments[1];
         if (Schema::hasTable($tbl)) {
-            $http_status_code = 200;
-            $data = DB::table($tbl)->where('id', '=', $id)->get();
+            $httpStatusCode = 200;
+            $data = DB::table($tbl)->where('id', '=', $pid)->get();
             if ($data->isEmpty()) {
-                $http_status_code = 404;
+                $httpStatusCode = 404;
             }
-            return response()->json($data, $http_status_code);
+            return response()->json($data, $httpStatusCode);
         }
+
         return response();
     }
 
@@ -33,12 +30,12 @@ class Controller extends BaseController {
         $segments = explode('/', $uri);
         $tbl = $segments[2];
         if (Schema::hasTable($tbl)) {
-            $http_status_code = 200;
+            $httpStatusCode = 200;
             $data = DB::table($tbl)->get();
             if ($data->isEmpty()) {
-                $http_status_code = 404;
+                $httpStatusCode = 404;
             }
-            return response()->json($data, $http_status_code);
+            return response()->json($data, $httpStatusCode);
         }
         return response()->json();
     }
