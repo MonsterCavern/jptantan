@@ -1,22 +1,13 @@
 {
     "root": true,
-    "extends": [
-        "standard"
-    ],
+    "extends": ["standard"],
     "env": {
         "es6": true,
         "node": true,
         "browser": true,
         "jquery": true
     },
-    "plugins": [
-        "standard",
-        "html",
-        "vue",
-        "import",
-        "node",
-        "promise"
-    ],
+    "plugins": ["standard", "html", "vue", "import", "node", "promise"],
     "globals": {
         "$": false,
         "Vue": false,
@@ -25,20 +16,13 @@
         "window": false
     },
     "rules": {
-        "semi": [
-            2,
-            "always"
-        ],
-        "no-redeclare": [
-            1,
-            {
-                "builtinGlobals": true
-            }
-        ],
+        "semi": [2, "always"],
+        "no-redeclare": [1, {
+            "builtinGlobals": true
+        }],
         "prefer-const": 0,
         "space-before-function-paren": [
-            "error",
-            {
+            "error", {
                 "anonymous": "ignore",
                 "named": "always",
                 "asyncArrow": "always"
@@ -46,24 +30,14 @@
         ],
         "arrow-parens": 0,
         "generator-star-spacing": 0,
-        "no-undef": [
-            0
-        ],
-        "no-unused-vars": [
-            1,
-            {
-                "vars": "local",
-                "args": "none"
-            }
-        ],
-        "no-multiple-empty-lines": [
-            0,
-            {
-                "max": 100
-            }
-        ],
-        "no-mixed-spaces-and-tabs": [
-            0
-        ]
+        "no-undef": [0],
+        "no-unused-vars": [1, {
+            "vars": "local",
+            "args": "none"
+        }],
+        "no-multiple-empty-lines": [0, {
+            "max": 100
+        }],
+        "no-mixed-spaces-and-tabs": [0]
     }
 }
