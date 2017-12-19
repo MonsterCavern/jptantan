@@ -1,10 +1,10 @@
-(function ($) {
+(function($) {
   // system setting
-  Storage.prototype.setObject = function (key, value) {
+  Storage.prototype.setObject = function(key, value) {
     this.setItem(key, JSON.stringify(value));
   };
 
-  Storage.prototype.getObject = function (key) {
+  Storage.prototype.getObject = function(key) {
     var value = this.getItem(key);
     return value && JSON.parse(value);
   };
@@ -21,18 +21,18 @@
 
   // drawTable
   // ...
-  Driver.prototype.drawTable = function () {};
+  Driver.prototype.drawTable = function() {};
 
   // drawTableHead
   // ...
-  Driver.prototype.drawTableHead = function () {};
+  Driver.prototype.drawTableHead = function() {};
 
   // drawTableBody
   // ...
-  Driver.prototype.drawTableBody = function () {};
+  Driver.prototype.drawTableBody = function() {};
 
   // runFunc
-  Driver.prototype.runCond = function (target, op, value) {
+  Driver.prototype.runCond = function(target, op, value) {
     target = target.split('.');
     if (target.length > 0) {
       if (target[0] === 'this') {
@@ -67,7 +67,7 @@
     return false;
   };
 
-  Driver.prototype.runThread = function (options) {
+  Driver.prototype.runThread = function(options) {
     for (var key in options) {
       let config = options[key];
       // before
@@ -86,7 +86,7 @@
   };
 
   // 主要執行, 每個設定的 function 都應該執行一次
-  Driver.prototype.runFunc = function (object = {}, settings = {}) {
+  Driver.prototype.runFunc = function(object = {}, settings = {}) {
     if (typeof object !== 'object') {
       return false;
     } else if (object.hasOwnProperty('length')) {
@@ -107,7 +107,7 @@
 
   // 用來 執行 回傳類型的 boolen 的 方法,
   // 比較嚴格, 假如為false, 則 此thread 不執行, threads繼續
-  Driver.prototype.runBefore = function (object = {}) {
+  Driver.prototype.runBefore = function(object = {}) {
     if (typeof object !== 'object') {
       return false;
     } else if (object.hasOwnProperty('length')) {
@@ -132,7 +132,7 @@
   };
 
   //
-  Driver.prototype.setData = function (options) {
+  Driver.prototype.setData = function(options) {
     let data = {};
     for (let key in options) {
       if (typeof options[key] === 'object' && this.checkMustHasPy('checkDataPy', options[key])) {
@@ -156,7 +156,7 @@
   };
 
   // 檢查 obj 內需要有的keys
-  Driver.prototype.checkMustHasPy = function (key, obj) {
+  Driver.prototype.checkMustHasPy = function(key, obj) {
     if ($.isEmptyObject(obj)) {
       return false;
     }
@@ -173,14 +173,14 @@
   };
 
   // Ajax
-  Driver.prototype.runAjax = function (url = 'get_ip_info', type = 'get', data = {}, options = {}) {
+  Driver.prototype.runAjax = function(url = 'get_ip_info', type = 'get', data = {}, options = {}) {
     let _options = {
       url: url,
       type: type,
       async: false,
       dataType: 'json',
       data: (type === 'get') ? $.param(data) : JSON.stringify(data),
-      beforeSend: function (xhr) {
+      beforeSend: function(xhr) {
         sess = 'guest';
         if (localStorage.getObject('user') && localStorage.getObject('user')['sess']) {
           sess = localStorage.getObject('user')['sess'];
@@ -199,7 +199,7 @@
   };
 
   // 寫入Logs
-  Driver.prototype.writeLog = function (str) {
+  Driver.prototype.writeLog = function(str) {
     if (typeof this.Logs === 'undefined') {
       this.Logs = [];
     }
@@ -207,7 +207,7 @@
   };
 
   // Jquery
-  $.fn.driver = function (settings) {
+  $.fn.driver = function(settings) {
     let _defaultSettings = {
       auto_init: true,
       data: {
@@ -221,7 +221,7 @@
       }
     };
     var _settings = $.extend(true, _defaultSettings, settings);
-    var _init = function () {
+    var _init = function() {
       // 從這裡開始
       driver = new Driver(_settings);
       // 設定 全域變數
