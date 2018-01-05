@@ -13,3 +13,7 @@
 Route::get('/', function () {
     return View('home', ['filename' => 'index']);
 });
+
+
+Route::get('ian/api/test', 'Ian\MainController@main');
+Route::post('ian/api/test', 'Ian\MainController@update');

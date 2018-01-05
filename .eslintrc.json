@@ -21,13 +21,7 @@
             "builtinGlobals": true
         }],
         "prefer-const": 0,
-        "space-before-function-paren": [
-            "error", {
-                "anonymous": "ignore",
-                "named": "always",
-                "asyncArrow": "always"
-            }
-        ],
+        "space-before-function-paren": ["error", "never"],
         "arrow-parens": 0,
         "generator-star-spacing": 0,
         "no-undef": [0],
