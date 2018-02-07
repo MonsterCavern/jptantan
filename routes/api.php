@@ -13,4 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('new', 'Novel\NovelController@restGet_new');
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

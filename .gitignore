@@ -1,10 +1,6 @@
-.DS_Store
 /node_modules
 /public/hot
-/public/js
 /public/storage
-/public/mix-manifest.json
-/public/build
 /storage/*.key
 /vendor
 /.idea
@@ -12,10 +8,5 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
+yarn-error.log
 .env
-/laradock
-semantic/
-database/
-.remote*
-
-Ian/

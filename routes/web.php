@@ -10,10 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
-    return View('home', ['filename' => 'index']);
+    return view('welcome');
 });
-
-
-Route::get('ian/api/test', 'Ian\MainController@main');
-Route::post('ian/api/test', 'Ian\MainController@update');
