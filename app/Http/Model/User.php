@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Http\Model;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,7 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *  required={"product_id","model","price","quantity","status"}
  * )
  */
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use Notifiable;
 
     /**
@@ -35,5 +36,5 @@ class User extends Authenticatable {
      * @var integer
      * @SWG\Property(type="integer",format="int64")
      */
-     public $user_id
+    public $user_id;
 }

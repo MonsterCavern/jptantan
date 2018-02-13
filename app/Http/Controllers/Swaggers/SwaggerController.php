@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Swaggers;
 
-use Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Json;
@@ -45,10 +44,12 @@ use App\Json;
  * @return mixed
  */
 
-class SwaggerController extends Controller {
+class SwaggerController extends Controller
+{
     const HAS_PREFIX = false;
 
-    public function doc(Request $res) {
+    public function doc(Request $res)
+    {
         // 排除自己以外的 檔案夾
         $exclude = [];
         $DirNameSapcePath = app_path('Http/Controllers/'.ucfirst($res->func));
@@ -74,7 +75,8 @@ class SwaggerController extends Controller {
         return response()->json($swagger);
     }
 
-    public function view(Request $res) {
+    public function view(Request $res)
+    {
         $data = [
           'title'     => 'SWAGGER',
           'urlToDocs' => '/doc'
@@ -83,7 +85,8 @@ class SwaggerController extends Controller {
     }
 
 
-    public static function merge(array $arr1, array $arr2) {
+    public static function merge(array $arr1, array $arr2)
+    {
         if (empty($arr1)) {
             return $arr2;
         } elseif (empty($arr2)) {
@@ -109,7 +112,8 @@ class SwaggerController extends Controller {
     }
 
     // 只能取代陣列第一層
-    public function createPath($path = 'pathName', $paths = []) {
+    public function createPath($path = 'pathName', $paths = [])
+    {
         $arr = $paths;
 
         //
@@ -132,7 +136,8 @@ class SwaggerController extends Controller {
         return $arr;
     }
 
-    public function createBulkGet($path) {
+    public function createBulkGet($path)
+    {
         $arr = [];
         $arr['get'] = [
           'tags' => [$path],
@@ -164,7 +169,8 @@ class SwaggerController extends Controller {
         return $arr;
     }
 
-    public function createGet($path, $pramaryKey) {
+    public function createGet($path, $pramaryKey)
+    {
         $arr = [];
         $arr['get'] = [
           "tags" => [$path],
@@ -200,7 +206,8 @@ class SwaggerController extends Controller {
         return $arr;
     }
 
-    public function createPost($path) {
+    public function createPost($path)
+    {
         $arr = [];
         $arr['post'] = [
           "tags"        => [$path],
@@ -235,7 +242,8 @@ class SwaggerController extends Controller {
         return $arr;
     }
 
-    public function createDelete($path, $pramaryKey) {
+    public function createDelete($path, $pramaryKey)
+    {
         $arr = [];
         $arr['delete'] = [
           "tags" => [$path],
