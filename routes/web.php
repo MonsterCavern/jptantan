@@ -10,6 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Routing\Router;
+
+// Swagger
+Route::group([
+  'namespace' => 'Swaggers'
+], function (Router $router) {
+    $router->get('/doc/{func?}', 'SwaggerController@doc');
+    $router->get('/docUI', 'SwaggerController@view');
+});
+
+
 
 Route::get('/', function () {
     return view('welcome');
