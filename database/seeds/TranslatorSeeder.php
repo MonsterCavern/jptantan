@@ -2,16 +2,16 @@
 
 use Illuminate\Database\Seeder;
 use App\Http\Model\Translator;
+use DB;
 
-class TranslatorSeeder extends Seeder
-{
+class TranslatorSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
+        $usr = DB::table();
         // 必填 url, title, type
         $urls = [
             [
@@ -31,7 +31,7 @@ class TranslatorSeeder extends Seeder
             foreach ($url as $key => $value) {
                 $translator->$key = $value;
             }
-            
+
             $translator->save();
         }
     }
