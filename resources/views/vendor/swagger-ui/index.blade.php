@@ -60,7 +60,7 @@
         window.onload = function() {
             // Build a system
             const ui = SwaggerUIBundle({
-                url: "{{ asset('/doc') }}",
+                url: "{{ $url }}",
                 validatorUrl: false,
                 dom_id: '#swagger-ui',
                 deepLinking: true,

@@ -30,5 +30,12 @@ Route::group([
     'namespace'     => config('admin.route.namespace'),
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
+    $router->group([
+      'namespace'  => 'Translators',
+    ], function ($router) {
+        $router->resource('translators', 'TranslateController');
+    });
+
+
     $router->get('/', 'HomeController@index');
 });

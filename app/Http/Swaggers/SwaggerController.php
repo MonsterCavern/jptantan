@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Swaggers;
+namespace App\Http\Swaggers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -48,12 +48,14 @@ class SwaggerController extends Controller
 {
     const HAS_PREFIX = false;
 
-    public function doc(Request $res)
+    public function doc($func = false, Request $res)
     {
         // 排除自己以外的 檔案夾
         $exclude = [];
         $DirNameSapcePath = app_path('Http/Controllers/'.ucfirst($res->func));
-        if ($res->has('func') && is_dir($DirNameSapcePath)) {
+
+
+        if ($func && is_dir($DirNameSapcePath)) {
             $dirs = glob(app_path('Http/Controllers/*'), GLOB_ONLYDIR);
             foreach ($dirs as $dir) {
                 if ($DirNameSapcePath !== $dir) {
@@ -61,11 +63,10 @@ class SwaggerController extends Controller
                 }
             }
         }
-
         $swagger = \Swagger\scan(app_path('Http'), ['exclude' => $exclude]);
         $swagger = Json::Decode($swagger);
 
-        $this->jsonPath = 'vendor/swagger/json';
+        $this->jsonPath = '/vendor/swagger/json';
         foreach ($swagger['tags'] as $tags) {
             $paths = $this->createPath($tags['name'], $swagger['paths']);
 
@@ -75,10 +76,13 @@ class SwaggerController extends Controller
         return response()->json($swagger);
     }
 
-    public function view(Request $res)
+    public function view($func = false, Request $res)
     {
+        $url = ($func)?'/'.$func:'';
+        $url = asset('/doc') . $url;
         $data = [
           'title'     => 'SWAGGER',
+          'url'       => $url,
           'urlToDocs' => '/doc'
         ];
         return view('vendor.swagger-ui.index', $data);

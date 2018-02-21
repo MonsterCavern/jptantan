@@ -2,16 +2,16 @@
 
 use Illuminate\Database\Seeder;
 use App\Http\Model\Translator;
-use DB;
 
-class TranslatorSeeder extends Seeder {
+class TranslatorSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
-        $usr = DB::table();
+    public function run()
+    {
         // 必填 url, title, type
         $urls = [
             [

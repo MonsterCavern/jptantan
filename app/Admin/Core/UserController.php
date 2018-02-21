@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     protected function grid()
     {
-        return Administrator::grid(function (Grid $grid) {
+        $ab = Administrator::grid(function (Grid $grid) {
             $grid->id('ID')->sortable();
             $grid->username(trans('admin.username'));
             $grid->name(trans('admin.name'));
@@ -74,18 +74,19 @@ class UserController extends Controller
             $grid->created_at(trans('admin.created_at'));
             $grid->updated_at(trans('admin.updated_at'));
 
-            $grid->actions(function (Grid\Displayers\Actions $actions) {
-                if ($actions->getKey() == 1) {
-                    $actions->disableDelete();
-                }
-            });
-
-            $grid->tools(function (Grid\Tools $tools) {
-                $tools->batch(function (Grid\Tools\BatchActions $actions) {
-                    $actions->disableDelete();
-                });
-            });
+            // $grid->actions(function (Grid\Displayers\Actions $actions) {
+            //     if ($actions->getKey() == 1) {
+            //         $actions->disableDelete();
+            //     }
+            // });
+            //
+            // $grid->tools(function (Grid\Tools $tools) {
+            //     $tools->batch(function (Grid\Tools\BatchActions $actions) {
+            //         $actions->disableDelete();
+            //     });
+            // });
         });
+        return $ab;
     }
 
     /**
