@@ -1,7 +1,7 @@
 <html lang="{{ app()->getLocale() }}">
 @yield('head')
 <body>
-    <div id="app" class="container">
+    <div id="app">
         @yield('content')
     </div>
 </body>
