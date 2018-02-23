@@ -3,6 +3,9 @@ import Router from 'vue-router'
 
 import HelloWorld from '../components/HelloWorld'
 import translateTable from '../components/tables/translateTable'
+import dataTable from '../components/tables/dataTable'
+
+
 
 Vue.use(Router)
 
@@ -16,7 +19,14 @@ export default new Router({
           path: '/translate',
           name: 'translate',
           components: {
-            'ex':translateTable
+            'ex':dataTable
+          },
+          props:{
+            configs: {
+              ex: {
+                api: 'translate'
+              }
+            }
           }
         }
     ]
