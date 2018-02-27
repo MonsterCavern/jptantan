@@ -18,16 +18,8 @@ export default new Router({
         {
           path: '/translate',
           name: 'translate',
-          components: {
-            'ex':dataTable
-          },
-          props:{
-            configs: {
-              ex: {
-                api: 'translate'
-              }
-            }
-          }
+          component: dataTable,
+          props: (route) => ({}) 
         }
     ]
 })

@@ -1876,78 +1876,111 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['configs'],
-  data: function data() {
-    return {
-      headers: [{ data: 'name', title: 'Name', class: 'some-special-class' }, { data: 'position', title: 'Position' }, { data: 'salary', title: 'Salary' }, { data: 'start_date', title: 'Start_date' }, { data: 'office', title: 'Office' }, { data: 'extn', title: 'Extn' }],
-      rows: [{
-        "name": "Tiger Nixon",
-        "position": "System Architect",
-        "salary": "$3,120",
-        "start_date": "2011/04/25",
-        "office": "Edinburgh",
-        "extn": "5421"
-      }, {
-        "name": "Garrett Winters",
-        "position": "Director",
-        "salary": "$5,300",
-        "start_date": "2011/07/25",
-        "office": "Edinburgh",
-        "extn": "8422"
-      }],
-      dtHandle: null
-    };
-  },
+    props: {
+        config: {
+            type: Object,
+            default: function _default() {
+                return {
+                    api: 'api/translate',
+                    columns: {
+                        id: {
+                            title: '編號',
+                            className: "col-lg-1",
+                            defaultValue: '1',
+                            attr: {
+                                type: 'number'
+                            },
+                            draw_formatter: "drawString"
+                        },
+                        url: {
+                            title: '網址',
+                            defaultValue: 'Cosmos',
+                            attr: {
+                                required: 'required',
+                                type: 'text'
+                            },
+                            className: "is_text",
+                            draw_formatter: "drawString"
+                        }
+                    }
+                };
+            }
+        }
+    },
+    data: function data() {
 
-  // watch: {
-  //   users(val, oldVal) {
-  //     let vm = this;
-  //     vm.rows = [];
-  //     // You should _probably_ check that this is changed data... but we'll skip that for this example.
-  //     val.forEach(function (item) {
-  //       // Fish out the specific column data for each item in your data set and push it to the appropriate place.
-  //       // Basically we're just building a multi-dimensional array here. If the data is _already_ in the right format you could
-  //       // skip this loop...
-  //       let row = [];
-  //
-  //       row.push(item.id);
-  //       row.push(item.username);
-  //       row.push(item.name);
-  //       row.push(item.phone);
-  //       row.push('<a href="mailto://' + item.email + '">' + item.email + '</a>');
-  //       row.push('<a href="http://' + item.website + '" target="_blank">' + item.website + '</a>');
-  //
-  //       vm.rows.push(row);
-  //     });
-  //
-  //     // Here's the magic to keeping the DataTable in sync.
-  //     // It must be cleared, new rows added, then redrawn!
-  //     vm.dtHandle.clear();
-  //     vm.dtHandle.rows.add(vm.rows);
-  //     vm.dtHandle.draw();
-  //   }
-  // },
-  mounted: function mounted() {
-    //  再使用之前改變 dataTable 原始碼的預設
-    window.$.fn.dataTable.ext.errMode = function (s, h, m) {
-      console.log(m);
-    };
+        return {
+            headers: [{ data: 'id', title: '編號' }, { data: 'url', title: '網址' }, { data: 'updated_at', title: '更新時間' }, { data: 'created_at', title: '建立時間' }],
+            rows: [],
+            dtHandle: null
+        };
+    },
+    mounted: function mounted() {
+        console.log('82');
+        //  再使用之前改變 dataTable 原始碼的預設
+        window.$.fn.dataTable.ext.errMode = function (s, h, m) {
+            console.log(m);
+        };
 
-    var vm = this;
-    // Instantiate the datatable and store the reference to the instance in our dtHandle element.
-    vm.dtHandle = $(this.$el).DataTable({
-      // Specify whatever options you want, at a minimum these:
-      processing: true,
-      serverSide: true,
-      ajax: "data/data.json",
-      columns: vm.headers,
-      data: vm.rows
-    });
+        var vm = this;
+        // TODO 檢查設定檔存不存在
+        //
 
-    console.log(vm);
-  }
+        vm.dtHandle = $(this.$el).DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: vm.config.api,
+            columns: vm.headers,
+            data: vm.rows,
+            //dom: 'Bfrtip',
+            pagingType: "numbers" //"full_numbers",//"simple_incremental_bootstrap",
+        });
+    },
+
+    methods: {
+        initColumns: function initColumns(columns) {
+            return columns;
+        },
+        ajaxApi: function ajaxApi() {
+            var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'index';
+            var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'GET';
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+            var options = {
+                dataType: 'json',
+                url: restAPI(url),
+                type: type,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            };
+
+            options.beforeSend = function setHeader(xhr) {
+                var sess = 'ufi_admin';
+
+                if (typeof localStorage.getObject(user) !== 'undefined') {
+                    var _user = localStorage.getObject(_user);
+                    if (typeof _user.sess !== 'undefined') {
+                        sess = _user.sess;
+                    }
+                }
+                xhr.setRequestHeader('X-SESSION', sess);
+                xhr.setRequestHeader('contentType', 'application/json; charset=utf-8');
+            };
+
+            if (Object.keys(data).length !== 0) {
+                options['data'] = JSON.stringify(data);
+            }
+
+            var result = $.ajax(options);
+            if (result.responseJSON) {
+                return result.responseJSON;
+            }
+            return false;
+        }
+    }
 });
 
 /***/ }),
@@ -90710,24 +90743,18 @@ module.exports = Component.exports
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-  routes: [{
-    path: '/',
-    name: 'home',
-    component: __WEBPACK_IMPORTED_MODULE_2__components_HelloWorld___default.a
-  }, {
-    path: '/translate',
-    name: 'translate',
-    components: {
-      'ex': __WEBPACK_IMPORTED_MODULE_4__components_tables_dataTable___default.a
-    },
-    props: {
-      configs: {
-        ex: {
-          api: 'translate'
+    routes: [{
+        path: '/',
+        name: 'home',
+        component: __WEBPACK_IMPORTED_MODULE_2__components_HelloWorld___default.a
+    }, {
+        path: '/translate',
+        name: 'translate',
+        component: __WEBPACK_IMPORTED_MODULE_4__components_tables_dataTable___default.a,
+        props: function props(route) {
+            return {};
         }
-      }
-    }
-  }]
+    }]
 }));
 
 /***/ }),

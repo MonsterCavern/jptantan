@@ -3,99 +3,120 @@
 </template>
 
 <script>
+    import 'bootstrap/dist/css/bootstrap.min.css';
+    import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+    import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'
+    import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'
 
+    import 'bootstrap'
+    import 'datatables.net-bs4'
+    import 'datatables.net-buttons-bs4'
+    import 'datatables.net-responsive-bs4'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'
-import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'
+    export default {
+        props: {
+            config: {
+                type: Object,
+                default: function() {
+                    return {
+                        api: 'api/translate',
+                        columns: {
+                            id: {
+                                title: '編號',
+                                className: "col-lg-1",
+                                defaultValue: '1',
+                                attr: {
+                                    type: 'number',
+                                },
+                                draw_formatter: "drawString",
+                            },
+                            url: {
+                                title: '網址',
+                                defaultValue: 'Cosmos',
+                                attr: {
+                                    required: 'required',
+                                    type: 'text',
+                                },
+                                className: "is_text",
+                                draw_formatter: "drawString",
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        data() {
 
-import 'bootstrap'
-import 'datatables.net-bs4'
-import 'datatables.net-buttons-bs4'
-import 'datatables.net-responsive-bs4'
+            return {
+                headers: [
+                  { data: 'id', title: '編號' },
+                  { data: 'url', title: '網址' },
+                  { data: 'updated_at', title: '更新時間' },
+                  { data: 'created_at', title: '建立時間' }
+                ],
+                rows: [],
+                dtHandle: null
+            }
+        },
+        mounted() {
+            console.log('82');
+            //  再使用之前改變 dataTable 原始碼的預設
+            window.$.fn.dataTable.ext.errMode = function(s, h, m) {
+                console.log(m);
+            };
 
-export default {
-  props: ['configs'],
-  data() {
-    return {
-      headers: [
-        { data: 'name', title: 'Name', class: 'some-special-class' },
-        { data: 'position', title: 'Position' },
-        { data: 'salary', title: 'Salary' },
-        { data: 'start_date', title: 'Start_date' },
-        { data: 'office', title: 'Office' },
-        { data: 'extn', title: 'Extn' }
-      ],
-      rows: [
-          {
-              "name":       "Tiger Nixon",
-              "position":   "System Architect",
-              "salary":     "$3,120",
-              "start_date": "2011/04/25",
-              "office":     "Edinburgh",
-              "extn":       "5421"
-          },
-          {
-              "name":       "Garrett Winters",
-              "position":   "Director",
-              "salary":     "$5,300",
-              "start_date": "2011/07/25",
-              "office":     "Edinburgh",
-              "extn":       "8422"
-          }
-      ],
-      dtHandle: null
+            let vm = this;
+            // TODO 檢查設定檔存不存在
+            //
+
+            vm.dtHandle = $(this.$el).DataTable({
+                processing: true,
+                      serverSide: true,
+                      ajax: vm.config.api,
+                columns: vm.headers,
+                data: vm.rows,
+                //dom: 'Bfrtip',
+                pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
+            });
+        },
+        methods: {
+            initColumns: function (columns) {
+              return columns;
+            },
+            ajaxApi: function(url = 'index', type = 'GET', data = {}) {
+                var options = {
+                    dataType: 'json',
+                    url: restAPI(url),
+                    type: type,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                };
+
+                options.beforeSend = function setHeader(xhr) {
+                    let sess = 'ufi_admin';
+
+                    if (typeof localStorage.getObject(user) !== 'undefined') {
+                        let user = localStorage.getObject(user);
+                        if (typeof user.sess !== 'undefined') {
+                            sess = user.sess;
+                        }
+                    }
+                    xhr.setRequestHeader('X-SESSION', sess);
+                    xhr.setRequestHeader('contentType', 'application/json; charset=utf-8');
+                }
+
+                if (Object.keys(data).length !== 0) {
+                    options['data'] = JSON.stringify(data);
+                }
+
+                var result = $.ajax(options);
+                if (result.responseJSON) {
+                    return result.responseJSON;
+                }
+                return false;
+            }
+        }
     }
-  },
-  // watch: {
-  //   users(val, oldVal) {
-  //     let vm = this;
-  //     vm.rows = [];
-  //     // You should _probably_ check that this is changed data... but we'll skip that for this example.
-  //     val.forEach(function (item) {
-  //       // Fish out the specific column data for each item in your data set and push it to the appropriate place.
-  //       // Basically we're just building a multi-dimensional array here. If the data is _already_ in the right format you could
-  //       // skip this loop...
-  //       let row = [];
-  //
-  //       row.push(item.id);
-  //       row.push(item.username);
-  //       row.push(item.name);
-  //       row.push(item.phone);
-  //       row.push('<a href="mailto://' + item.email + '">' + item.email + '</a>');
-  //       row.push('<a href="http://' + item.website + '" target="_blank">' + item.website + '</a>');
-  //
-  //       vm.rows.push(row);
-  //     });
-  //
-  //     // Here's the magic to keeping the DataTable in sync.
-  //     // It must be cleared, new rows added, then redrawn!
-  //     vm.dtHandle.clear();
-  //     vm.dtHandle.rows.add(vm.rows);
-  //     vm.dtHandle.draw();
-  //   }
-  // },
-  mounted() {
-    //  再使用之前改變 dataTable 原始碼的預設
-    window.$.fn.dataTable.ext.errMode = function(s, h, m) {
-        console.log(m);
-    };
-
-    let vm = this;
-    // Instantiate the datatable and store the reference to the instance in our dtHandle element.
-    vm.dtHandle = $(this.$el).DataTable({
-      // Specify whatever options you want, at a minimum these:
-      processing: true,
-      serverSide: true,
-      ajax: "data/data.json",
-      columns: vm.headers,
-      data: vm.rows
-    });
-
-    console.log(vm);
-
-
-  }
-}
 </script>

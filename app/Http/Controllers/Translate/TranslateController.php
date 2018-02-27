@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Translate;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Model\Translator;
 
 class TranslateController extends Controller
 {
@@ -11,9 +13,16 @@ class TranslateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $res)
     {
-        //
+        $skip = $res->start?$res->start:0;
+        $take = $res->length?$res->length:0;
+        $translator = Translator::skip($skip)->take($take)->get();
+        $amount = Translator::count();
+        return [
+          'data'   => $translator,
+          'amount' => $amount
+        ];
     }
 
     /**
