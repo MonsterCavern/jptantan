@@ -1,25 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import HelloWorld from '../components/HelloWorld'
-import translateTable from '../components/tables/translateTable'
-import dataTable from '../components/tables/dataTable'
+import HelloWorld from '../components/HelloWorld';
+import dataTable from '../components/tables/dataTable';
 
-
-
-Vue.use(Router)
-
-export default new Router({
+Vue.use(VueRouter);
+export default new VueRouter({
+    mode: 'history',
     routes: [{
-            path: '/',
-            name: 'home',
-            component: HelloWorld
-        },
-        {
-          path: '/translate',
-          name: 'translate',
-          component: dataTable,
-          props: (route) => ({}) 
-        }
-    ]
-})
+        path: '/',
+        name: 'home',
+        component: HelloWorld
+    },
+    {
+        path: '/home',
+        component: HelloWorld
+    },
+    {
+        path: 'translate',
+        name: 'translate',
+        component: dataTable,
+        props: (route) => ({}),
+    }
+    ],
+    methods: {}
+
+});

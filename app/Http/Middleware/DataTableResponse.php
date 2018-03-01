@@ -35,8 +35,8 @@ class DataTableResponse
         $content = Json::Encode([
           'draw'            => (int)$draw,
           'data'            => $content['data'],
-          'recordsFiltered'    => $content['amount'],
-          'recordsTotal' => $request->length
+          'recordsFiltered' => $content['amount'],
+          'recordsTotal'    => count($content['data']),
         ]);
         $response->setContent($content);
         return $response;
