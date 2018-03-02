@@ -3,16 +3,6 @@
 </template>
 
 <script>
-    import 'bootstrap/dist/css/bootstrap.min.css';
-    import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
-    import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'
-    import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css'
-
-    import 'bootstrap'
-    import 'datatables.net-bs4'
-    import 'datatables.net-buttons-bs4'
-    import 'datatables.net-responsive-bs4'
-
     export default {
         props: {
             config: {
@@ -46,7 +36,6 @@
             }
         },
         data() {
-
             return {
                 headers: [
                   { data: 'id', title: '編號' },
@@ -76,6 +65,7 @@
                 columns: vm.headers,
                 data: vm.rows,
                 //dom: 'Bfrtip',
+                responsive: true,
                 pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
             });
         },
