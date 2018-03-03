@@ -23,7 +23,8 @@
         <v-content>
             <v-container fluid fill-height>
                 <v-layout row wrap>
-                    <router-view></router-view>
+                    <router-view :key="this.$route.fullPath">
+                    </router-view>
                 </v-layout>
             </v-container>
         </v-content>
@@ -44,10 +45,15 @@ export default {
     data() {
         return {
             drawer: true,
-        }
+        };
     },
     props: {
         source: String,
+    },
+    methods:{
+        log: function (val) {
+            console.log(val);
+        }
     }
-}
+};
 </script>

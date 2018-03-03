@@ -22,7 +22,7 @@ import 'datatables.net-responsive';
 Vue.use(Vuetify);
 // 路由跳转
 Vue.prototype.$goRoute = function(index) {
-    //console.log(this.$router,index);
+    // console.log(this.$router,index);
     this.$router.push(index);
 };
 
