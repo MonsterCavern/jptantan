@@ -1,44 +1,47 @@
 <template lang="html">
     <div>
-        <table class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%"></table>
+        <table class="dt-responsive" cellspacing="0" width="100%"></table>
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        config: {
-            type: Object,
-            default: function() {
-                return {
-                    api: 'api/translate',
-                    columns: {
-                        id: {
-                            title: '編號',
-                            className: "col-lg-1",
-                            defaultValue: '1',
-                            attr: {
-                                type: 'number',
-                            },
-                            draw_formatter: "drawString",
-                        },
-                        url: {
-                            title: '網址',
-                            defaultValue: 'Cosmos',
-                            attr: {
-                                required: 'required',
-                                type: 'text',
-                            },
-                            className: "is_text",
-                            draw_formatter: "drawString",
-                        }
-                    }
-                };
-            }
-        }
+      value: Object
+        // value: {
+        //     type: Object,
+        //     default: function() {
+        //         return {
+        //             api: 'api/translate',
+        //             columns: {
+        //                 id: {
+        //                     title: '編號',
+        //                     className: "col-lg-1",
+        //                     defaultValue: '1',
+        //                     attr: {
+        //                         type: 'number',
+        //                     },
+        //                     draw_formatter: "drawString",
+        //                 },
+        //                 url: {
+        //                     title: '網址',
+        //                     defaultValue: 'Cosmos',
+        //                     attr: {
+        //                         required: 'required',
+        //                         type: 'text',
+        //                     },
+        //                     className: "is_text",
+        //                     draw_formatter: "drawString",
+        //                 }
+        //             }
+        //         };
+        //     }
+        // }
     },
     data() {
+        console.log(this.value);
         return {
+            config: this.value,
             headers: [
                 { data: 'id', title: '編號' },
                 { data: 'url', title: '網址' },
@@ -54,23 +57,38 @@ export default {
         window.$.fn.dataTable.ext.errMode = function(s, h, m) {
             console.log(m);
         };
-
         let vm = this;
         // TODO 檢查設定檔存不存在
-        //
+        vm.dtHandle = this.initTable();
 
-        vm.dtHandle = $(this.$el).children('table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: vm.config.api,
-            columns: vm.headers,
-            data: vm.rows,
-            //dom: 'Bfrtip',
-            responsive: true,
-            pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
-        });
+    },
+    watch: {
+        value: {
+          handler(newSong, oldSong) {
+            console.log(this);
+              this.dtHandle.clear();
+            //  this.dtHandle = this.initTable();
+          },
+          deep:true
+        }
     },
     methods: {
+        initTable: function() {
+            let table = $(this.$el).children('table').DataTable({
+                lengthChange: false,
+                searching: false,
+                processing: true,
+                serverSide: true,
+                ajax: this.config.api,
+                columns: this.headers,
+                data: this.rows,
+                //dom: 'Bfrtip',
+                responsive: true,
+                pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
+            });
+            
+            return table;
+        },
         initColumns: function(columns) {
             return columns;
         },

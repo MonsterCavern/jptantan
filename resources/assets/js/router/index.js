@@ -2,11 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import HelloWorld from '../components/HelloWorld';
-import dataTable from '../components/tables/dataTable';
+import translate from '../main/translate';
 
 Vue.use(Router);
 export default new Router({
-    //mode: 'history',
+    mode: 'history',
     routes: [{
         path: '/',
         name: 'home',
@@ -19,7 +19,7 @@ export default new Router({
     {
         path: '/translate',
         //name: 'translate',
-        component: dataTable,
+        component: translate,
         props: (route) => ({}),
     }
     ]

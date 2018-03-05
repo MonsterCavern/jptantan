@@ -25,6 +25,7 @@
         "vue-router": "^3.0.1"
     },
     "dependencies": {
+        "datatables.net-buttons-dt": "^1.5.1",
         "datatables.net-dt": "^1.10.16",
         "datatables.net-responsive-dt": "^2.2.1",
         "popper.js": "^1.12.9",

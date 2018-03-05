@@ -22,10 +22,8 @@
         </v-toolbar>
         <v-content>
             <v-container fluid fill-height>
-                <v-layout row wrap>
-                    <router-view :key="this.$route.fullPath">
-                    </router-view>
-                </v-layout>
+                <router-view :key="this.$route.fullPath">
+                </router-view>
             </v-container>
         </v-content>
         <fab-user></fab-user>
@@ -44,14 +42,14 @@ export default {
     },
     data() {
         return {
-            drawer: true,
+            drawer: false,
         };
     },
     props: {
         source: String,
     },
-    methods:{
-        log: function (val) {
+    methods: {
+        log: function(val) {
             console.log(val);
         }
     }
