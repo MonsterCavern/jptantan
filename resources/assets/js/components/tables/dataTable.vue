@@ -1,5 +1,5 @@
 <template lang="html">
-    <div>
+    <div class="row">
         <table class="dt-responsive" cellspacing="0" width="100%"></table>
     </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {
     props: {
-      value: Object
+        value: Object
         // value: {
         //     type: Object,
         //     default: function() {
@@ -57,24 +57,24 @@ export default {
         window.$.fn.dataTable.ext.errMode = function(s, h, m) {
             console.log(m);
         };
-        let vm = this;
-        // TODO 檢查設定檔存不存在
-        vm.dtHandle = this.initTable();
+
+        this.$table = $(this.$el).children('table');
+        this.dtHandle = this.initTable();
 
     },
     watch: {
         value: {
-          handler(newSong, oldSong) {
-            console.log(this);
-              this.dtHandle.clear();
-            //  this.dtHandle = this.initTable();
-          },
-          deep:true
+            handler(newSong, oldSong) {
+                this.dtHandle.destroy();
+                this.$table.empty();
+                this.dtHandle = this.initTable();
+            },
+            deep: true
         }
     },
     methods: {
         initTable: function() {
-            let table = $(this.$el).children('table').DataTable({
+            let table = this.$table.DataTable({
                 lengthChange: false,
                 searching: false,
                 processing: true,
@@ -86,7 +86,7 @@ export default {
                 responsive: true,
                 pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
             });
-            
+
             return table;
         },
         initColumns: function(columns) {
@@ -132,5 +132,6 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+
 </style>

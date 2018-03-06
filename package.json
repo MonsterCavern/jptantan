@@ -21,10 +21,13 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
+        "node-sass": "^4.7.2",
+        "sass-loader": "^6.0.7",
         "vue": "^2.5.7",
         "vue-router": "^3.0.1"
     },
     "dependencies": {
+        "bootstrap": "^4.0.0",
         "datatables.net-buttons-dt": "^1.5.1",
         "datatables.net-dt": "^1.10.16",
         "datatables.net-responsive-dt": "^2.2.1",

@@ -8,7 +8,9 @@
     <title>Jptantan</title>
 
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    {{-- <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet"> --}}
+
+    <link rel="stylesheet" href="{{ mix('/css/app.css')}}">
 
 </head>
 @endsection
