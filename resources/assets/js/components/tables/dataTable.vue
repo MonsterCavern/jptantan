@@ -1,13 +1,26 @@
 <template lang="html">
-    <div class="row">
-        <table class="dt-responsive" cellspacing="0" width="100%"></table>
+    <div>
+        <table class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%"></table>
     </div>
 </template>
 
 <script>
+// import 'datatables.net-dt/css/jquery.dataTables.css';
+// import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
+// 
+// import 'datatables.net';
+// import 'datatables.net-responsive';
+require('datatables.net');
+require('datatables.net-bs4');
+require('datatables.net-responsive');
+require('datatables.net-responsive-bs4');
+require('datatables.net-buttons');
+require('datatables.net-buttons-bs4');
+
 export default {
     props: {
-        value: Object
+        value: Object,
+        config: Object
         // value: {
         //     type: Object,
         //     default: function() {
@@ -39,9 +52,7 @@ export default {
         // }
     },
     data() {
-        console.log(this.value);
         return {
-            config: this.value,
             headers: [
                 { data: 'id', title: '編號' },
                 { data: 'url', title: '網址' },
@@ -74,17 +85,25 @@ export default {
     },
     methods: {
         initTable: function() {
+            let apiPath = '/';
+            if (typeof this.config == 'undefined') {
+                apiPath += this.value.api;
+            } else {
+                apiPath += this.config.api;
+            }
+
+
             let table = this.$table.DataTable({
                 lengthChange: false,
                 searching: false,
-                processing: true,
+                processing: false,
                 serverSide: true,
-                ajax: this.config.api,
+                ajax: apiPath,
                 columns: this.headers,
                 data: this.rows,
-                //dom: 'Bfrtip',
+                dom: 'lfr<"pull-left"i>t<"pull-right"p>',
                 responsive: true,
-                pagingType: "numbers", //"full_numbers",//"simple_incremental_bootstrap",
+                pagingType: "numbers" //"numbers","full_numbers",//"simple_incremental_bootstrap",
             });
 
             return table;
@@ -133,5 +152,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -5,21 +5,12 @@
  */
 
 require('./bootstrap');
-
-import 'datatables.net-dt/css/jquery.dataTables.css';
-import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
-
-import 'vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
+require('bootstrap');
 
 import Vue from 'vue';
-import Vuetify from 'vuetify';
 import router from './router';
-import Master from './components/layouts/googleContacts';
+import Master from './main/master';
 
-import 'datatables.net';
-import 'datatables.net-responsive';
-
-Vue.use(Vuetify);
 // 路由跳转
 Vue.prototype.$goRoute = function(index) {
     // console.log(this.$router,index);
