@@ -19,26 +19,26 @@ class DataTableResponse
         // before
         $response = $next($request);
         // after
-        if (isset($request->draw)) {
-            $draw = $request->draw;
-        } else {
-            $draw = 0;
-        }
-
-        if (isset($request->draw)) {
-            $draw = $request->draw;
-        } else {
-            $draw = 0;
-        }
-        $content = Json::Decode($response->getContent());
-        // add table config
-        $content = Json::Encode([
-          'draw'            => (int)$draw,
-          'data'            => $content['data'],
-          'recordsFiltered' => $content['amount'],
-          'recordsTotal'    => count($content['data']),
-        ]);
-        $response->setContent($content);
+        // if (isset($request->draw)) {
+        //     $draw = $request->draw;
+        // } else {
+        //     $draw = 0;
+        // }
+        //
+        // if (isset($request->draw)) {
+        //     $draw = $request->draw;
+        // } else {
+        //     $draw = 0;
+        // }
+        // $content = Json::Decode($response->getContent());
+        // // add table config
+        // $content = Json::Encode([
+        //   'draw'            => (int)$draw,
+        //   'data'            => $content['data'],
+        //   'recordsFiltered' => $content['amount'],
+        //   'recordsTotal'    => count($content['data']),
+        // ]);
+        // $response->setContent($content);
         return $response;
     }
 }

@@ -18,4 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('translate', 'Translate\TranslateController')->middleware('datatable', ['only'=>['index']]);
+Route::get('all', 'UrlMapController@index')->middleware('datatable');
+
+
+Route::any('/{all}', function () {
+    return response()->json([
+      'code'    => 200,
+      'messagw' => 'not find'
+    ]);
+})->where(['all' => '.*']);

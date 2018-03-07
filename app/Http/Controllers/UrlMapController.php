@@ -1,13 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Translate;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Translator;
+use App\Traits\DataTable;
+use App\Model\UrlMap;
 
-class TranslateController extends Controller
+class UrlMapController extends Controller
 {
+    use DataTable;
+    
+    // public function __construct()
+    // {
+    //     $this->DefaultModel = UrlMap::class;
+    // }
+    
     /**
      * Display a listing of the resource.
      *
@@ -15,12 +22,17 @@ class TranslateController extends Controller
      */
     public function index(Request $res)
     {
-        $skip = $res->start?$res->start:0;
-        $take = $res->length?$res->length:0;
-        $translator = Translator::skip($skip)->take($take)->get();
-        $amount = Translator::count();
+        // $skip = $res->start?$res->start:0;
+        // $take = $res->length?$res->length:0;
+        // $urls = UrlMap::skip($skip)->take($take);
+        //
+        // $urls = $urls->get();
+        // $amount = UrlMap::count();
+        
+        $urls = $this->dataTable(UrlMap::class, $res);
+        dd($urls);
         return [
-          'data'   => $translator,
+          'data'   => $urls,
           'amount' => $amount
         ];
     }
@@ -49,10 +61,10 @@ class TranslateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(UrlMap $urlMap)
     {
         //
     }
@@ -60,10 +72,10 @@ class TranslateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(UrlMap $urlMap)
     {
         //
     }
@@ -72,10 +84,10 @@ class TranslateController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, UrlMap $urlMap)
     {
         //
     }
@@ -83,10 +95,10 @@ class TranslateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(UrlMap $urlMap)
     {
         //
     }

@@ -1762,7 +1762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            items: [{ icon: 'fa-home', text: 'Home', route: '/home' }, { icon: 'fa-history', text: 'Translate', route: '/translate' }, { icon: 'fa-history', text: 'TranslateRoute', route: '/translate_r' }]
+            items: [{ icon: 'fa-home', text: 'Home', route: '/home' }, { icon: 'fa-history', text: 'Translate', route: '/all' }]
         };
     }
 });
@@ -1983,80 +1983,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        // console.log(this);
-        return {
-            config: {
-                api: 'api/translate'
-            },
-            categories: [{
-                title: '翻譯',
-                value: 'translate'
-            }, {
-                title: '小說',
-                value: 'novels'
-            }, {
-                title: '圖片',
-                value: 'picture'
-            }]
-        };
-    },
-
-    components: {
-        'data-table': __WEBPACK_IMPORTED_MODULE_0__components_tables_dataTable___default.a
-    },
-    methods: {
-        changeTable: function changeTable(value) {
-            this.config.api = 'api/' + value;
-        }
-    }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/main/translate_r.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_tables_dataTable__ = __webpack_require__("./resources/assets/js/components/tables/dataTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_tables_dataTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_tables_dataTable__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['config'],
     data: function data() {
         return {
-            config: {
-                api: 'api/translate'
-            },
             categories: [{
-                title: '翻譯',
-                value: '/translate_r/translate'
-            }, {
                 title: '小說',
-                value: '/translate_r/novels'
+                value: '/all/novels'
             }, {
-                title: '圖片',
-                value: '/translate_r/picture'
+                title: '推特',
+                value: '/all/twitter'
             }]
         };
     },
@@ -5992,22 +5931,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/main/translate_r.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -55610,73 +55534,6 @@ var render = function() {
   return _c("div", { staticClass: "card text-center" }, [
     _c("div", { staticClass: "card-header" }, [
       _c(
-        "div",
-        {
-          staticClass: "btn-group",
-          attrs: { role: "group", "aria-label": "Basic example" }
-        },
-        _vm._l(_vm.categories, function(category) {
-          return _c(
-            "button",
-            {
-              key: category.value,
-              attrs: { flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.changeTable(category.value)
-                }
-              }
-            },
-            [
-              _vm._v(
-                "\n                " + _vm._s(category.title) + "\n            "
-              )
-            ]
-          )
-        })
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-body" },
-      [
-        _c("data-table", {
-          model: {
-            value: _vm.config,
-            callback: function($$v) {
-              _vm.config = $$v
-            },
-            expression: "config"
-          }
-        })
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-67bfcf2a", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6b6465c6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/main/translate_r.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card text-center" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _c(
         "ul",
         { staticClass: "nav nav-tabs card-header-tabs" },
         _vm._l(_vm.categories, function(category) {
@@ -55719,7 +55576,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6b6465c6", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-67bfcf2a", module.exports)
   }
 }
 
@@ -58569,33 +58426,6 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-67bfcf2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./translate.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-67bfcf2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./translate.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/main/translate_r.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/main/translate_r.vue");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("87ae2214", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./translate_r.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./translate_r.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -70180,58 +70010,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/main/translate_r.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6b6465c6\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/main/translate_r.vue")
-}
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/main/translate_r.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6b6465c6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/main/translate_r.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/main/translate_r.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6b6465c6", Component.options)
-  } else {
-    hotAPI.reload("data-v-6b6465c6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/router/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -70261,10 +70039,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
     }, {
         path: '/home',
         component: __WEBPACK_IMPORTED_MODULE_2__components_HelloWorld___default.a
-    }, {
-        path: '/translate',
-        component: __WEBPACK_IMPORTED_MODULE_3__main_translate___default.a
-    }, __WEBPACK_IMPORTED_MODULE_4__translate__["a" /* default */]]
+    },
+    // {
+    //     path: '/translate',
+    //     component: translate
+    // },
+    __WEBPACK_IMPORTED_MODULE_4__translate__["a" /* default */]]
 }));
 
 /***/ }),
@@ -70273,27 +70053,24 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_translate_r__ = __webpack_require__("./resources/assets/js/main/translate_r.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_translate_r___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__main_translate_r__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_translate__ = __webpack_require__("./resources/assets/js/main/translate.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_translate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__main_translate__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable__ = __webpack_require__("./resources/assets/js/components/tables/dataTable.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable__);
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    path: '/translate_r',
-    component: __WEBPACK_IMPORTED_MODULE_0__main_translate_r___default.a,
+    path: '/all',
+    component: __WEBPACK_IMPORTED_MODULE_0__main_translate___default.a,
+    props: function props(route) {
+        return {
+            config: {
+                api: 'api/all'
+            }
+        };
+    },
     children: [{
-        path: 'translate',
-        component: __WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable___default.a,
-        props: function props(route) {
-            return {
-                config: {
-                    api: 'api/translate'
-                }
-            };
-        }
-    }, {
         path: 'novels',
         component: __WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable___default.a,
         props: function props(route) {
@@ -70303,10 +70080,18 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
                 }
             };
         }
-    }],
-    props: function props(route) {
-        return {};
-    }
+    }, {
+        path: 'twitter',
+        component: __WEBPACK_IMPORTED_MODULE_1__components_tables_dataTable___default.a,
+        props: function props(route) {
+            return {
+                config: {
+                    api: 'api/twitter'
+                }
+            };
+        }
+    }]
+
 });
 
 /***/ }),

@@ -23,10 +23,10 @@ export default {
         return {
             items: [
                 { icon: 'fa-home', text: 'Home', route: '/home' },
-                { icon: 'fa-history', text: 'Translate', route: '/translate' },
-                { icon: 'fa-history', text: 'TranslateRoute', route: '/translate_r' }
+                { icon: 'fa-history', text: 'Translate', route: '/all' },
+                //{ icon: 'fa-history', text: 'TranslateRoute', route: '/translate_r' }
             ]
         };
     }
-}
+};
 </script>

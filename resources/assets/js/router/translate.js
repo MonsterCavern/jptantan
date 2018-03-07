@@ -1,19 +1,15 @@
-import translateR from '../main/translate_r';
+import Translate from '../main/translate';
 import dataTable from '../components/tables/dataTable';
 
 export default {
-    path: '/translate_r',
-    component: translateR,
+    path: '/all',
+    component: Translate,
+    props: (route) => ({
+        config: {
+            api: 'api/all'
+        }
+    }),
     children: [
-        {
-            path: 'translate',
-            component: dataTable,
-            props: (route) => ({
-                config: {
-                    api: 'api/translate'
-                }
-            }),
-        },
         {
             path: 'novels',
             component: dataTable,
@@ -22,7 +18,16 @@ export default {
                     api: 'api/novels'
                 }
             }),
+        },
+        {
+            path: 'twitter',
+            component: dataTable,
+            props: (route) => ({
+                config: {
+                    api: 'api/twitter'
+                }
+            }),
         }
     ],
-    props: (route) => ({}),
+    
 };

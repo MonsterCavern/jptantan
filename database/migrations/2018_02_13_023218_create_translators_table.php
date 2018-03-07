@@ -14,11 +14,14 @@ class CreateTranslatorsTable extends Migration
     public function up()
     {
         Schema::create('translators', function (Blueprint $table) {
-            $table->increments('id')->comment('編號');
-            $table->string('url')->comment('被翻譯網址');
-            $table->string('title')->comment('標題');
-            $table->string('type')->comment('翻譯類型');
-            $table->timestamps();
+            $table->bigIncrements('id')->comment('*編號');
+            $table->string('url_id')->comment('*url Map');
+            $table->integer('user_id')->comment('*翻譯者');
+            $table->string('title')->nullable()->comment('標題');
+            $table->jsonb('content')->nullable()->comment('翻譯內容, 依照段落分割');
+            $table->jsonb('tags')->nullable()->comment('標籤');
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

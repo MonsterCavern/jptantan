@@ -18,10 +18,10 @@ export default new Router({
             path: '/home',
             component: HelloWorld
         },
-        {
-            path: '/translate',
-            component: translate
-        },
+        // {
+        //     path: '/translate',
+        //     component: translate
+        // },
         translateRouter
     ]
 });

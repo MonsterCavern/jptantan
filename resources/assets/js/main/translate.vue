@@ -1,14 +1,15 @@
 <template lang="html">
     <div class="card text-center">
         <div class="card-header">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button flat v-for="category in categories" :key="category.value" v-on:click="changeTable(category.value)">
-                    {{category.title}}
-                </button>
-            </div>
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item" v-for="category in categories" :key="category.value" @click="$goRoute(category.value)">
+                    <a class="nav-link">{{category.title}}</a>
+                </li>
+            </ul>
         </div>
         <div class="card-body">
-            <data-table v-model="config"></data-table>
+            <dataTable :config='config' v-if="checkinit($route.fullPath)"></dataTable>
+            <router-view v-else></router-view>
         </div>
     </div>
 </template>
@@ -16,36 +17,40 @@
 <script>
 import dataTable from '../components/tables/dataTable';
 export default {
+    props: ['config'],
     data() {
-        // console.log(this);
         return {
-            config: {
-                api: 'api/translate'
-            },
-            categories: [{
-                    title: '翻譯',
-                    value: 'translate'
-                },
+            categories: [
                 {
                     title: '小說',
-                    value: 'novels'
+                    value: '/all/novels'
                 },
                 {
-                    title: '圖片',
-                    value: 'picture'
+                    title: '推特',
+                    value: '/all/twitter'
                 }
             ]
-        }
+        };
     },
     components: {
-        'data-table': dataTable
+        dataTable
     },
     methods: {
         changeTable: function(value) {
+            console.log(value);
             this.config.api = 'api/' + value;
+        },
+        checkinit: function(urlPath) {
+            if (urlPath.split('/').length > 2) {
+                return false;
+            }
+            return true;
+        },
+        log: function(value) {
+            console.log(value);
         }
     }
-}
+};
 </script>
 
 <style lang="css">
