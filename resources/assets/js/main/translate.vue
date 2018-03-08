@@ -22,13 +22,9 @@ export default {
         return {
             categories: [
                 {
-                    title: '小說',
-                    value: '/all/novels'
+                    title: '新增',
+                    value: '/translate/create'
                 },
-                {
-                    title: '推特',
-                    value: '/all/twitter'
-                }
             ]
         };
     },

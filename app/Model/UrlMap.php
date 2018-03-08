@@ -9,6 +9,8 @@ class UrlMap extends Model
     //
     protected $table = 'url_maps';
     
+    protected $primaryKey = 'id';
+    
     public function dataTable()
     {
         dd($this->count());

@@ -22,19 +22,8 @@ class UrlMapController extends Controller
      */
     public function index(Request $res)
     {
-        // $skip = $res->start?$res->start:0;
-        // $take = $res->length?$res->length:0;
-        // $urls = UrlMap::skip($skip)->take($take);
-        //
-        // $urls = $urls->get();
-        // $amount = UrlMap::count();
-        
         $urls = $this->dataTable(UrlMap::class, $res);
-        dd($urls);
-        return [
-          'data'   => $urls,
-          'amount' => $amount
-        ];
+        return $urls;
     }
 
     /**

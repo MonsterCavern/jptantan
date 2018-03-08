@@ -22,6 +22,8 @@ export default new Router({
         //     path: '/translate',
         //     component: translate
         // },
-        translateRouter
+        translateRouter,
+        // router 轉址
+        { path: '/*', redirect: '/' }
     ]
 });

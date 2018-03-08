@@ -12,17 +12,16 @@
 <script>
 import navbarFixed from '../components/bootstrap4/navbars/navbar-fixed';
 
-
 export default {
-  components:{
-    navbarFixed
-  },
-  methods: {
-      log: function(val) {
-          console.log(val);
-      }
-  }
-}
+    components:{
+        navbarFixed
+    },
+    methods: {
+        log: function(val) {
+            console.log(val);
+        }
+    }
+};
 </script>
 
 <style lang="css">

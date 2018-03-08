@@ -1,8 +1,10 @@
 import Translate from '../main/translate';
 import dataTable from '../components/tables/dataTable';
 
+import createForm from '../components/bootstrap4/forms/create-form';
+
 export default {
-    path: '/all',
+    path: '/translate',
     component: Translate,
     props: (route) => ({
         config: {
@@ -11,23 +13,22 @@ export default {
     }),
     children: [
         {
-            path: 'novels',
-            component: dataTable,
-            props: (route) => ({
-                config: {
-                    api: 'api/novels'
-                }
-            }),
+            path: 'create',
+            component: createForm,
         },
-        {
-            path: 'twitter',
-            component: dataTable,
-            props: (route) => ({
-                config: {
-                    api: 'api/twitter'
-                }
-            }),
-        }
+        // {
+        //     path: ':id',
+        //     component: dataTable,
+        // },
+        // {
+        //     path: 'twitter',
+        //     component: dataTable,
+        //     props: (route) => ({
+        //         config: {
+        //             api: 'api/twitter'
+        //         }
+        //     }),
+        // }
     ],
     
 };

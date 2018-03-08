@@ -8,6 +8,5 @@
 
 <footer>
 <script type="text/javascript" charset="UTF-8" src="{{ mix('/js/app.js')}}"></script>
-
 </footer>
 </html>
