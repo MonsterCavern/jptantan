@@ -1,50 +1,28 @@
 <template lang="html">
-    <div class="card text-center">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item" v-for="category in categories" :key="category.value" @click="$goRoute(category.value)">
-                    <a class="nav-link">{{category.title}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="card-body">
-            <dataTable :config='config' v-if="checkinit($route.fullPath)"></dataTable>
-            <router-view v-else></router-view>
-        </div>
-    </div>
+  <div>
+    <router-view :config ='config' :categories='categories'></router-view>
+  </div>
 </template>
 
 <script>
-import dataTable from '../components/tables/dataTable';
+
 export default {
-    props: ['config'],
     data() {
         return {
+            config: {
+                api: 'api/all'
+            },
             categories: [
                 {
-                    title: '新增',
-                    value: '/translate/create'
+                    title: '全部',
+                    value: 'all'
+                },
+                {
+                    title: '小說',
+                    value: 'novel'
                 },
             ]
         };
-    },
-    components: {
-        dataTable
-    },
-    methods: {
-        changeTable: function(value) {
-            console.log(value);
-            this.config.api = 'api/' + value;
-        },
-        checkinit: function(urlPath) {
-            if (urlPath.split('/').length > 2) {
-                return false;
-            }
-            return true;
-        },
-        log: function(value) {
-            console.log(value);
-        }
     }
 };
 </script>

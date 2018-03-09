@@ -10,6 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "N3-components": "^2.4.4",
         "axios": "^0.17",
         "bootstrap-sass": "^3.3.7",
         "browser-sync": "^2.23.6",
@@ -26,6 +27,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.0.0",
+        "bootstrap-material-design": "^4.1.1",
         "datatables.net": "^1.10.16",
         "datatables.net-bs4": "^1.10.16",
         "datatables.net-buttons-bs4": "^1.5.1",

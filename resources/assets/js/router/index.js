@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '../components/HelloWorld';
+import Home from '../main/home';
 import translate from '../main/translate';
 
 import translateRouter from './translate';
@@ -12,16 +12,13 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: HelloWorld
+            component: Home
         },
         {
             path: '/home',
-            component: HelloWorld
+            component: Home
         },
-        // {
-        //     path: '/translate',
-        //     component: translate
-        // },
+        // 翻譯頁
         translateRouter,
         // router 轉址
         { path: '/*', redirect: '/' }
