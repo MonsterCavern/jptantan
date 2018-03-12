@@ -30,3 +30,8 @@ export default {
     }
 };
 </script>
+<style>
+  .navbar {
+    z-index: 999;
+  }
+</style>

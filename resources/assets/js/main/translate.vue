@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="row">
     <router-view :config ='config' :categories='categories'></router-view>
   </div>
 </template>

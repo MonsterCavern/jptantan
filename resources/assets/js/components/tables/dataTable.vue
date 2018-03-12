@@ -1,13 +1,13 @@
 <template lang="html">
     <div>
-        <table class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%"></table>
+        <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%"></table>
     </div>
 </template>
 
 <script>
 // import 'datatables.net-dt/css/jquery.dataTables.css';
 // import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
-// 
+//
 // import 'datatables.net';
 // import 'datatables.net-responsive';
 require('datatables.net');
@@ -54,8 +54,8 @@ export default {
     data() {
         return {
             headers: [
-                { data: 'id', title: '編號' },
-                { data: 'url', title: '網址' },
+                { data: 'id', title: '編號', width: '20%' },
+                { data: 'url', title: '網址', width: '10%' },
                 { data: 'updated_at', title: '更新時間' },
                 { data: 'created_at', title: '建立時間' }
             ],
@@ -86,12 +86,12 @@ export default {
     methods: {
         initTable: function() {
             let apiPath = '/';
+
             if (typeof this.config == 'undefined') {
                 apiPath += this.value.api;
             } else {
                 apiPath += this.config.api;
             }
-
 
             let table = this.$table.DataTable({
                 lengthChange: false,
@@ -151,5 +151,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css">
+#bottom-right-wrapper {
+    right: 10px !important;
+}
 </style>

@@ -1,7 +1,6 @@
 <template lang="html">
-    <div>
         <!-- 列表 DataTable -->
-        <div class="card text-center">
+        <div class="col-lg-12 card text-center">
             <div class="card-header">
 
                 <!-- 標籤過濾 -->
@@ -13,30 +12,37 @@
             </div>
             <div class="card-body">
                 <!-- 新增按鈕 -->
-                <FAButton></FAButton>
+                <fab :actions="fabActions"></fab>
                 <!-- <button type="button" class="btn btn-danger bmd-btn-fab">
                     <i class="material-icons">grade</i>
                 </button> -->
             </div>
             <dataTable v-model="config"></dataTable>
         </div>
-    </div>
 </template>
 
 <script>
-
 import dataTable from './tables/dataTable';
-import FAButton from './floating-action-buttons';
+import fab from 'vue-fab';
 export default {
     props: ['config', 'categories'],
     data() {
         return {
-            mainBtnColor: '#FF0099'
+            fabActions: [
+                {
+                    name: 'cache',
+                    icon: 'cached'
+                },
+                {
+                    name: 'alertMe',
+                    icon: 'add_alert'
+                }
+            ]
         };
     },
     components: {
         dataTable,
-        FAButton
+        fab
     },
     methods: {
         changeTable: function(value) {
