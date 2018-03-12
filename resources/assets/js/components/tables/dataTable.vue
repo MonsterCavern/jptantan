@@ -152,7 +152,5 @@ export default {
 </script>
 
 <style lang="css">
-#bottom-right-wrapper {
-    right: 10px !important;
-}
+
 </style>

@@ -6,11 +6,12 @@
 
 require('./bootstrap');
 require('bootstrap');
-require('bootstrap-material-design');
+import 'bootstrap/scss/bootstrap.scss';
+
+// require('bootstrap-material-design/dist/css/bootstrap-material-design.css');
+// require('bootstrap-material-design/dist/js/bootstrap-material-design.js');
 
 import Vue from 'vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-material-design/dist/css/bootstrap-material-design.css';
 
 import router from './router';
 import Master from './main/master';

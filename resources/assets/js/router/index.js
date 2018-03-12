@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../main/home';
-import translate from '../main/translate';
+import translate from '../main/translate/index';
 
-import translateRouter from './translate';
+//import translateRouter from './translate';
 
 Vue.use(Router);
 export default new Router({
@@ -18,9 +18,13 @@ export default new Router({
             path: '/home',
             component: Home
         },
+        {
+            path: '/translate',
+            component: translate
+        },
         // 翻譯頁
-        translateRouter,
+        //translateRouter,
         // router 轉址
-        { path: '/*', redirect: '/' }
+        //{ path: '/*', redirect: '/' }
     ]
 });
