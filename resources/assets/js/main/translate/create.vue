@@ -1,14 +1,14 @@
 <template lang="html">
     
-    <div class="col-lg-12 card">
+    <div class="card">
         <div class="card-body">
-          <fab 
+          <fab
             :actions="createFABs"
             @goPage = "goPage('list')"
             @submit = "submit"
           >
           </fab>
-          <vform :schema="schema" :model="model"></vform>
+          <vform :schema="schema" :model="model" @submit="submit"></vform>
         </div>
     </div>
 </template>
@@ -37,26 +37,21 @@ export default {
                         id: "UrlInput",
                         type: "input",
                         inputType: "url",
+                        inputName:"url",
                         label: "網址",
                         model: "url",
-                        required: true,
+                        //required: true,
                         placeholder: "http://",
                     },
                     {
                         id: "TitleInput",
                         type: "input",
                         inputType: "text",
+                        inputName:"title",
                         label: "標題",
                         model: "title",
-                        max: 2,
-                        required: true,
+                        //required: true,
                         placeholder: "MetaTitle"
-                    },
-                    {
-                        type: "select",
-                        label: "Skills",
-                        model: "skills",      
-                        values: ["Javascript", "VueJS", "CSS3", "HTML5"]
                     }
                 ]
             },
@@ -79,17 +74,12 @@ export default {
         };
     },
     methods: {
-        get: function (model) {
-            console.log(model);
-        },
-        onValidated(isValid, errors) {
-            console.log("Validation result: ", isValid, ", Errors:", errors);
-        },
         goPage: function (val) {
             this.$emit('changeComponent', val);
         },
-        submit: function () {
-            console.log('Submit');
+        submit: function (form) {
+            // this.$refs.child1.handleParentClick("ssss");
+            console.log(this.$refs);
         }
     }
 };

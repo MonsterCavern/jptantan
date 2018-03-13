@@ -1,9 +1,9 @@
 <template lang="html">
     <!-- 列表 DataTable -->
-    <div class="col-lg-12 card">
+    <div class="card">
         <div class="card-header">
             <!-- 浮動按鈕 -->
-            <fab 
+            <fab
               :actions="createFABs"
               @goCreateForm = "goCreateForm('create')"
             >

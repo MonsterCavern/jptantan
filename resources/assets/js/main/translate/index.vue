@@ -1,23 +1,16 @@
 <template lang="html">
-  <div class="row">
-    <List 
-      v-if="route === 'list'" 
-      :configs="configs" 
-      @changeComponent='changeComponent'>
-    </List>
-    <createForm 
-      v-if="route === 'create'" 
-      @changeComponent='changeComponent'>
-    </createForm>
-  </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <List v-if="route === 'list'" :configs="configs" @changeComponent='changeComponent'></List>
+            <createForm v-if="route === 'create'" @changeComponent='changeComponent'></createForm>
+        </div>
+    </div>
 </template>
 
 <script>
-
 const configs = {
     api: 'api/all',
-    categories: [
-        {
+    categories: [{
             title: '全部',
             value: 'all'
         },
@@ -26,7 +19,7 @@ const configs = {
             value: 'novel'
         },
     ],
-    columns:{
+    columns: {
         id: {
             title: '編號',
             className: "col-lg-1",
@@ -50,8 +43,9 @@ const configs = {
 import List from './list';
 import createForm from './create';
 export default {
-    components:{
-        List,createForm
+    components: {
+        List,
+        createForm
     },
     data() {
         return {
@@ -59,8 +53,8 @@ export default {
             configs: configs
         };
     },
-    methods:{
-        changeComponent: function (val) {
+    methods: {
+        changeComponent: function(val) {
             this.route = val;
         }
     }

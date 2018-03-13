@@ -1,10 +1,12 @@
 <template lang="html">
     <form>
         <vue-form-generator :schema="schema" :model="model" :formOptions="formOptions"></vue-form-generator>
+        <input type="submit" value="送出">
     </form>
 </template>
 
 <script>
+require('jquery-serializejson');
 require('jquery-validation');
 require('jquery-validation/dist/localization/messages_zh_TW.js');
 import VueFormGenerator from "vue-form-generator";
@@ -50,12 +52,21 @@ export default {
         for (var field in fields) {
             rules[field.model] = field;
         }
-        
         let $validate = $(this.$el).validate({
-            rules: rules
+            rules: rules,
+            submitHandler: this.submit
         });
+    },
+    methods:{
+        submit: function (form) {
+            let data = $(form).serializeJSON();
 
-        console.log($validate);
+            $.ajax({
+                url:'/api/url',
+                method:'POST',
+                data:data
+            });
+        }
     }
 };
 </script>
