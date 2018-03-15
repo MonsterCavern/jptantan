@@ -42,9 +42,41 @@ class UrlMapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, UrlMap $urlMap)
     {
-        //
+        return response()->json([
+          'code'    => 200,
+          'message' => 'sucess'
+        ]);
+      
+        // 驗證 資料
+        $request->validate([
+          'title' => 'required|max:255',
+          'url' => 'required|url|unique:url_maps',
+        ]);
+        
+        // 過濾 URL
+        $data = $request->all();
+        $parseUrl = parse_url($data['url']);
+        $data['scheme']   = $parseUrl['scheme'];
+        $data['host']     = $parseUrl['host'];
+        $data['path']     = $parseUrl['path']??'';
+        $data['query']    = $parseUrl['query']??'';
+        $data['fragment'] = $parseUrl['fragment']??'';
+      
+        // Save
+        $res = $urlMap->insert($data);
+        if ($res) {
+            return response()->json([
+              'code'    => 200,
+              'message' => 'sucess'
+            ]);
+        } else {
+            return response()->json([
+              'code'    => 200,
+              'message' => 'faild'
+            ]);
+        }
     }
 
     /**
@@ -78,7 +110,6 @@ class UrlMapController extends Controller
      */
     public function update(Request $request, UrlMap $urlMap)
     {
-        //
     }
 
     /**

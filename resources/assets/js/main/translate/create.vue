@@ -8,7 +8,7 @@
             @submit = "submit"
           >
           </fab>
-          <vform :schema="schema" :model="model" @submit="submit"></vform>
+          <vform :schema="schema" :model="model" ref="form"></vform>
         </div>
     </div>
 </template>
@@ -79,7 +79,7 @@ export default {
         },
         submit: function (form) {
             // this.$refs.child1.handleParentClick("ssss");
-            console.log(this.$refs);
+            this.$refs.form.submit();
         }
     }
 };

@@ -2356,8 +2356,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('changeComponent', val);
         },
         submit: function submit(form) {
-            //$data = $(form).serializeJSON();
-
+            // this.$refs.child1.handleParentClick("ssss");
+            this.$refs.form.submit();
         }
     }
 });
@@ -62191,8 +62191,8 @@ var render = function() {
         }),
         _vm._v(" "),
         _c("vform", {
-          attrs: { schema: _vm.schema, model: _vm.model },
-          on: { submit: _vm.submit }
+          ref: "form",
+          attrs: { schema: _vm.schema, model: _vm.model }
         })
       ],
       1

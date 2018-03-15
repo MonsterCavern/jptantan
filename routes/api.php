@@ -19,11 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('all', 'UrlMapController@index')->middleware('datatable');
-
+Route::post('url', 'UrlMapController@store');
 
 Route::any('/{all}', function () {
     return response()->json([
       'code'    => 200,
-      'messagw' => 'not find'
+      'message' => 'not find'
     ]);
 })->where(['all' => '.*']);
