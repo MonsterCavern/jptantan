@@ -1,66 +1,96 @@
 <template lang="html">
-    
+
     <div class="card">
         <div class="card-body">
-          <fab
-            :actions="createFABs"
-            @goPage = "goPage('list')"
-            @submit = "submit"
-          >
-          </fab>
-          <vform :schema="schema" :model="model" ref="form"></vform>
+            <fab :actions="createFABs" @goPage="goPage('list')" @submit="vformSubmit">
+            </fab>
+            <vform :config="vformConfig" ref="form"></vform>
         </div>
     </div>
 </template>
 
 <script>
 import fab from 'vue-fab';
-import vform from "../../components/form/form";
+import vform from "../../components/Form";
+
+const vformDefaultConf = {
+    api: 'api/translate',
+    type: 'new',
+    form_groups: [{
+        legend: "Url Details",
+        fields: ['id', 'title']
+    }],
+    columns: {
+        id: {
+            required: true,
+            label: '編號',
+            type: "input",
+            inputType: "url",
+            inputName: "url", // name
+            styleClasses: "", // .form-group 
+            placeholder: '流水號',
+        },
+        title: {
+            required: true,
+            label: "標題",
+            type: "input",
+            inputType: "text",
+            inputName: "title",
+            styleClasses: "", // .form-group 
+            placeholder: "MetaTitle"
+        },
+        url: {
+            required: true,
+            label: "標題",
+            type: "input",
+            inputType: "text",
+            inputName: "title",
+            styleClasses: "", // .form-group 
+            default: 'http://',
+            placeholder: ""
+        }
+    },
+    options: {
+        formOptions: {
+            validateAfterLoad: false,
+            validateAfterChanged: false
+        },
+    }
+};
 
 export default {
-    props: ['config'],
+    props: {
+        configs: {
+            type: Object,
+            default: Object
+        }
+    },
     components: {
         fab,
         vform
     },
+
+    methods: {
+        goPage: function(val) {
+            // 回傳 給父組件
+            this.$emit('changeComponent', val);
+        },
+        vformSubmit: function(form) {
+            // this.$refs.child1.handleParentClick("ssss");
+            this.$refs.form.submit();
+        }
+    },
     data() {
-        let configs = this.configs;
+        // 使用 本組件內 預設設定檔, 不然繼承 props 的指定設定檔
+        let vformConfig = vformDefaultConf;
+        if (typeof this.configs !== 'undefined' && typeof this.configs.vformConfig === 'object') {
+            vformConfig = $.extend(vformConfig,this.configs.vformConfig);
+        }
+        // vformConfig = this.configs.vformConfig;
 
         return {
-            model: {
-                url: "",
-                title: "",
-            },
-            schema: {
-                fields: [
-                    {
-                        id: "UrlInput",
-                        type: "input",
-                        inputType: "url",
-                        inputName:"url",
-                        label: "網址",
-                        model: "url",
-                        //required: true,
-                        placeholder: "http://",
-                    },
-                    {
-                        id: "TitleInput",
-                        type: "input",
-                        inputType: "text",
-                        inputName:"title",
-                        label: "標題",
-                        model: "title",
-                        //required: true,
-                        placeholder: "MetaTitle"
-                    }
-                ]
-            },
-            formOptions: {
-                validateAfterLoad: false,
-                validateAfterChanged: false
-            },
-            createFABs: [
-                {
+            vformConfig: vformConfig,
+            createFABs: [{
                     name: 'submit',
                     icon: 'send',
                     tooltip: '送出'
@@ -73,14 +103,8 @@ export default {
             ]
         };
     },
-    methods: {
-        goPage: function (val) {
-            this.$emit('changeComponent', val);
-        },
-        submit: function (form) {
-            // this.$refs.child1.handleParentClick("ssss");
-            this.$refs.form.submit();
-        }
+    mounted(){
+      // console.log(this);
     }
 };
 </script>

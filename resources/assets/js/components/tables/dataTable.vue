@@ -21,35 +21,6 @@ export default {
     props: {
         value: Object,
         config: Object
-        // value: {
-        //     type: Object,
-        //     default: function() {
-        //         return {
-        //             api: 'api/translate',
-        //             columns: {
-        //                 id: {
-        //                     title: '編號',
-        //                     className: "col-lg-1",
-        //                     defaultValue: '1',
-        //                     attr: {
-        //                         type: 'number',
-        //                     },
-        //                     draw_formatter: "drawString",
-        //                 },
-        //                 url: {
-        //                     title: '網址',
-        //                     defaultValue: 'Cosmos',
-        //                     attr: {
-        //                         required: 'required',
-        //                         type: 'text',
-        //                     },
-        //                     className: "is_text",
-        //                     draw_formatter: "drawString",
-        //                 }
-        //             }
-        //         };
-        //     }
-        // }
     },
     data() {
         return {

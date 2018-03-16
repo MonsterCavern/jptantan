@@ -1,13 +1,25 @@
 <template lang="html">
-    <div class="row">
-        <div class="col-lg-12">
-            <List v-if="route === 'list'" :configs="configs" @changeComponent='changeComponent'></List>
-            <createForm v-if="route === 'create'" @changeComponent='changeComponent'></createForm>
+    <div class="animated fadeIn">
+        <h2>Translate</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <showList v-if="route === 'list'" 
+                  :configs="configs.showList" 
+                  @changeComponent='changeComponent'
+                />
+                <createForm v-if="route === 'create'" 
+                  :configs="configs.createForm" 
+                  @changeComponent='changeComponent'
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import showList from './list';
+import createForm from './create';
+
 const configs = {
     api: 'api/all',
     categories: [{
@@ -18,39 +30,24 @@ const configs = {
             title: '小說',
             value: 'novel'
         },
-    ],
-    columns: {
-        id: {
-            title: '編號',
-            className: "col-lg-1",
-            defaultValue: '1',
-            attr: {
-                type: 'number',
-            }
-        },
-        url: {
-            title: '網址',
-            defaultValue: 'Cosmos',
-            attr: {
-                required: 'required',
-                type: 'text',
-            },
-            className: "is_text"
-        }
-    }
+    ]
 };
-
-import List from './list';
-import createForm from './create';
 export default {
     components: {
-        List,
+        showList,
         createForm
     },
     data() {
         return {
             route: 'create',
-            configs: configs
+            configs: {
+              showList: {},
+              createForm: {
+                vformConfig: {
+                  // api:'/'
+                }
+              }
+            }
         };
     },
     methods: {
