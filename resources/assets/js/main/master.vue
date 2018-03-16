@@ -1,32 +1,45 @@
-<template lang="html">
-  <div id='app'>
-    <navbarFixed></navbarFixed>
-    <main role="main" class="container">
-      <router-view :key="this.$route.fullPath">
-      </router-view>
-    </main>
-  </div>
-  
+<template>
+    <div class='app'>
+        <!-- Header -->
+        <AppHeader/>
+        <!-- .Header -->
+        <div class="app-body">
+            <Sidebar :navItems="nav" />
+            <main class="main">
+                <div class="container-fluid">
+                    <router-view></router-view>
+                </div>
+            </main>
+            <AppAside/>
+        </div>
+    </div>
+
 </template>
 
 <script>
-import navbarFixed from '../components/bootstrap4/navbars/navbar-fixed';
+import nav from './_nav'
+import AppHeader from '../components/Header'
+import Sidebar from '../components/Sidebar/Sidebar'
+import AppAside from '../components/Asides/Aside'
 
 export default {
-    components:{
-        navbarFixed
+    components: {
+        AppHeader,
+        Sidebar,
+        AppAside
     },
     methods: {
         log: function(val) {
             console.log(val);
         }
-    }
+    },
+    data() {
+        return {
+            nav: nav.items
+        }
+    },
 };
 </script>
 
 <style lang="css">
-body {
-  min-height: 75rem;
-  padding-top: 4.5rem;
-}
 </style>

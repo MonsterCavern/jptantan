@@ -6,7 +6,7 @@
 
 require('./bootstrap');
 require('bootstrap');
-import 'bootstrap/scss/bootstrap.scss';
+// import 'bootstrap/scss/bootstrap.scss';
 
 // require('bootstrap-material-design/dist/css/bootstrap-material-design.css');
 // require('bootstrap-material-design/dist/js/bootstrap-material-design.js');

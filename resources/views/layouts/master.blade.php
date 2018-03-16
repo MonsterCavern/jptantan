@@ -1,6 +1,6 @@
 <html lang="{{ app()->getLocale() }}">
 @yield('head')
-<body>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <div id="app">
         @yield('content')
     </div>
