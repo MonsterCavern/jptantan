@@ -14,21 +14,23 @@ import fab from 'vue-fab';
 import vform from "../../components/Form";
 
 const vformDefaultConf = {
-    api: 'api/translate',
+    api: 'api/url',
     type: 'new',
+    primary_key: 'id',
     form_groups: [{
         legend: "Url Details",
         fields: ['id', 'title']
     }],
     columns: {
         id: {
-            required: true,
+            // required: true,
             label: '編號',
             type: "input",
             inputType: "url",
-            inputName: "url", // name
-            styleClasses: "", // .form-group 
+            inputName: "id", // name
+            styleClasses: "", // .form-group
             placeholder: '流水號',
+            disabled: true
         },
         title: {
             required: true,
@@ -36,18 +38,18 @@ const vformDefaultConf = {
             type: "input",
             inputType: "text",
             inputName: "title",
-            styleClasses: "", // .form-group 
+            styleClasses: "", // .form-group
             placeholder: "MetaTitle"
         },
         url: {
             required: true,
-            label: "標題",
+            label: "網址",
             type: "input",
-            inputType: "text",
-            inputName: "title",
-            styleClasses: "", // .form-group 
-            default: 'http://',
-            placeholder: ""
+            inputType: "url",
+            inputName: "url",
+            styleClasses: "", // .form-group
+            // default: 'http://',
+            placeholder: "http://"
         }
     },
     options: {
@@ -75,14 +77,16 @@ export default {
             // 回傳 給父組件
             this.$emit('changeComponent', val);
         },
-        vformSubmit: function(form) {
+        vformSubmit: function() {
             // this.$refs.child1.handleParentClick("ssss");
-            this.$refs.form.submit();
+            // 觸發 form submit
+            $(this.$refs.form.$el).trigger('submit');
         }
     },
     data() {
         // 使用 本組件內 預設設定檔, 不然繼承 props 的指定設定檔
         let vformConfig = vformDefaultConf;
+
         if (typeof this.configs !== 'undefined' && typeof this.configs.vformConfig === 'object') {
             vformConfig = $.extend(vformConfig,this.configs.vformConfig);
         }
@@ -91,20 +95,20 @@ export default {
         return {
             vformConfig: vformConfig,
             createFABs: [{
-                    name: 'submit',
-                    icon: 'send',
-                    tooltip: '送出'
-                },
-                {
-                    name: 'goPage',
-                    icon: 'undo',
-                    tooltip: '返回'
-                }
+                name: 'submit',
+                icon: 'send',
+                tooltip: '送出'
+            },
+            {
+                name: 'goPage',
+                icon: 'undo',
+                tooltip: '返回'
+            }
             ]
         };
     },
     mounted(){
-      // console.log(this);
+        // console.log(this);
     }
 };
 </script>

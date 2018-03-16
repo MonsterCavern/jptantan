@@ -2108,7 +2108,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 __webpack_require__("./node_modules/jquery-serializejson/jquery.serializejson.js");
 __webpack_require__("./node_modules/jquery-validation/dist/jquery.validate.js");
@@ -2147,16 +2146,18 @@ __webpack_require__("./node_modules/jquery-validation/dist/localization/messages
 
         if (typeof this.config !== 'undefined') {
             // 必定需要 this.config.api 和 this.config.type
-            if (this.config.hasOwnProperty()) {}
-            // type = edit
-            // 取得 編輯資料 (ajax)
+            if (this.config.hasOwnProperty('api') && this.config.hasOwnProperty('type')) {
+                // type = edit
+                // 取得 編輯資料 (ajax)
 
-            // 載入設定
-            var config = this.setConfig(this.config);
-            model = config.model;
-            schema = config.schema;
-            formOptions = config.formOptions;
-            api = config.api;
+                // 載入設定
+                var config = this.setConfig(this.config);
+
+                model = config.model;
+                schema = config.schema;
+                formOptions = config.formOptions;
+                api = this.config.api;
+            }
         }
         return {
             cModel: model,
@@ -2166,49 +2167,62 @@ __webpack_require__("./node_modules/jquery-validation/dist/localization/messages
         };
     },
     mounted: function mounted() {
-        if (typeof this.formOptions === 'undefined') {
+        if (typeof this.cFormOptions === 'undefined') {
             return true;
         }
+        //
+        // let fields = this.cSchema.fields;
+        //
+        // let rules = {};
+        //
+        // for (var i = 0; i < fields.length; i++) {
+        //     rules[fields[i].model] = 'required';
+        // }
 
-        var fields = {};
-
-        if (this.schema.hasOwnProperty('groups')) {
-            for (var groups in this.schema.groups) {
-                fields = $.extend(fields, groups.fields);
-            }
-        } else {
-            fields = this.schema.fields;
-        }
-
-        var rules = {};
-
-        for (var field in fields) {
-            rules[field.model] = field;
-        }
+        // 使用 html5 的方法, 不然 rules 要準確
         var $validate = $(this.$el).validate({
-            rules: rules,
             submitHandler: this.submit
         });
     },
 
     methods: {
         setConfig: function setConfig(config) {
-            console.log('85', config);
             var model = {};
+            var schema = {};
+            var formOptions = {};
+            var groups = [];
+            var fields = [];
+
             if (config.hasOwnProperty('columns')) {
                 for (var column in config.columns) {
+                    // EXCEPTION
+                    if (config.type === 'new' && column === config.primary_key) {
+                        continue;
+                    }
+
                     var field = config.columns[column];
+
                     if (field.hasOwnProperty('default')) {
                         model[column] = field.default;
-                    } else {}
+                    } else {
+                        model[column] = '';
+                    }
+
+                    field['id'] = field.inputType + '_' + column + '_' + this['_uid'];
+                    field['model'] = column;
+                    fields.push(field);
                 }
+                schema.fields = fields;
             }
-            // return {
-            //     model: model,
-            //     schema: schema,
-            //     formOptions: formOptions,
-            //     api: api
-            // }; 
+
+            if (config.hasOwnProperty('options') && config.options.hasOwnProperty('formOptions')) {
+                formOptions = config.options.formOptions;
+            }
+            return {
+                model: model,
+                schema: schema,
+                formOptions: formOptions
+            };
         },
         submit: function submit(form) {
             var data = $(form).serializeJSON();
@@ -2810,21 +2824,23 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 
 var vformDefaultConf = {
-    api: 'api/translate',
+    api: 'api/url',
     type: 'new',
+    primary_key: 'id',
     form_groups: [{
         legend: "Url Details",
         fields: ['id', 'title']
     }],
     columns: {
         id: {
-            required: true,
+            // required: true,
             label: '編號',
             type: "input",
             inputType: "url",
-            inputName: "url", // name
-            styleClasses: "", // .form-group 
-            placeholder: '流水號'
+            inputName: "id", // name
+            styleClasses: "", // .form-group
+            placeholder: '流水號',
+            disabled: true
         },
         title: {
             required: true,
@@ -2832,18 +2848,18 @@ var vformDefaultConf = {
             type: "input",
             inputType: "text",
             inputName: "title",
-            styleClasses: "", // .form-group 
+            styleClasses: "", // .form-group
             placeholder: "MetaTitle"
         },
         url: {
             required: true,
-            label: "標題",
+            label: "網址",
             type: "input",
-            inputType: "text",
-            inputName: "title",
-            styleClasses: "", // .form-group 
-            default: 'http://',
-            placeholder: ""
+            inputType: "url",
+            inputName: "url",
+            styleClasses: "", // .form-group
+            // default: 'http://',
+            placeholder: "http://"
         }
     },
     options: {
@@ -2871,14 +2887,16 @@ var vformDefaultConf = {
             // 回傳 給父組件
             this.$emit('changeComponent', val);
         },
-        vformSubmit: function vformSubmit(form) {
+        vformSubmit: function vformSubmit() {
             // this.$refs.child1.handleParentClick("ssss");
-            this.$refs.form.submit();
+            // 觸發 form submit
+            $(this.$refs.form.$el).trigger('submit');
         }
     },
     data: function data() {
         // 使用 本組件內 預設設定檔, 不然繼承 props 的指定設定檔
         var vformConfig = vformDefaultConf;
+
         if (typeof this.configs !== 'undefined' && _typeof(this.configs.vformConfig) === 'object') {
             vformConfig = $.extend(vformConfig, this.configs.vformConfig);
         }
@@ -6989,7 +7007,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -7019,7 +7037,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

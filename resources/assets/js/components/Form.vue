@@ -1,7 +1,6 @@
 <template lang="html">
     <form>
         <vue-form-generator :model="cModel" :schema="cSchema" :options="cFormOptions"/>
-        <!-- <input type="submit" value="送出"> -->
     </form>
 </template>
 
@@ -27,7 +26,7 @@ export default {
                 return {
                     validateAfterLoad: false,
                     validateAfterChanged: false,
-                }
+                };
             },
             type: Object
         },
@@ -43,18 +42,19 @@ export default {
 
         if (typeof this.config !== 'undefined') {
             // 必定需要 this.config.api 和 this.config.type
-            if (this.config.hasOwnProperty()) {
-              
+            if (this.config.hasOwnProperty('api') && this.config.hasOwnProperty('type')) {
+                // type = edit
+                // 取得 編輯資料 (ajax)
+                
+                // 載入設定
+                let config = this.setConfig(this.config);
+
+                model = config.model;
+                schema = config.schema;
+                formOptions = config.formOptions;
+                api = this.config.api;
             }
-            // type = edit
-            // 取得 編輯資料 (ajax)
             
-            // 載入設定
-            let config = this.setConfig(this.config);
-            model = config.model;
-            schema = config.schema;
-            formOptions = config.formOptions;
-            api = config.api;
         }
         return {
             cModel: model,
@@ -64,50 +64,62 @@ export default {
         };
     },
     mounted() {
-        if (typeof this.formOptions === 'undefined') {
+        if (typeof this.cFormOptions === 'undefined') {
             return true;
         }
-
-        let fields = {};
-
-        if (this.schema.hasOwnProperty('groups')) {
-            for (var groups in this.schema.groups) {
-                fields = $.extend(fields, groups.fields);
-            }
-        } else {
-            fields = this.schema.fields;
-        }
-
-        let rules = {};
-
-        for (var field in fields) {
-            rules[field.model] = field;
-        }
+        //
+        // let fields = this.cSchema.fields;
+        //
+        // let rules = {};
+        //
+        // for (var i = 0; i < fields.length; i++) {
+        //     rules[fields[i].model] = 'required';
+        // }
+    
+        // 使用 html5 的方法, 不然 rules 要準確
         let $validate = $(this.$el).validate({
-            rules: rules,
             submitHandler: this.submit
         });
     },
     methods: {
         setConfig: function(config) {
-          console.log('85',config);
-          let model = {};
-          if (config.hasOwnProperty('columns')) {
-            for (var column in config.columns) {
-              let field = config.columns[column];
-              if (field.hasOwnProperty('default')) {
-                model[column] = field.default
-              }else {
-                  
-              }
+            let model = {};
+            let schema = {};
+            let formOptions = {};
+            let groups = [];
+            let fields = [];
+
+            if (config.hasOwnProperty('columns')) {
+                for (var column in config.columns) {
+                    // EXCEPTION
+                    if (config.type === 'new' && column === config.primary_key) {
+                        continue;
+                    }
+                    
+                    let field = config.columns[column];
+
+                    if (field.hasOwnProperty('default')) {
+                        model[column] = field.default;
+                    }else {
+                        model[column] = '';
+                    }
+                    
+                    field['id'] = field.inputType + '_' + column + '_' + this['_uid'];
+                    field['model'] = column;
+                    fields.push(field);
+                    
+                }
+                schema.fields = fields;
             }
-          }
-          // return {
-          //     model: model,
-          //     schema: schema,
-          //     formOptions: formOptions,
-          //     api: api
-          // }; 
+            
+            if (config.hasOwnProperty('options') && config.options.hasOwnProperty('formOptions')) {
+                formOptions = config.options.formOptions;
+            }
+            return {
+                model: model,
+                schema: schema,
+                formOptions: formOptions
+            };
         },
         submit: function(form) {
             let data = $(form).serializeJSON();
