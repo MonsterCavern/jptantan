@@ -6,9 +6,7 @@
         <div class="app-body">
             <Sidebar :navItems="nav" />
             <main class="main">
-                <div class="container-fluid">
-                    <router-view></router-view>
-                </div>
+              <router-view></router-view>
             </main>
             <AppAside/>
         </div>

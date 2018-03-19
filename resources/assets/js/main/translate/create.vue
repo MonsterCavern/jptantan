@@ -1,23 +1,30 @@
 <template lang="html">
-
-    <div class="card">
-        <div class="card-body">
-            <fab :actions="createFABs" @goPage="goPage('list')" @submit="vformSubmit">
-            </fab>
-            <vform :config="vformConfig" ref="form"></vform>
+  <div class="animated fadeIn">
+    <div class="row">
+      <fab :actions="createFABs" @goPage="$goRoute('/translate')" @submit="vformSubmit">
+      </fab>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <vform :config="vformConfig" ref="form" v-model="formData"></vform>
+            </div>
+          </div>
         </div>
     </div>
+    <PreView :formData="formData"></PreView>
+  </div>
 </template>
 
 <script>
 import fab from 'vue-fab';
 import vform from "../../components/Form";
+import PreView from "./preview";
 
 const vformDefaultConf = {
-    api: 'api/url',
+    api: '/api/url',
     type: 'new',
-    primary_key: 'id',
-    form_groups: [{
+    primaryKey: 'id',
+    formGroups: [{
         legend: "Url Details",
         fields: ['id', 'title']
     }],
@@ -69,9 +76,9 @@ export default {
     },
     components: {
         fab,
-        vform
+        vform,
+        PreView
     },
-
     methods: {
         goPage: function(val) {
             // 回傳 給父組件
@@ -88,26 +95,28 @@ export default {
         let vformConfig = vformDefaultConf;
 
         if (typeof this.configs !== 'undefined' && typeof this.configs.vformConfig === 'object') {
-            vformConfig = $.extend(vformConfig,this.configs.vformConfig);
+            vformConfig = $.extend(vformConfig, this.configs.vformConfig);
         }
         // vformConfig = this.configs.vformConfig;
 
         return {
             vformConfig: vformConfig,
-            createFABs: [{
-                name: 'submit',
-                icon: 'send',
-                tooltip: '送出'
-            },
-            {
-                name: 'goPage',
-                icon: 'undo',
-                tooltip: '返回'
-            }
-            ]
+            createFABs: [
+                {
+                    name: 'submit',
+                    icon: 'send',
+                    tooltip: '送出'
+                },
+                {
+                    name: 'goPage',
+                    icon: 'undo',
+                    tooltip: '返回'
+                },
+            ],
+            formData: {}
         };
     },
-    mounted(){
+    mounted() {
         // console.log(this);
     }
 };

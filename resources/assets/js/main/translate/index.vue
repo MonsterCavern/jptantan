@@ -1,25 +1,10 @@
 <template lang="html">
-    <div class="animated fadeIn">
+    <div class="container-fluid">
         <h2>Translate</h2>
-        <div class="row">
-            <div class="col-lg-12">
-                <showList v-if="route === 'list'" 
-                  :configs="configs.showList" 
-                  @changeComponent='changeComponent'
-                />
-                <createForm v-if="route === 'create'" 
-                  :configs="configs.createForm" 
-                  @changeComponent='changeComponent'
-                />
-            </div>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
-
 <script>
-import showList from './list';
-import createForm from './create';
-
 const configs = {
     api: 'api/all',
     categories: [{
@@ -32,21 +17,18 @@ const configs = {
         },
     ]
 };
+
 export default {
-    components: {
-        showList,
-        createForm
-    },
     data() {
         return {
-            route: 'create',
+            route: 'list',
             configs: {
-              showList: {},
-              createForm: {
-                vformConfig: {
-                  // api:'/'
+                showList: {},
+                createForm: {
+                    vformConfig: {
+                        // api:'/'
+                    }
                 }
-              }
             }
         };
     },

@@ -23,13 +23,10 @@ export default {
         config: Object
     },
     data() {
+        let config = this.value;
+
         return {
-            headers: [
-                { data: 'id', title: '編號', width: '20%' },
-                { data: 'url', title: '網址', width: '10%' },
-                { data: 'updated_at', title: '更新時間' },
-                { data: 'created_at', title: '建立時間' }
-            ],
+            headers: this.initColumns(config.columns),
             rows: [],
             dtHandle: null
         };
@@ -69,7 +66,19 @@ export default {
                 searching: false,
                 processing: false,
                 serverSide: true,
-                ajax: apiPath,
+                ajax: {
+                    url: apiPath,
+                    dataSrc: function (json) {
+          
+                        if (!json.hasOwnProperty('data') || !json.data instanceof Array) {
+                            json.data = [];
+                            json.recordsFiltered = 0;
+                            json.recordsTotal = 0;
+                            return {};
+                        }
+                        return json.data;
+                    }
+                },
                 columns: this.headers,
                 data: this.rows,
                 dom: 'lfr<"pull-left"i>t<"pull-right"p>',
@@ -79,8 +88,21 @@ export default {
 
             return table;
         },
-        initColumns: function(columns) {
-            return columns;
+        initColumns: function(columns){
+            let res = [];
+
+            for (var column in columns) {
+                let head = {};
+
+                head.data = column;
+                head.title = columns[column].label;
+                if (columns[column].hasOwnProperty('render')) {
+                    head.render = columns[column].render;
+                }
+                
+                res.push(head);
+            }
+            return res;
         },
         ajaxApi: function(url = 'index', type = 'GET', data = {}) {
             var options = {

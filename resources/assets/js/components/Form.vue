@@ -12,6 +12,7 @@ import VueFormGenerator from "vue-form-generator";
 
 export default {
     props: {
+        value: Object,
         config: Object,
         schema: {
             default: Object,
@@ -92,7 +93,7 @@ export default {
             if (config.hasOwnProperty('columns')) {
                 for (var column in config.columns) {
                     // EXCEPTION
-                    if (config.type === 'new' && column === config.primary_key) {
+                    if (config.type === 'new' && column === config.primaryKey) {
                         continue;
                     }
                     
@@ -130,7 +131,15 @@ export default {
                 data: data
             });
         }
-    }
+    },
+    watch: {
+        cModel: {
+            handler(newSong, oldSong) {
+                this.$emit('input', newSong);
+            },
+            deep: true
+        }
+    },
 };
 </script>
 
