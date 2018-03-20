@@ -3206,13 +3206,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 url: url,
                 type: 'get',
                 async: false,
-                cache: false,
-                contentType: false,
-                processData: false
+                dataType: "jsonp",
+                // jsonp: "callback",//傳遞給請求處理程序或頁面的，用以獲得jsonp回調函數名的參數名(一般默認為:callback)
+                success: function success(json) {
+                    console.log(json);
+                },
+                error: function error(e, a) {
+                    console.log(e, a);
+                }
             };
             var result = $.ajax(options);
 
-            console.log(result);
+            // console.log(result);
         }
     }
 });
@@ -7305,7 +7310,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

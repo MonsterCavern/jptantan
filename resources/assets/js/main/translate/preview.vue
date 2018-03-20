@@ -38,13 +38,18 @@ export default {
                 url: url,
                 type: 'get',
                 async: false,
-                cache: false,
-                contentType: false,
-                processData: false
+                dataType: "jsonp",
+                // jsonp: "callback",//傳遞給請求處理程序或頁面的，用以獲得jsonp回調函數名的參數名(一般默認為:callback)
+                success: function(json){
+                    console.log(json);
+                },
+                error: function(e,a){
+                    console.log(e,a);
+                }
             };
             var result = $.ajax(options);
 
-            console.log(result);
+            // console.log(result);
         }
     }
 };
