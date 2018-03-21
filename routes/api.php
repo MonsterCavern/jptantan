@@ -20,6 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('all', 'UrlMapController@index')->middleware('datatable');
 Route::post('url', 'UrlMapController@store');
+Route::get('autoparser', 'UrlMapController@autoParser');
+Route::get('autotranslate', 'UrlMapController@autoTranslate');
+
+Route::get('translate/{id}', 'Translate\TranslateController@show');
+
 
 Route::any('/{all}', function () {
     return response()->json([

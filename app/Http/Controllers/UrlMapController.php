@@ -3,26 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\GoogleTranslationService;
 use App\Traits\DataTable;
 use App\Model\UrlMap;
+use App\Json;
 
 class UrlMapController extends Controller
 {
     use DataTable;
     
-    // public function __construct()
-    // {
-    //     $this->DefaultModel = UrlMap::class;
-    // }
+    public function autoTranslate()
+    {
+        $mssage = [];
+        $rows = UrlMap::select('id', 'content')->where('is_cached', 0)->get();
+        // dd($rows);
+        if ($rows) {
+            $GTService = new GoogleTranslationService;
+            foreach ($rows as $row) {
+                // urlid
+                $GTService->auto($row->id, $row->content);
+                // 更新 is_cached
+                $mssage['id'] = $row->id;
+                $mssage['status'] = UrlMap::where('id', $row->id)->update(['is_cached' => 1]);
+            }
+        }
+        
+        return response()->json([
+          'code' => 200,
+          'message' => $mssage
+        ]);
+    }
+    
+    public function autoParser(Request $request)
+    {
+        $url = ($request->url)??'https://ncode.syosetu.com/n2267be/2/';
+        $parse = new HtmlParserController;
+        $res = $parse->parserSyosetu($url);
+        // dd($url, $res);
+        $status = UrlMap::where('url', $url)->update(['content' => Json::Encode($res)]);
+        return response()->json([
+          'code' => 200,
+          'message' => $status
+        ]);
+    }
     
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $res)
+    public function index(Request $request)
     {
-        $urls = $this->dataTable(UrlMap::class, $res);
+        $urls = $this->dataTable(UrlMap::class, $request);
         return $urls;
     }
 

@@ -4,7 +4,7 @@
         <AppHeader/>
         <!-- .Header -->
         <div class="app-body">
-            <Sidebar :navItems="nav" />
+            <!-- <Sidebar :navItems="nav" /> -->
             <main class="main">
               <router-view></router-view>
             </main>

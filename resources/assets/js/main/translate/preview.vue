@@ -1,14 +1,18 @@
 <template lang="html">
   <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
         <div class="card">
+          <div class="card-title">
+            <h4>預覽</h4>
+          </div>
           <div class="card-body">
-            PreView
-            {{ url }}
+            <!-- <div v-html="preview"></div> -->
+            <iframe :src="url" width="100%" height="100%" frameborder="0" ></iframe>
           </div>
         </div>
       </div>
   </div>
+
 </template>
 
 <script>
@@ -16,9 +20,11 @@ export default {
     props:['formData'],
     data(){
         let url = '';
+        let preview = '';
 
         return {
-            url: url
+            url: url,
+            preview: preview
         };
     },
     watch:{
@@ -26,7 +32,7 @@ export default {
             handler(newSong, oldSong) {
                 if (this.formData.hasOwnProperty('url')) {
                     this.url = this.formData.url;
-                    this.getContent(this.formData.url);
+                    //this.getContent(this.formData.url);
                 }
             },
             deep: true
@@ -35,21 +41,18 @@ export default {
     methods:{
         getContent: function (url) {
             var options = {
-                url: url,
+                url: '/api/curl',
                 type: 'get',
                 async: false,
-                dataType: "jsonp",
-                // jsonp: "callback",//傳遞給請求處理程序或頁面的，用以獲得jsonp回調函數名的參數名(一般默認為:callback)
-                success: function(json){
-                    console.log(json);
-                },
-                error: function(e,a){
-                    console.log(e,a);
-                }
+                dataType: "html",
+                data: {url:url}
             };
-            var result = $.ajax(options);
+            let result = $.ajax(options);
 
-            // console.log(result);
+            var body = result.responseText.replace(/^.*?<body[^>]*>(.*?)<\/body>.*?$/i,"$1");
+
+            this.preview = body;
+
         }
     }
 };

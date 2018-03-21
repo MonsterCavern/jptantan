@@ -16,6 +16,10 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/test', function () {
+    return view('welcome');
+});
+
 
 Route::any('/{all}', function () {
     return view('index');

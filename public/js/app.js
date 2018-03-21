@@ -3177,14 +3177,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['formData'],
     data: function data() {
         var url = '';
+        var preview = '';
 
         return {
-            url: url
+            url: url,
+            preview: preview
         };
     },
 
@@ -3193,7 +3199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             handler: function handler(newSong, oldSong) {
                 if (this.formData.hasOwnProperty('url')) {
                     this.url = this.formData.url;
-                    this.getContent(this.formData.url);
+                    //this.getContent(this.formData.url);
                 }
             },
 
@@ -3203,21 +3209,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getContent: function getContent(url) {
             var options = {
-                url: url,
+                url: '/api/curl',
                 type: 'get',
                 async: false,
-                dataType: "jsonp",
-                // jsonp: "callback",//傳遞給請求處理程序或頁面的，用以獲得jsonp回調函數名的參數名(一般默認為:callback)
-                success: function success(json) {
-                    console.log(json);
-                },
-                error: function error(e, a) {
-                    console.log(e, a);
-                }
+                dataType: "html",
+                data: { url: url }
             };
             var result = $.ajax(options);
 
-            // console.log(result);
+            var body = result.responseText.replace(/^.*?<body[^>]*>(.*?)<\/body>.*?$/i, "$1");
+
+            this.preview = body;
         }
     }
 });
@@ -3238,6 +3240,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3248,6 +3283,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         console.log(this);
         return {
+            tabs: [{
+                name: 'google',
+                class: 'active'
+            }, {
+                name: '自己'
+            }],
             createFABs: [{
                 name: 'goPage',
                 icon: 'undo',
@@ -7235,7 +7276,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -7310,7 +7351,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -62757,9 +62798,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n  This is View\n")])
+  return _c("div", [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-lg-6" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c(
+              "ul",
+              {
+                staticClass: "nav nav-tabs card-header-tabs",
+                attrs: { role: "tablist" }
+              },
+              _vm._l(_vm.tabs, function(tab, index) {
+                return _c("li", { key: index, staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      class: tab.class,
+                      attrs: {
+                        "data-toggle": "tab",
+                        role: "tab",
+                        href: "#" + tab.name
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                              " +
+                          _vm._s(tab.name) +
+                          "\n                            "
+                      )
+                    ]
+                  )
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _c(
+              "div",
+              { staticClass: "tab-content" },
+              _vm._l(_vm.tabs, function(tab, index) {
+                return _c(
+                  "div",
+                  {
+                    key: index,
+                    staticClass: "tab-pane",
+                    class: tab.class,
+                    attrs: { id: tab.name, role: "tabpanel" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Message\n                      "
+                    )
+                  ]
+                )
+              })
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-6" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-title" }, [_c("h4", [_vm._v("預覽")])]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("iframe", {
+            attrs: {
+              src: "https://ncode.syosetu.com/n2267be/2/",
+              width: "100%",
+              height: "100%",
+              frameborder: "0"
+            }
+          })
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -63047,18 +63174,34 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-lg-12" }, [
+    _c("div", { staticClass: "col-lg-6" }, [
       _c("div", { staticClass: "card" }, [
+        _vm._m(0),
+        _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _vm._v(
-            "\n          PreView\n          " + _vm._s(_vm.url) + "\n        "
-          )
+          _c("iframe", {
+            attrs: {
+              src: _vm.url,
+              width: "100%",
+              height: "100%",
+              frameborder: "0"
+            }
+          })
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-title" }, [
+      _c("h4", [_vm._v("預覽")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -63166,8 +63309,6 @@ var render = function() {
         "div",
         { staticClass: "app-body" },
         [
-          _c("Sidebar", { attrs: { navItems: _vm.nav } }),
-          _vm._v(" "),
           _c("main", { staticClass: "main" }, [_c("router-view")], 1),
           _vm._v(" "),
           _c("AppAside")
