@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\GoogleTranslationService;
 use App\Traits\DataTable;
-use App\Model\UrlMap;
+use App\Models\UrlMap;
 use App\Json;
 
 class UrlMapController extends Controller
