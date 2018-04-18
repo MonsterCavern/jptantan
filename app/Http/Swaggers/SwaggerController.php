@@ -3,7 +3,7 @@ namespace App\Http\Swaggers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Json;
+use App\Utils\Util;
 
 /**
  * @SWG\Swagger(
@@ -64,7 +64,7 @@ class SwaggerController extends Controller
             }
         }
         $swagger = \Swagger\scan(app_path('Http'), ['exclude' => $exclude]);
-        $swagger = Json::Decode($swagger);
+        $swagger = Util::JsonDecode($swagger);
 
         $this->jsonPath = '/vendor/swagger/json';
         foreach ($swagger['tags'] as $tags) {

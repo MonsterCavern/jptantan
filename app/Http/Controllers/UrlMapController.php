@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\GoogleTranslationService;
 use App\Traits\DataTable;
 use App\Models\UrlMap;
-use App\Json;
+use App\Utils\Util;
 
 class UrlMapController extends Controller
 {
@@ -40,7 +40,7 @@ class UrlMapController extends Controller
         $parse = new HtmlParserController;
         $res = $parse->parserSyosetu($url);
         // dd($url, $res);
-        $status = UrlMap::where('url', $url)->update(['content' => Json::Encode($res)]);
+        $status = UrlMap::where('url', $url)->update(['content' => Util::JsonEncode($res)]);
         return response()->json([
           'code' => 200,
           'message' => $status
@@ -49,7 +49,7 @@ class UrlMapController extends Controller
     
     /**
      * Display a listing of the resource.
-     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -72,6 +72,7 @@ class UrlMapController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, UrlMap $urlMap)
@@ -114,7 +115,7 @@ class UrlMapController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\UrlMap  $urlMap
+     * @param  \App\Models\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
     public function show(UrlMap $urlMap)
@@ -125,7 +126,7 @@ class UrlMapController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UrlMap  $urlMap
+     * @param  \App\Models\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
     public function edit(UrlMap $urlMap)
@@ -137,7 +138,7 @@ class UrlMapController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UrlMap  $urlMap
+     * @param  \App\Models\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, UrlMap $urlMap)
@@ -147,7 +148,7 @@ class UrlMapController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UrlMap  $urlMap
+     * @param  \App\Models\UrlMap  $urlMap
      * @return \Illuminate\Http\Response
      */
     public function destroy(UrlMap $urlMap)

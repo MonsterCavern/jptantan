@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Http\Model\Translator;
+use App\Models\Translator;
 
 class TranslatorSeeder extends Seeder
 {
