@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+let mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,9 +11,39 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.autoload({
-    jquery: ['$', 'window.jQuery',"jQuery","window.$","jquery","window.jquery"],
-    'popper.js/dist/umd/popper.js': ['Popper'],
-    tether: ['Tether', 'window.Tether']
-}).js('resources/assets/js/app.js', 'public/js').version();
-mix.sass('resources/assets/sass/app.scss', 'public/css');
+mix.
+    autoload({
+        jquery: [
+            "$",
+            "window.jQuery",
+            "jQuery",
+            "window.$",
+            "jquery",
+            "window.jquery"
+        ],
+        "popper.js/dist/umd/popper.js": ["Popper"],
+        tether: ["Tether", "window.Tether"]
+    }).
+    js("resources/assets/js/app.js", "public/js").
+    version();
+mix.sass("resources/assets/sass/app.scss", "public/css").version();
+
+// admin
+mix.
+    autoload({
+        jquery: [
+            "$",
+            "window.jQuery",
+            "jQuery",
+            "window.$",
+            "jquery",
+            "window.jquery"
+        ],
+        "popper.js/dist/umd/popper.js": ["Popper"],
+        tether: ["Tether", "window.Tether"]
+    }).
+    js("resources/assets/admin/js/app.js", "public/js/admin.js").
+    version();
+mix.
+    sass("resources/assets/admin/sass/app.scss", "public/css/admin.css").
+    version();

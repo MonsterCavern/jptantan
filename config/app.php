@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -231,10 +231,6 @@ return [
         'Html'  => Collective\Html\HtmlFacade::class,
         'Flash' => Laracasts\Flash\Flash::class,
         
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-
-
     ],
 
 ];

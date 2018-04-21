@@ -17,7 +17,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
     {
         Response::macro('datatable', function ($value) {
             return response()->json([
-              'data' => $value,
+              'data'  => $value,
               'total' => count($value)
             ]);
         });

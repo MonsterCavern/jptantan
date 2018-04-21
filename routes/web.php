@@ -16,10 +16,26 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/test', function () {
-    return view('welcome');
+Route::get('/login', function () {
+    return view('login');
 });
 
+
+
+
+Route::group([
+    // 'middleware'    => ['check.roles:admin,vendor'],
+    'prefix' => 'admin'
+], function () {
+    // Dashboard
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    
+    Route::any('/{all?}', function () {
+        return view('admin.index');
+    })->where(['all' => '.*']);
+});
 
 Route::any('/{all}', function () {
     return view('index');

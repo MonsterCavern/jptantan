@@ -13,30 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group([
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-});
-
-
-Route::get('all', 'UrlMapController@index')->middleware('datatable');
-Route::post('url', 'UrlMapController@store');
-Route::get('autoparser', 'UrlMapController@autoParser');
-Route::get('autotranslate', 'UrlMapController@autoTranslate');
-
-Route::get('translate/{id}', 'Translate\TranslateController@show');
-
-
-Route::any('/{all}', function () {
-    return response()->json([
-      'code'    => 200,
-      'message' => 'not find'
-    ]);
+Route::any('/{all?}', function () {
+    return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
