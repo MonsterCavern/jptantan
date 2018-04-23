@@ -61,11 +61,11 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'account' => 'string',
+        'id'       => 'integer',
+        'account'  => 'string',
         'password' => 'string',
-        'type' => 'integer',
-        'token' => 'string'
+        'type'     => 'integer',
+        'token'    => 'string'
     ];
 
     /**
@@ -76,4 +76,9 @@ class Admin extends Authenticatable
     public static $rules = [
         
     ];
+    
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role', 'role_admins', 'admin_id', 'role_id');
+    }
 }

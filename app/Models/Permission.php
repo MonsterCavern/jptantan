@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Eloquent as Model;
 
 /**
  * @SWG\Definition(
- *      definition="User",
+ *      definition="Permission",
  *      required={""},
  *      @SWG\Property(
  *          property="id",
@@ -21,25 +20,37 @@ use Eloquent as Model;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="email",
- *          description="email",
+ *          property="slug",
+ *          description="slug",
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="password",
- *          description="password",
+ *          property="prifix",
+ *          description="prifix",
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="token",
- *          description="token",
+ *          property="http_method",
+ *          description="http_method",
  *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="http_path",
+ *          description="http_path",
+ *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="read_only",
+ *          description="read_only",
+ *          type="integer",
+ *          format="int32"
  *      )
  * )
  */
-class User extends Authenticatable
+class Permission extends Model
 {
-    public $table = 'users';
+
+    public $table = 'permissions';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -48,9 +59,11 @@ class User extends Authenticatable
 
     public $fillable = [
         'name',
-        'email',
-        'password',
-        'token'
+        'slug',
+        'prifix',
+        'http_method',
+        'http_path',
+        'read_only'
     ];
 
     /**
@@ -59,11 +72,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'id'       => 'integer',
-        'name'     => 'string',
-        'email'    => 'string',
-        'password' => 'string',
-        'token'    => 'string'
+        'id' => 'integer',
+        'name' => 'string',
+        'slug' => 'string',
+        'prifix' => 'string',
+        'http_method' => 'string',
+        'http_path' => 'string',
+        'read_only' => 'integer'
     ];
 
     /**
@@ -74,9 +89,6 @@ class User extends Authenticatable
     public static $rules = [
         
     ];
+
     
-    public function roles()
-    {
-        return $this->belongsToMany('App\Models\Role', 'role_users', 'user_id', 'role_id');
-    }
 }

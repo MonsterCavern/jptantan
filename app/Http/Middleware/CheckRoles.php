@@ -44,15 +44,47 @@ class CheckRoles
         $auth = Auth::guard($guard);
         $user = $auth->user();
         if (!$user) {
-            return null;
+            return response()->json(['code'=>'404','message'=> 'NOT FOUND USER'], 404, ['Content-Type:application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
-        $id = $user[$user->primaryKey];
         
-        // Admin role
-
-        // Vendor role
-
-
+        if (!$this->checkPerm($user, $request)) {
+            return response()->json(['code'=>'403','message'=> 'NOT PERM'], 403, ['Content-Type:application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        }
         return $next($request);
+    }
+    
+    /**
+     * [checkPerm description]
+     * @param  Object  $user
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function checkPerm($user, $request)
+    {
+        $check = false;
+        $uri = $request->path();
+        $method = $request->method();
+        foreach ($user->roles as $role) {
+            $perms = $role->permissions;
+            foreach ($perms as $perm) {
+                $http_path   = $perm->http_path;
+                $http_method = $perm->http_method;
+                $prifix = $perm->prifix;
+        
+                $p = explode("\r\n", $http_path);
+                foreach ($p as $value) {
+                    if ('*' === $value && ($http_method === $method || $http_method ==='')) {
+                        $check = true;
+                        break;
+                    }
+                    
+                    if ($prifix.$value === $uri && ($http_method === $method || $http_method ==='')) {
+                        $check = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $check;
     }
 }

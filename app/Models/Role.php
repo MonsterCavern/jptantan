@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Eloquent as Model;
 
 /**
  * @SWG\Definition(
- *      definition="User",
+ *      definition="Role",
  *      required={""},
  *      @SWG\Property(
  *          property="id",
@@ -21,25 +20,15 @@ use Eloquent as Model;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="email",
- *          description="email",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="password",
- *          description="password",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="token",
- *          description="token",
+ *          property="slug",
+ *          description="slug",
  *          type="string"
  *      )
  * )
  */
-class User extends Authenticatable
+class Role extends Model
 {
-    public $table = 'users';
+    public $table = 'roles';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -48,9 +37,7 @@ class User extends Authenticatable
 
     public $fillable = [
         'name',
-        'email',
-        'password',
-        'token'
+        'slug'
     ];
 
     /**
@@ -59,11 +46,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'id'       => 'integer',
-        'name'     => 'string',
-        'email'    => 'string',
-        'password' => 'string',
-        'token'    => 'string'
+        'id' => 'integer',
+        'name' => 'string',
+        'slug' => 'string'
     ];
 
     /**
@@ -75,8 +60,8 @@ class User extends Authenticatable
         
     ];
     
-    public function roles()
+    public function permissions()
     {
-        return $this->belongsToMany('App\Models\Role', 'role_users', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Models\Permission', 'role_permissions', 'role_id', 'permission_id');
     }
 }
