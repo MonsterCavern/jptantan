@@ -60,14 +60,14 @@ class AuthGuard implements Guard
 
         // 用 Token 判斷
         $user = null;
-
         $token = $this->getTokenForRequest();
+        
         if (! empty($token)) {
+            // run query
             $user = $this->provider->retrieveByCredentials(
                 [$this->storageKey => $token]
             );
         }
-
         return $this->user = $user;
     }
     
@@ -96,8 +96,6 @@ class AuthGuard implements Guard
         if (empty($token)) {
             $token = $this->request->getPassword();
         }
-        
-        
 
         return $token;
     }
@@ -122,10 +120,8 @@ class AuthGuard implements Guard
         // }
         
         $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
-
         if (! is_null($user) && $this->provider->validateCredentials($user, $credentials)) {
             $this->login($user, $remember);
-
             return true;
         }
 

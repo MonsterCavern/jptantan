@@ -2,82 +2,89 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthController extends AppBaseController
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
     /**
-     * Create a new AuthController instance.
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/login';
+
+    /**
+     * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('guest')->except('logout');
     }
-
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login()
+    
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
-    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+        $validator = Validator::make($request->all(), [
+          'type'     => 'string',
+          'account'  => 'required|string',
+          'password' => 'required',
+          
         ]);
+      
+        if ($validator->fails()) {
+            return response()->json(['code'=>'403','message'=>$validator], 200, ['Content-Type:application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        }
+        
+        $guard = 'admin';
+        $credentials = [
+            'account' => $request->account,
+            'password'  => $request->password,
+        ];
+        
+        if ($request->has('type') && $request->type === 'admin') {
+            $guard = $request->type;
+        }
+        $auth = Auth::guard($guard);
+        if ($auth->attempt($credentials)) {
+            $user = $auth->user();
+            $user->token = $this->restToken($guard, 30);
+            $user->save();
+            $data = [
+              // 'account'   => $user->account,
+              'token' => $user->token
+            ];
+            return response()->json(['code'=>'200','data'=> $data], 200, ['Content-Type:application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json(['code'=>'404','message'=>'NOT FOUND'], 200, ['Content-Type:application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        }
+    }
+    
+    public function restToken($guard, $day = 30, $str_n = 10)
+    {
+        $time = time();
+        // $expires_in =  date("Y-m-d", strtotime(date("Y-m-d", $time)." + $day day"));
+        $token = [
+          'random'      => str_random($str_n),
+          'guard'      => $guard,
+          'time'       => $time + (3600*24*$day)
+        ];
+        $token = implode('@@', $token);
+        $token = encrypt($token);
+        // dd($token, strlen($token), decrypt($token));
+        return $token;
     }
 }

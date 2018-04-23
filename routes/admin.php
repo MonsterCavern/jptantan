@@ -13,12 +13,12 @@
 
 
 Route::group([
-    // 'middleware'    => ['check.roles:admin,vendor'],
+    'middleware'    => ['check.roles'],
 ], function () {
-    Route::resource('admins', 'AdminAPIController');
+    Route::resource('admins', 'API\AdminAPIController');
     Route::resource('users', 'UserAPIController');
     Route::resource('roles', 'RoleAPIController');
-    
+
     // Route::any('/{all?}', function () {
     //     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
     // })->where(['all' => '.*']);

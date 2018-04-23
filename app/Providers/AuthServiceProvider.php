@@ -32,16 +32,16 @@ class AuthServiceProvider extends ServiceProvider
         //
         Auth::extend('admin', function ($app, $name, array $config) {
             // 回傳 Illuminate\Contracts\Auth\Guard 的實例...
-            return new AuthGuard(Auth::createUserProvider($config['provider']), $app->make('request'));
+            return new AuthGuard(Auth::createUserProvider($config['provider']), $app->make('request'), 'token', 'token');
         });
         
         Auth::extend('user', function ($app, $name, array $config) {
             // 回傳 Illuminate\Contracts\Auth\Guard 的實例...
-            return new AuthGuard(Auth::createUserProvider($config['provider']), $app->make('request'));
+            return new AuthGuard(Auth::createUserProvider($config['provider']), $app->make('request'), 'token', 'token');
         });
 
         Auth::provider('auth', function ($app, $config) {
-            return new AuthUserProvider($this->app['hash'], $config['model'], $config['password']);
+            return new AuthUserProvider($this->app['hash'], $config['model'], $config['password'], 'token');
         });
     }
 }
