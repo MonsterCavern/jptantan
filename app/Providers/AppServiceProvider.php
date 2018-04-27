@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Pagination\Paginator;
+use DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,8 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        Blade::withoutDoubleEncoding();
-        Paginator::useBootstrapThree();
+        if (config('app.debug')) {
+            DB::enableQueryLog();
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 /**
  * Class AdminRepository
  * @package App\Repositories
- * @version April 22, 2018, 4:17 am UTC
+ * @version April 27, 2018, 3:43 am UTC
  *
  * @method Admin findWithoutFail($id, $columns = ['*'])
  * @method Admin find($id, $columns = ['*'])
@@ -16,6 +16,7 @@ use InfyOm\Generator\Common\BaseRepository;
 */
 class AdminRepository extends BaseRepository
 {
+    use CommonRepository;
     /**
      * @var array
      */

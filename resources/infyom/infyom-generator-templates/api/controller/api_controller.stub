@@ -29,8 +29,7 @@ class $MODEL_NAME$APIController extends AppBaseController
     {
         if ($request->has('draw')) {
             $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new DataTableCriteria($request));
-            $query = $this->$MODEL_NAME_CAMEL$Repository->all();
-            return datatables($query)->toJson();
+            return $this->$MODEL_NAME_CAMEL$Repository->datatable();
         }else {
             $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
             $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new LimitOffsetCriteria($request));

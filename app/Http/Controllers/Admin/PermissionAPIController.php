@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\API\CreateUserAPIRequest;
-use App\Http\Requests\API\UpdateUserAPIRequest;
-use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Http\Requests\API\CreatePermissionAPIRequest;
+use App\Http\Requests\API\UpdatePermissionAPIRequest;
+use App\Models\Permission;
+use App\Repositories\PermissionRepository;
 use App\Repositories\Criteria\DataTableCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -14,18 +14,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class UserController
+ * Class PermissionController
  * @package App\Http\Controllers\API
  */
 
-class UserAPIController extends AppBaseController
+class PermissionAPIController extends AppBaseController
 {
-    /** @var  UserRepository */
-    private $userRepository;
+    /** @var  PermissionRepository */
+    private $permissionRepository;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(PermissionRepository $permissionRepo)
     {
-        $this->userRepository = $userRepo;
+        $this->permissionRepository = $permissionRepo;
     }
 
     /**
@@ -33,10 +33,10 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/users",
-     *      summary="Get a listing of the Users.",
-     *      tags={"User"},
-     *      description="Get all Users",
+     *      path="/permissions",
+     *      summary="Get a listing of the Permissions.",
+     *      tags={"Permission"},
+     *      description="Get all Permissions",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -50,7 +50,7 @@ class UserAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/User")
+     *                  @SWG\Items(ref="#/definitions/Permission")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -63,34 +63,34 @@ class UserAPIController extends AppBaseController
     public function index(Request $request)
     {
         if ($request->has('draw')) {
-            $this->userRepository->pushCriteria(new DataTableCriteria($request));
-            $query = $this->userRepository->all();
+            $this->permissionRepository->pushCriteria(new DataTableCriteria($request));
+            $query = $this->permissionRepository->all();
             return datatables($query)->toJson();
-        }else {
-            $this->userRepository->pushCriteria(new RequestCriteria($request));
-            $this->userRepository->pushCriteria(new LimitOffsetCriteria($request));
-            $users = $this->userRepository->all();
+        } else {
+            $this->permissionRepository->pushCriteria(new RequestCriteria($request));
+            $this->permissionRepository->pushCriteria(new LimitOffsetCriteria($request));
+            $permissions = $this->permissionRepository->all();
         }
 
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        return $this->sendResponse($permissions->toArray(), 'Permissions retrieved successfully');
     }
 
     /**
-     * @param CreateUserAPIRequest $request
+     * @param CreatePermissionAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/users",
-     *      summary="Store a newly created User in storage",
-     *      tags={"User"},
-     *      description="Store User",
+     *      path="/permissions",
+     *      summary="Store a newly created Permission in storage",
+     *      tags={"Permission"},
+     *      description="Store Permission",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="User that should be stored",
+     *          description="Permission that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/User")
+     *          @SWG\Schema(ref="#/definitions/Permission")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -103,7 +103,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/Permission"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -113,13 +113,13 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateUserAPIRequest $request)
+    public function store(CreatePermissionAPIRequest $request)
     {
         $input = $request->all();
 
-        $users = $this->userRepository->create($input);
+        $permissions = $this->permissionRepository->create($input);
 
-        return $this->sendResponse($users->toArray(), 'User saved successfully');
+        return $this->sendResponse($permissions->toArray(), 'Permission saved successfully');
     }
 
     /**
@@ -127,14 +127,14 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/users/{id}",
-     *      summary="Display the specified User",
-     *      tags={"User"},
-     *      description="Get User",
+     *      path="/permissions/{id}",
+     *      summary="Display the specified Permission",
+     *      tags={"Permission"},
+     *      description="Get Permission",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of Permission",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -150,7 +150,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/Permission"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -162,30 +162,30 @@ class UserAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var Permission $permission */
+        $permission = $this->permissionRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($permission)) {
+            return $this->sendError('Permission not found');
         }
 
-        return $this->sendResponse($user->toArray(), 'User retrieved successfully');
+        return $this->sendResponse($permission->toArray(), 'Permission retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateUserAPIRequest $request
+     * @param UpdatePermissionAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/users/{id}",
-     *      summary="Update the specified User in storage",
-     *      tags={"User"},
-     *      description="Update User",
+     *      path="/permissions/{id}",
+     *      summary="Update the specified Permission in storage",
+     *      tags={"Permission"},
+     *      description="Update Permission",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of Permission",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -193,9 +193,9 @@ class UserAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="User that should be updated",
+     *          description="Permission that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/User")
+     *          @SWG\Schema(ref="#/definitions/Permission")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -208,7 +208,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/Permission"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -218,20 +218,20 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateUserAPIRequest $request)
+    public function update($id, UpdatePermissionAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var Permission $permission */
+        $permission = $this->permissionRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($permission)) {
+            return $this->sendError('Permission not found');
         }
 
-        $user = $this->userRepository->update($input, $id);
+        $permission = $this->permissionRepository->update($input, $id);
 
-        return $this->sendResponse($user->toArray(), 'User updated successfully');
+        return $this->sendResponse($permission->toArray(), 'Permission updated successfully');
     }
 
     /**
@@ -239,14 +239,14 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/users/{id}",
-     *      summary="Remove the specified User from storage",
-     *      tags={"User"},
-     *      description="Delete User",
+     *      path="/permissions/{id}",
+     *      summary="Remove the specified Permission from storage",
+     *      tags={"Permission"},
+     *      description="Delete Permission",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of Permission",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -274,15 +274,15 @@ class UserAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var Permission $permission */
+        $permission = $this->permissionRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($permission)) {
+            return $this->sendError('Permission not found');
         }
 
-        $user->delete();
+        $permission->delete();
 
-        return $this->sendResponse($id, 'User deleted successfully');
+        return $this->sendResponse($id, 'Permission deleted successfully');
     }
 }

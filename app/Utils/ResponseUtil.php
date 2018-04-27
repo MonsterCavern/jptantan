@@ -22,6 +22,10 @@ class ResponseUtil
             $response['data'] = $data;
         }
         
+        if (config('app.debug')) {
+            $response['sql'] = Util::getSqlLogs();
+        }
+        
         return $response;
     }
 
@@ -41,6 +45,10 @@ class ResponseUtil
 
         if (!empty($data)) {
             $response['data'] = $data;
+        }
+        
+        if (config('app.debug')) {
+            $response['sql'] = Util::getSqlLogs();
         }
 
         return $response;

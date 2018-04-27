@@ -8,6 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 $DOCS$
 class $MODEL_NAME$Repository extends BaseRepository
 {
+    use CommonRepository;
     /**
      * @var array
      */

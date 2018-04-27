@@ -23,20 +23,6 @@ Route::get('/login', function () {
 Route::post('/login', 'AuthController@login');
 
 
-Route::group([
-    // 'middleware'    => ['check.roles:admin,vendor'],
-    'prefix' => 'admin'
-], function () {
-    // Dashboard
-    Route::get('/', function () {
-        return view('admin.index');
-    });
-    
-    Route::any('/{all?}', function () {
-        return view('admin.index');
-    })->where(['all' => '.*']);
-});
-
 Route::any('/{all}', function () {
     return view('index');
 })->where(['all' => '.*']);

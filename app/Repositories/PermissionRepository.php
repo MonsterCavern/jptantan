@@ -22,7 +22,7 @@ class PermissionRepository extends BaseRepository
     protected $fieldSearchable = [
         'name',
         'slug',
-        'prifix',
+        'prefix',
         'http_method',
         'http_path',
         'read_only'

@@ -12,14 +12,32 @@
 */
 
 
+// admin API
 Route::group([
-    'middleware'    => ['check.roles'],
+  'prefix'     => 'api/admin',
+  'namespace'  => "Admin",
+  'middleware' => ['check.roles'],
 ], function () {
-    Route::resource('admins', 'API\AdminAPIController');
+    Route::resource('admins', 'AdminAPIController');
     Route::resource('users', 'UserAPIController');
     Route::resource('roles', 'RoleAPIController');
 
-    // Route::any('/{all?}', function () {
-    //     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
-    // })->where(['all' => '.*']);
+    Route::any('/{all?}', function () {
+        return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
+    })->where(['all' => '.*']);
+});
+
+// admin Web
+Route::group([
+    // 'middleware'    => ['check.roles:admin,vendor'],
+    'prefix' => 'admin'
+], function () {
+    // Dashboard
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    
+    Route::any('/{all?}', function () {
+        return view('admin.index');
+    })->where(['all' => '.*']);
 });

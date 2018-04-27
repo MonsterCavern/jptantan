@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\API\CreateRoleAPIRequest;
 use App\Http\Requests\API\UpdateRoleAPIRequest;
@@ -66,7 +66,7 @@ class RoleAPIController extends AppBaseController
             $this->roleRepository->pushCriteria(new DataTableCriteria($request));
             $query = $this->roleRepository->all();
             return datatables($query)->toJson();
-        }else {
+        } else {
             $this->roleRepository->pushCriteria(new RequestCriteria($request));
             $this->roleRepository->pushCriteria(new LimitOffsetCriteria($request));
             $roles = $this->roleRepository->all();

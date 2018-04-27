@@ -24,3 +24,5 @@ Route::resource('roles', 'RoleAPIController');
 Route::resource('permissions', 'PermissionAPIController');
 
 Route::resource('users', 'UserAPIController');
+
+Route::resource('admins', 'AdminAPIController');

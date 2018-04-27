@@ -25,8 +25,8 @@ use Eloquent as Model;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="prifix",
- *          description="prifix",
+ *          property="prefix",
+ *          description="prefix",
  *          type="string"
  *      ),
  *      @SWG\Property(
@@ -60,7 +60,7 @@ class Permission extends Model
     public $fillable = [
         'name',
         'slug',
-        'prifix',
+        'prefix',
         'http_method',
         'http_path',
         'read_only'
@@ -75,7 +75,7 @@ class Permission extends Model
         'id' => 'integer',
         'name' => 'string',
         'slug' => 'string',
-        'prifix' => 'string',
+        'prefix' => 'string',
         'http_method' => 'string',
         'http_path' => 'string',
         'read_only' => 'integer'

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\API\CreatePermissionAPIRequest;
-use App\Http\Requests\API\UpdatePermissionAPIRequest;
-use App\Models\Permission;
-use App\Repositories\PermissionRepository;
+use App\Http\Requests\API\CreateAdminAPIRequest;
+use App\Http\Requests\API\UpdateAdminAPIRequest;
+use App\Models\Admin;
+use App\Repositories\AdminRepository;
 use App\Repositories\Criteria\DataTableCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -14,18 +14,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class PermissionController
+ * Class AdminController
  * @package App\Http\Controllers\API
  */
 
-class PermissionAPIController extends AppBaseController
+class AdminAPIController extends AppBaseController
 {
-    /** @var  PermissionRepository */
-    private $permissionRepository;
+    /** @var  AdminRepository */
+    private $adminRepository;
 
-    public function __construct(PermissionRepository $permissionRepo)
+    public function __construct(AdminRepository $adminRepo)
     {
-        $this->permissionRepository = $permissionRepo;
+        $this->adminRepository = $adminRepo;
     }
 
     /**
@@ -33,10 +33,10 @@ class PermissionAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/permissions",
-     *      summary="Get a listing of the Permissions.",
-     *      tags={"Permission"},
-     *      description="Get all Permissions",
+     *      path="/admins",
+     *      summary="Get a listing of the Admins.",
+     *      tags={"Admin"},
+     *      description="Get all Admins",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -50,7 +50,7 @@ class PermissionAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/Permission")
+     *                  @SWG\Items(ref="#/definitions/Admin")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -63,34 +63,33 @@ class PermissionAPIController extends AppBaseController
     public function index(Request $request)
     {
         if ($request->has('draw')) {
-            $this->permissionRepository->pushCriteria(new DataTableCriteria($request));
-            $query = $this->permissionRepository->all();
-            return datatables($query)->toJson();
-        }else {
-            $this->permissionRepository->pushCriteria(new RequestCriteria($request));
-            $this->permissionRepository->pushCriteria(new LimitOffsetCriteria($request));
-            $permissions = $this->permissionRepository->all();
+            $this->adminRepository->pushCriteria(new DataTableCriteria($request));
+            return $this->adminRepository->datatable();
+        } else {
+            $this->adminRepository->pushCriteria(new RequestCriteria($request));
+            $this->adminRepository->pushCriteria(new LimitOffsetCriteria($request));
+            $admins = $this->adminRepository->all();
         }
 
-        return $this->sendResponse($permissions->toArray(), 'Permissions retrieved successfully');
+        return $this->sendResponse($admins->toArray(), 'Admins retrieved successfully');
     }
 
     /**
-     * @param CreatePermissionAPIRequest $request
+     * @param CreateAdminAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/permissions",
-     *      summary="Store a newly created Permission in storage",
-     *      tags={"Permission"},
-     *      description="Store Permission",
+     *      path="/admins",
+     *      summary="Store a newly created Admin in storage",
+     *      tags={"Admin"},
+     *      description="Store Admin",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Permission that should be stored",
+     *          description="Admin that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Permission")
+     *          @SWG\Schema(ref="#/definitions/Admin")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -103,7 +102,7 @@ class PermissionAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Permission"
+     *                  ref="#/definitions/Admin"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -113,13 +112,13 @@ class PermissionAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreatePermissionAPIRequest $request)
+    public function store(CreateAdminAPIRequest $request)
     {
         $input = $request->all();
 
-        $permissions = $this->permissionRepository->create($input);
+        $admins = $this->adminRepository->create($input);
 
-        return $this->sendResponse($permissions->toArray(), 'Permission saved successfully');
+        return $this->sendResponse($admins->toArray(), 'Admin saved successfully');
     }
 
     /**
@@ -127,14 +126,14 @@ class PermissionAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/permissions/{id}",
-     *      summary="Display the specified Permission",
-     *      tags={"Permission"},
-     *      description="Get Permission",
+     *      path="/admins/{id}",
+     *      summary="Display the specified Admin",
+     *      tags={"Admin"},
+     *      description="Get Admin",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Permission",
+     *          description="id of Admin",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -150,7 +149,7 @@ class PermissionAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Permission"
+     *                  ref="#/definitions/Admin"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -162,30 +161,30 @@ class PermissionAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Permission $permission */
-        $permission = $this->permissionRepository->findWithoutFail($id);
+        /** @var Admin $admin */
+        $admin = $this->adminRepository->findWithoutFail($id);
 
-        if (empty($permission)) {
-            return $this->sendError('Permission not found');
+        if (empty($admin)) {
+            return $this->sendError('Admin not found');
         }
 
-        return $this->sendResponse($permission->toArray(), 'Permission retrieved successfully');
+        return $this->sendResponse($admin->toArray(), 'Admin retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdatePermissionAPIRequest $request
+     * @param UpdateAdminAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/permissions/{id}",
-     *      summary="Update the specified Permission in storage",
-     *      tags={"Permission"},
-     *      description="Update Permission",
+     *      path="/admins/{id}",
+     *      summary="Update the specified Admin in storage",
+     *      tags={"Admin"},
+     *      description="Update Admin",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Permission",
+     *          description="id of Admin",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -193,9 +192,9 @@ class PermissionAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Permission that should be updated",
+     *          description="Admin that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/Permission")
+     *          @SWG\Schema(ref="#/definitions/Admin")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -208,7 +207,7 @@ class PermissionAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Permission"
+     *                  ref="#/definitions/Admin"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -218,20 +217,20 @@ class PermissionAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdatePermissionAPIRequest $request)
+    public function update($id, UpdateAdminAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Permission $permission */
-        $permission = $this->permissionRepository->findWithoutFail($id);
+        /** @var Admin $admin */
+        $admin = $this->adminRepository->findWithoutFail($id);
 
-        if (empty($permission)) {
-            return $this->sendError('Permission not found');
+        if (empty($admin)) {
+            return $this->sendError('Admin not found');
         }
 
-        $permission = $this->permissionRepository->update($input, $id);
+        $admin = $this->adminRepository->update($input, $id);
 
-        return $this->sendResponse($permission->toArray(), 'Permission updated successfully');
+        return $this->sendResponse($admin->toArray(), 'Admin updated successfully');
     }
 
     /**
@@ -239,14 +238,14 @@ class PermissionAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/permissions/{id}",
-     *      summary="Remove the specified Permission from storage",
-     *      tags={"Permission"},
-     *      description="Delete Permission",
+     *      path="/admins/{id}",
+     *      summary="Remove the specified Admin from storage",
+     *      tags={"Admin"},
+     *      description="Delete Admin",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Permission",
+     *          description="id of Admin",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -274,15 +273,15 @@ class PermissionAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Permission $permission */
-        $permission = $this->permissionRepository->findWithoutFail($id);
+        /** @var Admin $admin */
+        $admin = $this->adminRepository->findWithoutFail($id);
 
-        if (empty($permission)) {
-            return $this->sendError('Permission not found');
+        if (empty($admin)) {
+            return $this->sendError('Admin not found');
         }
 
-        $permission->delete();
+        $admin->delete();
 
-        return $this->sendResponse($id, 'Permission deleted successfully');
+        return $this->sendResponse($id, 'Admin deleted successfully');
     }
 }
