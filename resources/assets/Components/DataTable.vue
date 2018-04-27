@@ -10,12 +10,12 @@
 //
 // import 'datatables.net';
 // import 'datatables.net-responsive';
-require('datatables.net');
-require('datatables.net-bs4');
-require('datatables.net-responsive');
-require('datatables.net-responsive-bs4');
-require('datatables.net-buttons');
-require('datatables.net-buttons-bs4');
+require("datatables.net");
+require("datatables.net-bs4");
+require("datatables.net-responsive");
+require("datatables.net-responsive-bs4");
+require("datatables.net-buttons");
+require("datatables.net-buttons-bs4");
 
 export default {
     props: {
@@ -32,14 +32,13 @@ export default {
         };
     },
     mounted() {
-        //  再使用之前改變 dataTable 原始碼的預設
+    //  再使用之前改變 dataTable 原始碼的預設
         window.$.fn.dataTable.ext.errMode = function(s, h, m) {
             console.log(m);
         };
 
-        this.$table = $(this.$el).children('table');
+        this.$table = $(this.$el).children("table");
         this.dtHandle = this.initTable();
-
     },
     watch: {
         value: {
@@ -53,9 +52,9 @@ export default {
     },
     methods: {
         initTable: function() {
-            let apiPath = '/';
+            let apiPath = "/";
 
-            if (typeof this.config == 'undefined') {
+            if (typeof this.config == "undefined") {
                 apiPath += this.value.api;
             } else {
                 apiPath += this.config.api;
@@ -68,15 +67,20 @@ export default {
                 serverSide: true,
                 ajax: {
                     url: apiPath,
-                    dataSrc: function (json) {
-          
-                        if (!json.hasOwnProperty('data') || !json.data instanceof Array) {
-                            json.data = [];
-                            json.recordsFiltered = 0;
-                            json.recordsTotal = 0;
-                            return {};
+                    beforeSend: function(xhr) {
+                        if (localStorage.getObject("user")) {
+                            xhr.setRequestHeader(
+                                "Authorization",
+                                "Bearer " + localStorage.getObject("user")["token"]
+                            );
+                        } else {
+                            // 沒有Token 就不發送 Request;
+                            return false;
                         }
-                        return json.data;
+                        xhr.setRequestHeader(
+                            "Content-Type",
+                            "application/json; charset=utf-8"
+                        );
                     }
                 },
                 columns: this.headers,
@@ -88,7 +92,7 @@ export default {
 
             return table;
         },
-        initColumns: function(columns){
+        initColumns: function(columns) {
             let res = [];
 
             for (var column in columns) {
@@ -96,17 +100,17 @@ export default {
 
                 head.data = column;
                 head.title = columns[column].label;
-                if (columns[column].hasOwnProperty('render')) {
+                if (columns[column].hasOwnProperty("render")) {
                     head.render = columns[column].render;
                 }
-                
+
                 res.push(head);
             }
             return res;
         },
-        ajaxApi: function(url = 'index', type = 'GET', data = {}) {
+        ajaxApi: function(url = "index", type = "GET", data = {}) {
             var options = {
-                dataType: 'json',
+                dataType: "json",
                 url: restAPI(url),
                 type: type,
                 async: false,
@@ -116,21 +120,21 @@ export default {
             };
 
             options.beforeSend = function setHeader(xhr) {
-                let sess = 'ufi_admin';
+                let sess = "ufi_admin";
 
-                if (typeof localStorage.getObject(user) !== 'undefined') {
+                if (typeof localStorage.getObject(user) !== "undefined") {
                     let user = localStorage.getObject(user);
 
-                    if (typeof user.sess !== 'undefined') {
+                    if (typeof user.sess !== "undefined") {
                         sess = user.sess;
                     }
                 }
-                xhr.setRequestHeader('X-SESSION', sess);
-                xhr.setRequestHeader('contentType', 'application/json; charset=utf-8');
+                xhr.setRequestHeader("X-SESSION", sess);
+                xhr.setRequestHeader("contentType", "application/json; charset=utf-8");
             };
 
             if (Object.keys(data).length !== 0) {
-                options['data'] = JSON.stringify(data);
+                options["data"] = JSON.stringify(data);
             }
 
             var result = $.ajax(options);
