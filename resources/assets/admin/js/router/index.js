@@ -6,10 +6,10 @@ import Router from "vue-router";
 // Views
 
 // Views - Pages
-import Page404 from "../views/pages/Page404";
-import Page500 from "../views/pages/Page500";
-import Login from "../views/pages/Login";
-import Register from "../views/pages/Register";
+import Page404 from "@components/views/pages/Page404";
+import Page500 from "@components/views/pages/Page500";
+import Login from "@components/views/pages/Login";
+import Register from "@components/views/pages/Register";
 
 Vue.use(Router);
 
@@ -22,13 +22,6 @@ export default new Router({
             path: "/admin",
             redirect: "/admin/dashboard",
             name: "Home"
-            // children: [
-            //     {
-            //         path: "dashboard",
-            //         name: "Dashboard",
-            //         component: Dashboard
-            //     }
-            // ]
         },
         {
             path: "/admin/pages",

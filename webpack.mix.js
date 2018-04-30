@@ -11,6 +11,14 @@ let mix = require("laravel-mix");
  |
  */
 
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            "@components": path.resolve(__dirname, "resources/components")
+        }
+    }
+});
+
 mix.
     autoload({
         jquery: [

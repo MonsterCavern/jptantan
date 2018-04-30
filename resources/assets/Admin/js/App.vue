@@ -16,22 +16,22 @@
 
 <script>
 import nav from "./_nav";
-import AppHeader from "./components/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
-import AppAside from "./components/Asides/Aside";
+import AppHeader from "@components/Header";
+import Sidebar from "@components/Sidebar/Sidebar";
+import AppAside from "@components/Asides/Aside";
 
 export default {
-  name: "app",
-  components: {
-    AppHeader,
-    Sidebar,
-    AppAside
-  },
-  data() {
-    return {
-      nav: nav.items
-    };
-  },
-  computed: {}
+    name: "app",
+    components: {
+        AppHeader,
+        Sidebar,
+        AppAside
+    },
+    data() {
+        return {
+            nav: nav.items
+        };
+    },
+    computed: {}
 };
 </script>
