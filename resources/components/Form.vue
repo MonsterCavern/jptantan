@@ -1,62 +1,56 @@
 <template lang="html">
     <form>
-        <vue-form-generator :model="cModel" :schema="cSchema" :options="cFormOptions"/>
+        <vue-form-generator :model="cModel" :schema="cSchema" :options="cFormOptions" />
     </form>
 </template>
 
 <script>
-require('jquery-serializejson');
-require('jquery-validation');
-require('jquery-validation/dist/localization/messages_zh_TW.js');
+require("jquery-serializejson");
+require("jquery-validation");
+require("jquery-validation/dist/localization/messages_zh_TW.js");
 import VueFormGenerator from "vue-form-generator";
 
 export default {
     props: {
-        value: Object,
         config: Object,
-        schema: {
-            default: Object,
-            type: Object
-        },
-        model: {
-            default: Object,
-            type: Object
-        },
-        formOptions: {
-            default: function() {
-                return {
-                    validateAfterLoad: false,
-                    validateAfterChanged: false,
-                };
-            },
-            type: Object
-        },
+        id: {
+            type: String,
+            default: "0"
+        }
     },
     components: {
         "vue-form-generator": VueFormGenerator.component
     },
     data() {
+        if (this.id !== "new") {
+        }
+        let config = this.setConfig(this.config);
+
+        console.log(config);
+
         let model = this.model;
         let schema = this.schema;
         let formOptions = this.formOptions;
-        let api = '/';
+        let api = "/";
 
-        if (typeof this.config !== 'undefined') {
-            // 必定需要 this.config.api 和 this.config.type
-            if (this.config.hasOwnProperty('api') && this.config.hasOwnProperty('type')) {
-                // type = edit
-                // 取得 編輯資料 (ajax)
-                
-                // 載入設定
-                let config = this.setConfig(this.config);
-
-                model = config.model;
-                schema = config.schema;
-                formOptions = config.formOptions;
-                api = this.config.api;
-            }
-            
-        }
+        // if (typeof this.config !== "undefined") {
+        //     // 必定需要 this.config.api 和 this.config.type
+        //     if (
+        //         this.config.hasOwnProperty("api") &&
+        // this.config.hasOwnProperty("type")
+        //     ) {
+        //         // type = edit
+        //         // 取得 編輯資料 (ajax)
+        //
+        //         // 載入設定
+        //         let config = this.setConfig(this.config);
+        //
+        //         model = config.model;
+        //         schema = config.schema;
+        //         formOptions = config.formOptions;
+        //         api = this.config.api;
+        //     }
+        // }
         return {
             cModel: model,
             cSchema: schema,
@@ -65,19 +59,9 @@ export default {
         };
     },
     mounted() {
-        if (typeof this.cFormOptions === 'undefined') {
+        if (typeof this.cFormOptions === "undefined") {
             return true;
         }
-        //
-        // let fields = this.cSchema.fields;
-        //
-        // let rules = {};
-        //
-        // for (var i = 0; i < fields.length; i++) {
-        //     rules[fields[i].model] = 'required';
-        // }
-    
-        // 使用 html5 的方法, 不然 rules 要準確
         let $validate = $(this.$el).validate({
             submitHandler: this.submit
         });
@@ -90,30 +74,32 @@ export default {
             let groups = [];
             let fields = [];
 
-            if (config.hasOwnProperty('columns')) {
+            if (config.hasOwnProperty("columns")) {
                 for (var column in config.columns) {
                     // EXCEPTION
-                    if (config.type === 'new' && column === config.primaryKey) {
+                    if (this.id === "new" && column === config.primaryKey) {
                         continue;
                     }
-                    
+
                     let field = config.columns[column];
 
-                    if (field.hasOwnProperty('default')) {
+                    if (field.hasOwnProperty("default")) {
                         model[column] = field.default;
-                    }else {
-                        model[column] = '';
+                    } else {
+                        model[column] = "";
                     }
-                    
-                    field['id'] = field.inputType + '_' + column + '_' + this['_uid'];
-                    field['model'] = column;
+
+                    field["id"] = field.inputType + "_" + column + "_" + this["_uid"];
+                    field["model"] = column;
                     fields.push(field);
-                    
                 }
                 schema.fields = fields;
             }
-            
-            if (config.hasOwnProperty('options') && config.options.hasOwnProperty('formOptions')) {
+
+            if (
+                config.hasOwnProperty("options") &&
+        config.options.hasOwnProperty("formOptions")
+            ) {
                 formOptions = config.options.formOptions;
             }
             return {
@@ -127,7 +113,7 @@ export default {
 
             $.ajax({
                 url: this.api,
-                method: 'POST',
+                method: "POST",
                 data: data
             });
         }
@@ -135,11 +121,11 @@ export default {
     watch: {
         cModel: {
             handler(newSong, oldSong) {
-                this.$emit('input', newSong);
+                this.$emit("input", newSong);
             },
             deep: true
         }
-    },
+    }
 };
 </script>
 

@@ -7,6 +7,7 @@ use App\Http\Requests\API\UpdateRoleAPIRequest;
 use App\Models\Role;
 use App\Repositories\RoleRepository;
 use App\Repositories\Criteria\DataTableCriteria;
+use App\Repositories\Criteria\LimitPermsCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -64,6 +65,7 @@ class RoleAPIController extends AppBaseController
     {
         if ($request->has('draw')) {
             $this->roleRepository->pushCriteria(new DataTableCriteria($request));
+            $this->roleRepository->pushCriteria(new LimitPermsCriteria($request));
             $query = $this->roleRepository->all();
             return datatables($query)->toJson();
         } else {

@@ -38,37 +38,39 @@
 </template>
 
 <script>
-import fab from 'vue-fab';
+import fab from "vue-fab";
 export default {
-    components: {
-        fab
-    },
-    props: ['id'],
-    data() {
-        console.log(this);
-        return {
-            tabs: [
-              {
-                name: 'google',
-                class: 'active'
-              },
-              {
-                name: '自己'
-              }
-            ],
-            createFABs: [{
-                name: 'goPage',
-                icon: 'undo',
-                tooltip: '返回'
-            }]
-        };
-    },
-    methods: {
-        goPage: function(val) {
-            // 回傳 給父組件
-            this.$emit('changeComponent', val);
+  components: {
+    fab
+  },
+  props: ["id"],
+  data() {
+    console.log(this);
+    return {
+      tabs: [
+        {
+          name: "google",
+          class: "active"
+        },
+        {
+          name: "自己"
         }
+      ],
+      createFABs: [
+        {
+          name: "goPage",
+          icon: "undo",
+          tooltip: "返回"
+        }
+      ]
+    };
+  },
+  methods: {
+    goPage: function(val) {
+      // 回傳 給父組件
+      this.$emit("changeComponent", val);
     }
+  }
 };
 </script>
 

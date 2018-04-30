@@ -2,57 +2,47 @@ export default {
     items: [
         {
             title: true,
-            name: "後台介面"
+            name: "歡迎使用 JPtantan"
         },
         {
             name: "管理者 功能",
-            url: "/admin/admins",
-            icon: "fas fa-road"
-        },
-        {
-            name: "會員 功能",
-            url: "/admin/users",
-            icon: "fas fa-puzzle-piece",
+            url: "/manage",
+            icon: "fas fa-road",
             children: [
                 {
-                    name: "Logs",
-                    url: "/history",
+                    name: "管理者群組",
+                    url: "/manage/admin_groups",
+                    icon: "fas fa-user"
+                },
+                {
+                    name: "管理者列表",
+                    url: "/manage/admins",
+                    icon: "fas fa-user"
+                },
+                {
+                    name: "使用者列表",
+                    url: "/manage/users",
+                    icon: "fas fa-user"
+                },
+                {
+                    name: "身份管理",
+                    url: "/manage/roles",
+                    icon: "fas fa-user"
+                },
+                {
+                    name: "權限管理",
+                    url: "/manage/permissions",
                     icon: "fas fa-user"
                 }
             ]
         },
         {
             divider: true
+        },
+        {
+            name: "登出",
+            url: "/logout",
+            icon: "fas fa-road"
         }
-        // {
-        //   name: "儲值功能",
-        //   icon: "fas fa-money-bill-alt",
-        //   children: [
-        //     {
-        //       name: "儲值功能",
-        //       url: "/bolt",
-        //       icon: "fas fa-bolt"
-        //     },
-        //     {
-        //       name: "儲值紀錄",
-        //       url: "/history",
-        //       icon: "fas fa-history"
-        //     }
-        //   ]
-        // },
-        // {
-        //   divider: true
-        // },
-        // {
-        //   name: "訂單系統",
-        //   icon: "fas fa-folder-open",
-        //   children: [
-        //     {
-        //       name: "店家資訊",
-        //       url: "/stores",
-        //       icon: "fas fa-road"
-        //     }
-        //   ]
-        // }
     ]
 };

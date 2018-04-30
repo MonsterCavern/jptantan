@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import nav from "./_nav";
 import AppHeader from "@components/Header";
 import Sidebar from "@components/Sidebar/Sidebar";
 import AppAside from "@components/Asides/Aside";
@@ -28,9 +27,7 @@ export default {
         AppAside
     },
     data() {
-        return {
-            nav: nav.items
-        };
+        return {};
     },
     computed: {}
 };

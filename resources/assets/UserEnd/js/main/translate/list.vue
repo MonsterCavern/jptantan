@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import dataTable from '../../components/DataTable';
-import fab from 'vue-fab';
+import dataTable from "@components/DataTable";
+import fab from "vue-fab";
 
 const vTableDefaultConf = {
-    api: 'api/all',
+    api: "api/all",
     // type: 'new',
-    primaryKey: 'id',
+    primaryKey: "id",
     // formGroups: [{
     //     legend: "Url Details",
     //     fields: ['id', 'title']
@@ -39,16 +39,20 @@ const vTableDefaultConf = {
     columns: {
         id: {
             // required: true,
-            label: '編號',
+            label: "編號",
             type: "input",
             // inputType: "url",
             inputName: "id", // name
             styleClasses: "", // .form-group
-            placeholder: '流水號',
+            placeholder: "流水號",
             disabled: true,
             render: function(data, type, full, meta) {
                 // console.log(data, type, full, meta);
-                data = $('<a/>', { text: data, href: "translate/" + data, target: '_blank' }).prop('outerHTML');
+                data = $("<a/>", {
+                    text: data,
+                    href: "translate/" + data,
+                    target: "_blank"
+                }).prop("outerHTML");
                 return data;
             }
         },
@@ -76,18 +80,19 @@ const vTableDefaultConf = {
         formOptions: {
             validateAfterLoad: false,
             validateAfterChanged: false
-        },
+        }
     }
 };
 
-const categories = [{
-    title: '全部',
-    value: 'all'
-},
-{
-    title: '小說',
-    value: 'novel'
-},
+const categories = [
+    {
+        title: "全部",
+        value: "all"
+    },
+    {
+        title: "小說",
+        value: "novel"
+    }
 ];
 
 export default {
@@ -98,17 +103,19 @@ export default {
         }
     },
     data() {
-        // let configs = this.configs;
+    // let configs = this.configs;
         let dataTableConfig = vTableDefaultConf;
 
         return {
             categories: categories,
             dataTableConfig: dataTableConfig,
-            createFABs: [{
-                name: 'goPage',
-                icon: 'translate',
-                tooltip: '新增'
-            }]
+            createFABs: [
+                {
+                    name: "goPage",
+                    icon: "translate",
+                    tooltip: "新增"
+                }
+            ]
         };
     },
     components: {
@@ -117,10 +124,10 @@ export default {
     },
     methods: {
         changeTable: function(value) {
-            this.dataTableConfig.api = 'api/' + value;
+            this.dataTableConfig.api = "api/" + value;
         },
         checkinit: function(urlPath) {
-            if (urlPath.split('/').length > 2) {
+            if (urlPath.split("/").length > 2) {
                 return false;
             }
             return true;

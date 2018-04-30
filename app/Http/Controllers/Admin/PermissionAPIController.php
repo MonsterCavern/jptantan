@@ -7,6 +7,7 @@ use App\Http\Requests\API\UpdatePermissionAPIRequest;
 use App\Models\Permission;
 use App\Repositories\PermissionRepository;
 use App\Repositories\Criteria\DataTableCriteria;
+use App\Repositories\Criteria\LimitPermsCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -64,6 +65,7 @@ class PermissionAPIController extends AppBaseController
     {
         if ($request->has('draw')) {
             $this->permissionRepository->pushCriteria(new DataTableCriteria($request));
+            $this->permissionRepository->pushCriteria(new LimitPermsCriteria($request));
             $query = $this->permissionRepository->all();
             return datatables($query)->toJson();
         } else {

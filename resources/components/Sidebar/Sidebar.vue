@@ -15,7 +15,7 @@
               <SidebarNavDropdown :name="item.name" :url="item.url" :icon="item.icon">
                 <template v-for="(child, index) in item.children">
                   <template v-if="child.children">
-                    <SidebarNavDropdown :name="child.name" :url="child.url" :icon="child.icon">
+                    <SidebarNavDropdown :name="child.name" :url="child.url" :icon="child.icon" :style="child.style" >
                       <li class="nav-item" v-for="(child, index) in item.children">
                         <SidebarNavLink :name="child.name" :url="child.url" :icon="child.icon" :badge="child.badge"/>
                       </li>
@@ -41,11 +41,11 @@
   </div>
 </template>
 <script>
-import SidebarNavDropdown from './SidebarNavDropdown'
-import SidebarNavLink from './SidebarNavLink'
-import SidebarNavTitle from './SidebarNavTitle'
+import SidebarNavDropdown from "./SidebarNavDropdown";
+import SidebarNavLink from "./SidebarNavLink";
+import SidebarNavTitle from "./SidebarNavTitle";
 export default {
-  name: 'sidebar',
+  name: "sidebar",
   props: {
     navItems: {
       type: Array,
@@ -59,12 +59,12 @@ export default {
     SidebarNavTitle
   },
   methods: {
-    handleClick (e) {
-      e.preventDefault()
-      e.target.parentElement.classList.toggle('open')
+    handleClick(e) {
+      e.preventDefault();
+      e.target.parentElement.classList.toggle("open");
     }
   }
-}
+};
 </script>
 
 <style lang="css">

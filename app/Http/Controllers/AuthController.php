@@ -46,7 +46,7 @@ class AuthController extends AppBaseController
         ]);
       
         if ($validator->fails()) {
-            return response()->json(['code'=>'403','message'=>$validator], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json(['code'=>403,'message'=>$validator], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
         
         $guard = 'admin';
@@ -67,9 +67,9 @@ class AuthController extends AppBaseController
               // 'account'   => $user->account,
               'token' => $user->token
             ];
-            return response()->json(['code'=>'200','data'=> $data], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json(['code'=>200,'data'=> $data], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         } else {
-            return response()->json(['code'=>'404','message'=>'NOT FOUND'], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json(['code'=>404,'message'=>'NOT FOUND'], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
     }
     

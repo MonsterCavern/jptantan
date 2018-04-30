@@ -17,12 +17,3 @@ use Illuminate\Http\Request;
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
-
-
-Route::resource('roles', 'RoleAPIController');
-
-Route::resource('permissions', 'PermissionAPIController');
-
-Route::resource('users', 'UserAPIController');
-
-Route::resource('admins', 'AdminAPIController');

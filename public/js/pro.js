@@ -25,7 +25,12 @@ function demoCase(url = "/", type = "GET", data = {}, options = {}) {
 
     options.url = url;
     options.type = type;
-    options.data = JSON.stringify(data);
+
+    if (type == "GET") {
+        options.data = $.param(data);
+    } else {
+        options.data = JSON.stringify(data);
+    }
 
     options.beforeSend = function setHeader(xhr) {
         if (localStorage.getObject("user")) {

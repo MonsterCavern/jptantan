@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\API\CreateUserAPIRequest;
-use App\Http\Requests\API\UpdateUserAPIRequest;
-use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Http\Requests\API\CreateAdminGroupAPIRequest;
+use App\Http\Requests\API\UpdateAdminGroupAPIRequest;
+use App\Models\AdminGroup;
+use App\Repositories\AdminGroupRepository;
 use App\Repositories\Criteria\DataTableCriteria;
 use App\Repositories\Criteria\LimitPermsCriteria;
 use Illuminate\Http\Request;
@@ -15,18 +15,18 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**
- * Class UserController
- * @package App\Http\Controllers\API
+ * Class AdminGroupController
+ * @package App\Http\Controllers
  */
 
-class UserAPIController extends AppBaseController
+class AdminGroupAPIController extends AppBaseController
 {
-    /** @var  UserRepository */
-    private $userRepository;
+    /** @var  AdminGroupRepository */
+    private $adminGroupRepository;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(AdminGroupRepository $adminGroupRepo)
     {
-        $this->userRepository = $userRepo;
+        $this->adminGroupRepository = $adminGroupRepo;
     }
 
     /**
@@ -34,10 +34,10 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/users",
-     *      summary="Get a listing of the Users.",
-     *      tags={"User"},
-     *      description="Get all Users",
+     *      path="/adminGroups",
+     *      summary="Get a listing of the AdminGroups.",
+     *      tags={"AdminGroup"},
+     *      description="Get all AdminGroups",
      *      produces={"application/json"},
      *      @SWG\Response(
      *          response=200,
@@ -51,7 +51,7 @@ class UserAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
-     *                  @SWG\Items(ref="#/definitions/User")
+     *                  @SWG\Items(ref="#/definitions/AdminGroup")
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -64,35 +64,34 @@ class UserAPIController extends AppBaseController
     public function index(Request $request)
     {
         if ($request->has('draw')) {
-            $this->userRepository->pushCriteria(new DataTableCriteria($request));
-            $this->userRepository->pushCriteria(new LimitPermsCriteria($request));
-            $query = $this->userRepository->all();
-            return datatables($query)->toJson();
+            $this->adminGroupRepository->pushCriteria(new DataTableCriteria($request));
+            $this->adminGroupRepository->pushCriteria(new LimitPermsCriteria($request));
+            return $this->adminGroupRepository->datatable();
         } else {
-            $this->userRepository->pushCriteria(new RequestCriteria($request));
-            $this->userRepository->pushCriteria(new LimitOffsetCriteria($request));
-            $users = $this->userRepository->all();
+            $this->adminGroupRepository->pushCriteria(new RequestCriteria($request));
+            $this->adminGroupRepository->pushCriteria(new LimitOffsetCriteria($request));
+            $adminGroups = $this->adminGroupRepository->all();
         }
 
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully');
+        return $this->sendResponse($adminGroups->toArray(), 'Admin Groups retrieved successfully');
     }
 
     /**
-     * @param CreateUserAPIRequest $request
+     * @param CreateAdminGroupAPIRequest $request
      * @return Response
      *
      * @SWG\Post(
-     *      path="/users",
-     *      summary="Store a newly created User in storage",
-     *      tags={"User"},
-     *      description="Store User",
+     *      path="/adminGroups",
+     *      summary="Store a newly created AdminGroup in storage",
+     *      tags={"AdminGroup"},
+     *      description="Store AdminGroup",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="User that should be stored",
+     *          description="AdminGroup that should be stored",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/User")
+     *          @SWG\Schema(ref="#/definitions/AdminGroup")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -105,7 +104,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/AdminGroup"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -115,13 +114,13 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateUserAPIRequest $request)
+    public function store(CreateAdminGroupAPIRequest $request)
     {
         $input = $request->all();
 
-        $users = $this->userRepository->create($input);
+        $adminGroups = $this->adminGroupRepository->create($input);
 
-        return $this->sendResponse($users->toArray(), 'User saved successfully');
+        return $this->sendResponse($adminGroups->toArray(), 'Admin Group saved successfully');
     }
 
     /**
@@ -129,14 +128,14 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/users/{id}",
-     *      summary="Display the specified User",
-     *      tags={"User"},
-     *      description="Get User",
+     *      path="/adminGroups/{id}",
+     *      summary="Display the specified AdminGroup",
+     *      tags={"AdminGroup"},
+     *      description="Get AdminGroup",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of AdminGroup",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -152,7 +151,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/AdminGroup"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -164,30 +163,30 @@ class UserAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var AdminGroup $adminGroup */
+        $adminGroup = $this->adminGroupRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($adminGroup)) {
+            return $this->sendError('Admin Group not found');
         }
 
-        return $this->sendResponse($user->toArray(), 'User retrieved successfully');
+        return $this->sendResponse($adminGroup->toArray(), 'Admin Group retrieved successfully');
     }
 
     /**
      * @param int $id
-     * @param UpdateUserAPIRequest $request
+     * @param UpdateAdminGroupAPIRequest $request
      * @return Response
      *
      * @SWG\Put(
-     *      path="/users/{id}",
-     *      summary="Update the specified User in storage",
-     *      tags={"User"},
-     *      description="Update User",
+     *      path="/adminGroups/{id}",
+     *      summary="Update the specified AdminGroup in storage",
+     *      tags={"AdminGroup"},
+     *      description="Update AdminGroup",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of AdminGroup",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -195,9 +194,9 @@ class UserAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="User that should be updated",
+     *          description="AdminGroup that should be updated",
      *          required=false,
-     *          @SWG\Schema(ref="#/definitions/User")
+     *          @SWG\Schema(ref="#/definitions/AdminGroup")
      *      ),
      *      @SWG\Response(
      *          response=200,
@@ -210,7 +209,7 @@ class UserAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/User"
+     *                  ref="#/definitions/AdminGroup"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -220,20 +219,20 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateUserAPIRequest $request)
+    public function update($id, UpdateAdminGroupAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var AdminGroup $adminGroup */
+        $adminGroup = $this->adminGroupRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($adminGroup)) {
+            return $this->sendError('Admin Group not found');
         }
 
-        $user = $this->userRepository->update($input, $id);
+        $adminGroup = $this->adminGroupRepository->update($input, $id);
 
-        return $this->sendResponse($user->toArray(), 'User updated successfully');
+        return $this->sendResponse($adminGroup->toArray(), 'AdminGroup updated successfully');
     }
 
     /**
@@ -241,14 +240,14 @@ class UserAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/users/{id}",
-     *      summary="Remove the specified User from storage",
-     *      tags={"User"},
-     *      description="Delete User",
+     *      path="/adminGroups/{id}",
+     *      summary="Remove the specified AdminGroup from storage",
+     *      tags={"AdminGroup"},
+     *      description="Delete AdminGroup",
      *      produces={"application/json"},
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of User",
+     *          description="id of AdminGroup",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -276,15 +275,15 @@ class UserAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var User $user */
-        $user = $this->userRepository->findWithoutFail($id);
+        /** @var AdminGroup $adminGroup */
+        $adminGroup = $this->adminGroupRepository->findWithoutFail($id);
 
-        if (empty($user)) {
-            return $this->sendError('User not found');
+        if (empty($adminGroup)) {
+            return $this->sendError('Admin Group not found');
         }
 
-        $user->delete();
+        $adminGroup->delete();
 
-        return $this->sendResponse($id, 'User deleted successfully');
+        return $this->sendResponse($id, 'Admin Group deleted successfully');
     }
 }

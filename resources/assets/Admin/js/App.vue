@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <AppHeader></AppHeader>
+        <AppHeader :logUrl="'/admin'"></AppHeader>
         <div class="app-body">
             <Sidebar :navItems="nav" />
             <main class="main">
@@ -21,17 +21,17 @@ import Sidebar from "@components/Sidebar/Sidebar";
 import AppAside from "@components/Asides/Aside";
 
 export default {
-    name: "app",
-    components: {
-        AppHeader,
-        Sidebar,
-        AppAside
-    },
-    data() {
-        return {
-            nav: nav.items
-        };
-    },
-    computed: {}
+  name: "app",
+  components: {
+    AppHeader,
+    Sidebar,
+    AppAside
+  },
+  data() {
+    return {
+      nav: nav.items
+    };
+  },
+  computed: {}
 };
 </script>

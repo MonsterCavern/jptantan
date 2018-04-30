@@ -43,6 +43,8 @@ class CheckRoles
         if (!$this->checkPerm($user, $request)) {
             return response()->json(['code'=>'403','message'=> 'NOT PERM'], 403, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
+        
+        $request->attributes->add(['_user' => $user, '_guard' => $guard]); // 'client'
         return $next($request);
     }
     

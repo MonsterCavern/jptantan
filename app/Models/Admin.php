@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Eloquent as Model;
 
 /**
@@ -37,7 +38,7 @@ use Eloquent as Model;
  *      )
  * )
  */
-class Admin extends Model
+class Admin extends Authenticatable
 {
     public $table = 'admins';
     

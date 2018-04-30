@@ -30,14 +30,13 @@ class LimitPermsCriteria implements CriteriaInterface
         } else {
             $this->guard = 'vendor';
         }
-        
         if ($request->get('_user')) {
             $user = $request->get('_user');
         } else {
             $token = Util::getTokenForRequest($request);
             if ($token) {
                 $token = Util::decryptToken($token);
-                $user = Auth::guard($token['guard'])->user();
+                $user = Auth::guard($token[1])->user();
             }
         }
         $this->user = $user;

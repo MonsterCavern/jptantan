@@ -7,6 +7,7 @@ use App\Http\Requests\API\UpdateAdminAPIRequest;
 use App\Models\Admin;
 use App\Repositories\AdminRepository;
 use App\Repositories\Criteria\DataTableCriteria;
+use App\Repositories\Criteria\LimitPermsCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
@@ -64,6 +65,7 @@ class AdminAPIController extends AppBaseController
     {
         if ($request->has('draw')) {
             $this->adminRepository->pushCriteria(new DataTableCriteria($request));
+            $this->adminRepository->pushCriteria(new LimitPermsCriteria($request));
             return $this->adminRepository->datatable();
         } else {
             $this->adminRepository->pushCriteria(new RequestCriteria($request));
@@ -159,9 +161,10 @@ class AdminAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         /** @var Admin $admin */
+        $this->adminRepository->pushCriteria(new DataTableCriteria($request));
         $admin = $this->adminRepository->findWithoutFail($id);
 
         if (empty($admin)) {

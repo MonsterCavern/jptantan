@@ -32,9 +32,9 @@ mix.
         "popper.js/dist/umd/popper.js": ["Popper"],
         tether: ["Tether", "window.Tether"]
     }).
-    js("resources/assets/js/app.js", "public/js").
+    js("resources/assets/UserEnd/js/main.js", "public/js/app.js").
     version();
-mix.sass("resources/assets/sass/app.scss", "public/css").version();
+mix.sass("resources/assets/UserEnd/sass/app.scss", "public/css").version();
 
 // admin
 mix.
@@ -50,8 +50,8 @@ mix.
         "popper.js/dist/umd/popper.js": ["Popper"],
         tether: ["Tether", "window.Tether"]
     }).
-    js("resources/assets/admin/js/app.js", "public/js/admin.js").
+    js("resources/assets/Admin/js/main.js", "public/js/admin.js").
     version();
 mix.
-    sass("resources/assets/admin/sass/app.scss", "public/css/admin.css").
+    sass("resources/assets/Admin/sass/app.scss", "public/css/admin.css").
     version();
