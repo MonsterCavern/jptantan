@@ -1,6 +1,6 @@
 <template lang="html">
-    <form>
-        <vue-form-generator :model="cModel" :schema="cSchema" :options="cFormOptions" />
+    <form :action="action">
+        <vue-form-generator :model="cModel" :schema="cSchema" :options="cFormOptions" ></vue-form-generator>
     </form>
 </template>
 
@@ -8,67 +8,48 @@
 require("jquery-serializejson");
 require("jquery-validation");
 require("jquery-validation/dist/localization/messages_zh_TW.js");
+import Vue from "vue";
 import VueFormGenerator from "vue-form-generator";
+
+import fieldDiv from "./FormGenerator/fieldDiv.vue";
+import fieldTools from "./FormGenerator/fieldTools.vue";
+Vue.component("fieldTools", fieldTools);
 
 export default {
     props: {
         config: Object,
         id: {
-            type: String,
-            default: "0"
+            type: String
         }
     },
     components: {
         "vue-form-generator": VueFormGenerator.component
     },
     data() {
-        if (this.id !== "new") {
-        }
-        let config = this.setConfig(this.config);
-
-        console.log(config);
-
-        let model = this.model;
-        let schema = this.schema;
-        let formOptions = this.formOptions;
-        let api = "/";
-
-        // if (typeof this.config !== "undefined") {
-        //     // 必定需要 this.config.api 和 this.config.type
-        //     if (
-        //         this.config.hasOwnProperty("api") &&
-        // this.config.hasOwnProperty("type")
-        //     ) {
-        //         // type = edit
-        //         // 取得 編輯資料 (ajax)
-        //
-        //         // 載入設定
-        //         let config = this.setConfig(this.config);
-        //
-        //         model = config.model;
-        //         schema = config.schema;
-        //         formOptions = config.formOptions;
-        //         api = this.config.api;
-        //     }
-        // }
         return {
-            cModel: model,
-            cSchema: schema,
-            cFormOptions: formOptions,
-            api: api
+            action: "/"
         };
     },
     mounted() {
-        if (typeof this.cFormOptions === "undefined") {
-            return true;
+    // let $validate = $(this.$el).validate({
+    //     submitHandler: this.submit
+    // });
+    },
+    created: function() {
+        this.action = "/" + this.config.api;
+        if (this.id !== "new") {
+            this.action += "/" + this.id;
         }
-        let $validate = $(this.$el).validate({
-            submitHandler: this.submit
-        });
+
+        let configs = this.setConfig(this.config);
+
+        this.cModel = configs.model;
+        this.cSchema = configs.schema;
+        this.cFormOptions = configs.formOptions;
     },
     methods: {
         setConfig: function(config) {
-            let model = {};
+            let model = this.getModel(config);
             let schema = {};
             let formOptions = {};
             let groups = [];
@@ -76,54 +57,87 @@ export default {
 
             if (config.hasOwnProperty("columns")) {
                 for (var column in config.columns) {
+                    let field = config.columns[column];
+
+                    if (Array.isArray(field)) {
+                        continue;
+                    }
                     // EXCEPTION
                     if (this.id === "new" && column === config.primaryKey) {
                         continue;
                     }
 
-                    let field = config.columns[column];
-
-                    if (field.hasOwnProperty("default")) {
-                        model[column] = field.default;
-                    } else {
-                        model[column] = "";
+                    // 預設 inputType == text
+                    if (!field.hasOwnProperty("inputType")) {
+                        field.inputType = "text";
                     }
 
-                    field["id"] = field.inputType + "_" + column + "_" + this["_uid"];
+                    // 預設 POST name == column key
+                    if (!field.hasOwnProperty("inputName")) {
+                        field.inputName = column;
+                    }
+
+                    if (
+                        typeof model[column] !== "undefined" &&
+            field.hasOwnProperty("default")
+                    ) {
+                        model[column] = field.default;
+                    }
+
+                    field["id"] = column + "_" + this["_uid"];
                     field["model"] = column;
                     fields.push(field);
                 }
+
                 schema.fields = fields;
             }
-
             if (
                 config.hasOwnProperty("options") &&
         config.options.hasOwnProperty("formOptions")
             ) {
                 formOptions = config.options.formOptions;
             }
+
             return {
                 model: model,
                 schema: schema,
                 formOptions: formOptions
             };
         },
-        submit: function(form) {
-            let data = $(form).serializeJSON();
+        getModel: function(DefaultConf) {
+            this.api = "/" + DefaultConf.api;
+            if (this.id !== "new") {
+                this.api += "/" + this.id;
+                let data = this.getRequestData(DefaultConf.columns);
+                let result = ajaxCase(this.api, "GET", data);
 
-            $.ajax({
-                url: this.api,
-                method: "POST",
-                data: data
-            });
-        }
-    },
-    watch: {
-        cModel: {
-            handler(newSong, oldSong) {
-                this.$emit("input", newSong);
-            },
-            deep: true
+                if (result.code === 200) {
+                    return result.data;
+                }
+            }
+            return {};
+        },
+        getRequestData: function(columns) {
+            let query = {
+                columns: []
+            };
+
+            for (var column in columns) {
+                if (Array.isArray(columns[column])) {
+                    continue;
+                }
+
+                if (
+                    columns[column].hasOwnProperty("ignore") &&
+          columns[column].ignore.indexOf("form") !== -1
+                ) {
+                    continue;
+                }
+
+                query.columns.push({ data: column });
+            }
+
+            return query;
         }
     }
 };

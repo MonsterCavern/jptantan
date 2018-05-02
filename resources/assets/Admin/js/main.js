@@ -14,9 +14,11 @@ window.Vue = require("vue");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Vuex from "vuex";
+
 import router from "./router";
 import Master from "./App";
-
+Vue.use(Vuex);
 // 路由跳转
 Vue.prototype.$goRoute = function(index) {
     this.$router.push(index);

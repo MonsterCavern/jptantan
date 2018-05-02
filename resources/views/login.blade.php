@@ -70,7 +70,7 @@
     $(document).on('click','button.loginBtn',function (e) {
         clearEvent(e);
         data = $('.login').serializeJSON();
-        result = demoCase('/login'+location.search,'POST',data);
+        result = ajaxCase('/login'+location.search,'POST',data);
         if (result.code === 200) {
             localStorage.setObject('user',{'token':result.data.token,'name':result.data.account});
             window.location.href = "admin";

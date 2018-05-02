@@ -96,6 +96,16 @@ export default {
             let res = [];
 
             for (var column in columns) {
+                if (Array.isArray(columns[column])) {
+                    continue;
+                }
+
+                if (
+                    columns[column].hasOwnProperty("ignore") &&
+          columns[column].ignore.indexOf("table") !== -1
+                ) {
+                    continue;
+                }
                 let head = {};
 
                 head.data = column;

@@ -14,7 +14,7 @@ Storage.prototype.getObject = function(key) {
     return value && JSON.parse(value);
 };
 
-function demoCase(url = "/", type = "GET", data = {}, options = {}) {
+function ajaxCase(url = "/", type = "GET", data = {}, options = {}) {
     var options = {
         dataType: "json",
         async: false,

@@ -4,7 +4,7 @@
       <dataTable v-model="DefaultConf"></dataTable>
     </template>
     <template v-else>
-      <vform :config="DefaultConf" ref="form"></vform>
+      <vform :config="DefaultConf" :id="this.id" ref="form"></vform>
     </template>
   </div>
 </template>
@@ -22,8 +22,7 @@ const DefaultConf = {
             // required: true,
             label: "編號",
             type: "input",
-            // inputType: "url",
-            inputName: "id", // name
+            inputType: "text",
             styleClasses: "", // .form-group
             placeholder: "系統編號",
             disabled: true,
@@ -42,16 +41,33 @@ const DefaultConf = {
             label: "帳號",
             type: "input",
             inputType: "text",
-            inputName: "title",
-            styleClasses: "", // .form-group
-            placeholder: "MetaTitle"
+            placeholder: "MetaTitle",
+            minlength: 6
         },
         created_at: {
             label: "建立時間",
             type: "input",
             inputType: "url",
-            inputName: "url",
-            styleClasses: "" // .form-group
+            disabled: true
+        },
+        tools: {
+            ignore: ["form", "table"],
+            type: "tools",
+            class: "test-tools",
+            tools: [
+                {
+                    "data-ignore": ["table", "form"],
+                    "data-type": "submit",
+                    text: "送出",
+                    class: "btn btn-danger"
+                },
+                {
+                    "data-ignore": ["table", "form"],
+                    "data-type": "back",
+                    text: "返回",
+                    class: "btn btn-primary"
+                }
+            ]
         }
     },
     options: {
@@ -71,36 +87,11 @@ export default {
     },
     components: { dataTable, vform },
     data() {
-        if (this.id !== "0" && this.id !== "new") {
-            let Model = this.getModel(DefaultConf);
-        }
         return {
             DefaultConf: DefaultConf
         };
     },
     mounted() {},
-    methods: {
-        getModel: function(DefaultConf) {
-            console.log(DefaultConf);
-            let url = "/" + DefaultConf.api + "/" + this.id;
-            let data = this.getRequestData(DefaultConf.columns);
-
-            console.log(data);
-            let result = demoCase(url, "GET", data);
-
-            console.log(result);
-        },
-        getRequestData: function(columns) {
-            let query = {
-                columns: []
-            };
-
-            for (var column in columns) {
-                query.columns.push({ data: column });
-            }
-
-            return query;
-        }
-    }
+    methods: {}
 };
 </script>

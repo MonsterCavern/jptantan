@@ -24,7 +24,7 @@ const vTableDefaultConf = {
                 // console.log(data, type, full, meta);
                 data = $("<a/>", {
                     text: data,
-                    href: "./admins/" + data
+                    href: "./users/" + data
                     // target: "_blank"
                 }).prop("outerHTML");
                 return data;
