@@ -14,11 +14,10 @@ window.Vue = require("vue");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import Vuex from "vuex";
-
-import router from "./router";
 import Master from "./App";
-Vue.use(Vuex);
+import store from "./store";
+import router from "./router";
+
 // 路由跳转
 Vue.prototype.$goRoute = function(index) {
     this.$router.push(index);
@@ -26,6 +25,9 @@ Vue.prototype.$goRoute = function(index) {
 
 const app = new Vue({
     el: "#app",
+    store,
     router,
     render: h => h(Master) // 直接 render 在 #app 裡面
 });
+
+console.log(app);

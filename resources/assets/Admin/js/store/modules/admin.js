@@ -1,19 +1,5 @@
-<template>
-  <div class="container">
-    <template v-if="id === '0'">
-      <dataTable v-model="DefaultConf"></dataTable>
-    </template>
-    <template v-else>
-      <vform :config="DefaultConf" :id="this.id" ref="form"></vform>
-    </template>
-  </div>
-</template>
-
-<script>
-import dataTable from "@components/DataTable";
-import vform from "@components/Form";
-
-const DefaultConf = {
+// initial state
+const state = {
     url: "",
     api: "api/admin/admins",
     primaryKey: "id",
@@ -77,27 +63,18 @@ const DefaultConf = {
         }
     }
 };
+// getters
+const getters = {};
+
+// actions
+const actions = {};
+
+// mutations
+const mutations = {};
 
 export default {
-    props: {
-        id: {
-            type: String,
-            default: "0"
-        }
-    },
-    components: { dataTable, vform },
-    data() {
-        return {
-            DefaultConf: DefaultConf
-        };
-    },
-    mounted() {
-    // save
-        this.$store.dispatch("initRoot", { key: "admin", config: DefaultConf });
-        let config = this.$store.getters.getRootConfigByKey("admin");
-
-        console.log(config);
-    },
-    methods: {}
+    state,
+    getters,
+    actions,
+    mutations
 };
-</script>
