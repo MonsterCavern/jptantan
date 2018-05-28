@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '../main/home';
 
+// Views
+import Home from '../main/home';
 import translateRouter from './translate';
 
 Vue.use(Router);
 export default new Router({
     mode: 'history',
+    scrollBehavior: () => ({y: 0}),
     routes: [
         {
             path: '/',
@@ -27,8 +29,8 @@ export default new Router({
         //     props: true
         // },
         // 翻譯頁
-        translateRouter,
-        // router 轉址
-        //{ path: '/*', redirect: '/' }
+        translateRouter
+    // router 轉址
+    //{ path: '/*', redirect: '/' }
     ]
 });

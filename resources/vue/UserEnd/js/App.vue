@@ -1,8 +1,7 @@
 <template>
     <div class="app">
-        <AppHeader></AppHeader>
+        <AppHeader :leftToggler="false"></AppHeader> 
         <div class="app-body">
-            <Sidebar :navItems="nav" />
             <main class="main">
                 <div class="container-fluid">
                     <router-view></router-view>
@@ -15,20 +14,19 @@
 </template>
 
 <script>
-import AppHeader from "@components/Header";
-import Sidebar from "@components/Sidebar/Sidebar";
-import AppAside from "@components/Asides/Aside";
+import AppHeader from '@components/Header'
+import Sidebar from '@components/Sidebar/Sidebar'
+import AppAside from '@components/Asides/Aside'
 
 export default {
-    name: "app",
-    components: {
-        AppHeader,
-        Sidebar,
-        AppAside
-    },
-    data() {
-        return {};
-    },
-    computed: {}
-};
+  name: 'app',
+  components: {
+    AppHeader,
+    AppAside
+  },
+  data() {
+    return {}
+  },
+  computed: {}
+}
 </script>

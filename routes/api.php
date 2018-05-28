@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::resource('boketes', 'Translate\\BoketeAPIController');
 
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);

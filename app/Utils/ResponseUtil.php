@@ -15,10 +15,11 @@ class ResponseUtil
     {
         $response = [
             'code'    => $code,
+            'data'    => [],
             'message' => $message,
         ];
         
-        if (!empty($data)) {
+        if (! empty($data)) {
             $response['data'] = $data;
         }
         
@@ -43,7 +44,7 @@ class ResponseUtil
             'message' => $message,
         ];
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $response['data'] = $data;
         }
         

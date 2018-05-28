@@ -4,7 +4,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" :href="logUrl"></a>
-    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarMinimize">
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarMinimize" v-if="leftToggler">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -41,39 +41,40 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            items: [
-                { icon: "fa-home", text: "Home", route: "/home" },
-                { icon: "fa-history", text: "Translate", route: "/translate" }
-            ]
-        };
-    },
-    props: {
-        logUrl: {
-            type: String,
-            default: "/"
-        }
-    },
-    methods: {
-        sidebarToggle(e) {
-            e.preventDefault();
-            document.body.classList.toggle("sidebar-hidden");
-            document.body.classList.toggle("sidebar-minimized");
-        },
-        sidebarMinimize(e) {
-            e.preventDefault();
-            document.body.classList.toggle("sidebar-hidden");
-            document.body.classList.toggle("sidebar-minimized");
-        },
-        mobileSidebarToggle(e) {
-            e.preventDefault();
-            document.body.classList.toggle("sidebar-mobile-show");
-        },
-        asideToggle(e) {
-            e.preventDefault();
-            document.body.classList.toggle("aside-menu-hidden");
-        }
+  data() {
+    return {
+      items: [{icon: 'fa-home', text: 'Home', route: '/home'}, {icon: 'fa-history', text: 'Translate', route: '/translate'}]
     }
-};
+  },
+  props: {
+    logUrl: {
+      type: String,
+      default: '/'
+    },
+    leftToggler: {
+      type: Boolean,
+      default: true
+    }
+  },
+  methods: {
+    sidebarToggle(e) {
+      e.preventDefault()
+      document.body.classList.toggle('sidebar-hidden')
+      document.body.classList.toggle('sidebar-minimized')
+    },
+    sidebarMinimize(e) {
+      e.preventDefault()
+      document.body.classList.toggle('sidebar-hidden')
+      document.body.classList.toggle('sidebar-minimized')
+    },
+    mobileSidebarToggle(e) {
+      e.preventDefault()
+      document.body.classList.toggle('sidebar-mobile-show')
+    },
+    asideToggle(e) {
+      e.preventDefault()
+      document.body.classList.toggle('aside-menu-hidden')
+    }
+  }
+}
 </script>
