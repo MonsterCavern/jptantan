@@ -26,11 +26,6 @@ use Eloquent as Model;
  *          type="string"
  *      ),
  *      @SWG\Property(
- *          property="imgurl",
- *          description="imgurl",
- *          type="string"
- *      ),
- *      @SWG\Property(
  *          property="content",
  *          description="content",
  *          type="string"
@@ -45,23 +40,47 @@ use Eloquent as Model;
  *          property="source",
  *          description="source",
  *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="is_updated",
+ *          description="is_updated",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="google_translate_id",
+ *          description="google_translate_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @SWG\Property(
+ *          property="baidu_translate_id",
+ *          description="baidu_translate_id",
+ *          type="integer",
+ *          format="int32"
  *      )
  * )
  */
 class Bokete extends Model
 {
+
     public $table = 'boketes';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
+
+
     public $fillable = [
         'number',
         'url',
-        'imgurl',
         'content',
         'ranting',
-        'source'
+        'source',
+        'is_updated',
+        'released_at',
+        'google_translate_id',
+        'baidu_translate_id'
     ];
 
     /**
@@ -70,13 +89,15 @@ class Bokete extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'number'  => 'integer',
-        'url'     => 'string',
-        'imgurl'  => 'string',
+        'id' => 'integer',
+        'number' => 'integer',
+        'url' => 'string',
         'content' => 'string',
         'ranting' => 'integer',
-        'source'  => 'string'
+        'source' => 'string',
+        'is_updated' => 'integer',
+        'google_translate_id' => 'integer',
+        'baidu_translate_id' => 'integer'
     ];
 
     /**
@@ -85,5 +106,8 @@ class Bokete extends Model
      * @var array
      */
     public static $rules = [
+        
     ];
+
+    
 }

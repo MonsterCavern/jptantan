@@ -8,12 +8,12 @@ use InfyOm\Generator\Common\BaseRepository;
 /**
  * Class BoketeRepository
  * @package App\Repositories
- * @version May 28, 2018, 9:54 am UTC
+ * @version May 29, 2018, 6:48 am UTC
  *
  * @method Bokete findWithoutFail($id, $columns = ['*'])
  * @method Bokete find($id, $columns = ['*'])
  * @method Bokete first($columns = ['*'])
-*/
+ */
 class BoketeRepository extends BaseRepository
 {
     use CommonRepository;
@@ -23,10 +23,13 @@ class BoketeRepository extends BaseRepository
     protected $fieldSearchable = [
         'number',
         'url',
-        'imgurl',
         'content',
         'ranting',
-        'source'
+        'source',
+        'is_updated',
+        'released_at',
+        'google_translate_id',
+        'baidu_translate_id'
     ];
 
     /**
@@ -35,5 +38,10 @@ class BoketeRepository extends BaseRepository
     public function model()
     {
         return Bokete::class;
+    }
+    
+    public function getBoketesByGoogleIDisNull()
+    {
+        return $this->model->whereNull('google_translate_id');
     }
 }

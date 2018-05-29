@@ -31,6 +31,11 @@ class BoketeSpider
     
     public function getContent()
     {
+        return $this->crawler->find('h1::text')[0];
+    }
+    
+    public function getSource()
+    {
         return $this->crawler->find('.modal-content')[0]->find('input::attr(value)')[1];
     }
     

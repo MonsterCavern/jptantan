@@ -44,12 +44,15 @@ trait MakeBoketeTrait
         return array_merge([
             'number' => $fake->randomDigitNotNull,
             'url' => $fake->text,
-            'imgurl' => $fake->text,
             'content' => $fake->text,
             'ranting' => $fake->randomDigitNotNull,
             'source' => $fake->text,
+            'is_updated' => $fake->randomDigitNotNull,
+            'released_at' => $fake->date('Y-m-d H:i:s'),
             'updated_at' => $fake->date('Y-m-d H:i:s'),
-            'created_at' => $fake->date('Y-m-d H:i:s')
+            'created_at' => $fake->date('Y-m-d H:i:s'),
+            'google_translate_id' => $fake->randomDigitNotNull,
+            'baidu_translate_id' => $fake->randomDigitNotNull
         ], $boketeFields);
     }
 }
