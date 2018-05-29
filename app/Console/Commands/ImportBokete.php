@@ -115,12 +115,12 @@ class ImportBokete extends Command
     {
         $number  = $boketeSpider->getNumber();
         $content = $boketeSpider->getContent();
-        $content = trim($content);
+        $content = trim(strip_tags($content));
         $content = preg_split('/[\r\n]+/s', $content);
         Bokete::where('number', $number)
               ->update([
                 'content'     => Util::JsonEncode($content),
-                'source'      => $boketeSpider->getSource(),
+                'source'      => strip_tags($boketeSpider->getSource(), '<a><img>'),
                 'ranting'     => $boketeSpider->getStarts(),
                 'released_at' => $boketeSpider->getReleasedTime(),
                 'is_updated'  => 1

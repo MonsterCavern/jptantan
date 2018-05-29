@@ -14,16 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::resource('boketes', 'Translate\\BoketeAPIController');
+Route::resource('translates', 'Translate\\TranslateAPIController');
 
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
-
-
-
-
-
-
-Route::resource('boketes', 'BoketeAPIController');
-
-Route::resource('translates', 'TranslateAPIController');

@@ -63,13 +63,10 @@ use Eloquent as Model;
  */
 class Bokete extends Model
 {
-
     public $table = 'boketes';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
 
     public $fillable = [
         'number',
@@ -89,15 +86,15 @@ class Bokete extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'number' => 'integer',
-        'url' => 'string',
-        'content' => 'string',
-        'ranting' => 'integer',
-        'source' => 'string',
-        'is_updated' => 'integer',
+        'id'                  => 'integer',
+        'number'              => 'integer',
+        'url'                 => 'string',
+        'content'             => 'string',
+        'ranting'             => 'integer',
+        'source'              => 'string',
+        'is_updated'          => 'integer',
         'google_translate_id' => 'integer',
-        'baidu_translate_id' => 'integer'
+        'baidu_translate_id'  => 'integer'
     ];
 
     /**
@@ -106,8 +103,14 @@ class Bokete extends Model
      * @var array
      */
     public static $rules = [
-        
     ];
-
     
+    /**
+     * [translates description]
+     * @return [type] [description]
+     */
+    public function translates()
+    {
+        return $this->hasMany('App\Models\Translate', 'target_id', 'number');
+    }
 }

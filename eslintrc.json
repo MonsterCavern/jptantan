@@ -1,0 +1,74 @@
+{
+  "root": true,
+  "extends": ["plugin:vue/essential", "plugin:prettier/recommended"],
+  "plugins": ["import", "vue", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "jsxBracketSameLine": true,
+        "trailingComma": "es5"
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "ignore",
+        "objects": "always-multiline",
+        "imports": "ignore",
+        "exports": "ignore",
+        "functions": "ignore"
+      }
+    ],
+    "array-bracket-spacing": [2, "never"],
+    "camelcase": 2,
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": {
+          "var": 2,
+          "let": 2,
+          "const": 3
+        },
+        "outerIIFEBody": 0,
+        "MemberExpression": 1
+      }
+    ],
+    "curly": ["error", "all"],
+    "dot-location": ["error", "object"],
+    "semi": ["error", "always"],
+    "no-extra-semi": ["error"],
+    "brace-style": ["error"],
+    "no-extra-parens": ["error", "functions"],
+    "no-multi-spaces": [
+      "error",
+      {
+        "exceptions": {
+          "VariableDeclarator": true
+        }
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxBOF": 0,
+        "maxEOF": 1
+      }
+    ],
+    "newline-after-var": ["error", "always"]
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

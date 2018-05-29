@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 // Views
-import Home from '../main/home';
 import translateRouter from './translate';
 
 Vue.use(Router);
@@ -12,12 +11,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: Home
-        },
-        {
-            path: '/home',
-            component: Home
+            name: 'home'
         },
         // {
         //     path: '/translate',

@@ -44,4 +44,16 @@ class BoketeRepository extends BaseRepository
     {
         return $this->model->whereNull('google_translate_id');
     }
+    
+    public function hasManyTranslates()
+    {
+        $model = $this->model;
+        $model->addSelect('translates');
+        $model->whereHas('translates', function ($query) {
+            $query->where('target_type', 'bokete');
+        });
+        $this->model = $model;
+
+        return $model;
+    }
 }

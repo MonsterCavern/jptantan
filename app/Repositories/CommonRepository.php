@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Repositories;
 
 use Yajra\DataTables\Facades\Datatables;
@@ -14,6 +15,7 @@ trait CommonRepository
         $this->applyScope();
     
         $model = $this->model;
+
         return Datatables::eloquent($model)->make(true);
     }
 }
