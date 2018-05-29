@@ -10,12 +10,12 @@
 //
 // import 'datatables.net';
 // import 'datatables.net-responsive';
-require("datatables.net");
-require("datatables.net-bs4");
-require("datatables.net-responsive");
-require("datatables.net-responsive-bs4");
-require("datatables.net-buttons");
-require("datatables.net-buttons-bs4");
+require("datatables.net")
+require("datatables.net-bs4")
+require("datatables.net-responsive")
+require("datatables.net-responsive-bs4")
+require("datatables.net-buttons")
+require("datatables.net-buttons-bs4")
 
 export default {
     props: {
@@ -23,41 +23,41 @@ export default {
         config: Object
     },
     data() {
-        let config = this.value;
+        let config = this.value
 
         return {
             headers: this.initColumns(config.columns),
             rows: [],
             dtHandle: null
-        };
+        }
     },
     mounted() {
-    //  再使用之前改變 dataTable 原始碼的預設
+        //  再使用之前改變 dataTable 原始碼的預設
         window.$.fn.dataTable.ext.errMode = function(s, h, m) {
-            console.log(m);
-        };
+            console.log(m)
+        }
 
-        this.$table = $(this.$el).children("table");
-        this.dtHandle = this.initTable();
+        this.$table = $(this.$el).children("table")
+        this.dtHandle = this.initTable()
     },
     watch: {
         value: {
             handler(newSong, oldSong) {
-                this.dtHandle.destroy();
-                this.$table.empty();
-                this.dtHandle = this.initTable();
+                this.dtHandle.destroy()
+                this.$table.empty()
+                this.dtHandle = this.initTable()
             },
             deep: true
         }
     },
     methods: {
         initTable: function() {
-            let apiPath = "/";
+            let apiPath = "/"
 
             if (typeof this.config == "undefined") {
-                apiPath += this.value.api;
+                apiPath += this.value.api
             } else {
-                apiPath += this.config.api;
+                apiPath += this.config.api
             }
 
             let table = this.$table.DataTable({
@@ -71,16 +71,15 @@ export default {
                         if (localStorage.getObject("user")) {
                             xhr.setRequestHeader(
                                 "Authorization",
-                                "Bearer " + localStorage.getObject("user")["token"]
-                            );
-                        } else {
-                            // 沒有Token 就不發送 Request;
-                            return false;
+                                "Bearer " +
+                                    localStorage.getObject("user")["token"]
+                            )
                         }
+
                         xhr.setRequestHeader(
                             "Content-Type",
                             "application/json; charset=utf-8"
-                        );
+                        )
                     }
                 },
                 columns: this.headers,
@@ -88,35 +87,35 @@ export default {
                 dom: 'lfr<"pull-left"i>t<"pull-right"p>',
                 responsive: true,
                 pagingType: "numbers" //"numbers","full_numbers",//"simple_incremental_bootstrap",
-            });
+            })
 
-            return table;
+            return table
         },
         initColumns: function(columns) {
-            let res = [];
+            let res = []
 
             for (var column in columns) {
                 if (Array.isArray(columns[column])) {
-                    continue;
+                    continue
                 }
 
                 if (
                     columns[column].hasOwnProperty("ignore") &&
-          columns[column].ignore.indexOf("table") !== -1
+                    columns[column].ignore.indexOf("table") !== -1
                 ) {
-                    continue;
+                    continue
                 }
-                let head = {};
+                let head = {}
 
-                head.data = column;
-                head.title = columns[column].label;
+                head.data = column
+                head.title = columns[column].label
                 if (columns[column].hasOwnProperty("render")) {
-                    head.render = columns[column].render;
+                    head.render = columns[column].render
                 }
 
-                res.push(head);
+                res.push(head)
             }
-            return res;
+            return res
         },
         ajaxApi: function(url = "index", type = "GET", data = {}) {
             var options = {
@@ -127,35 +126,38 @@ export default {
                 cache: false,
                 contentType: false,
                 processData: false
-            };
+            }
 
             options.beforeSend = function setHeader(xhr) {
-                let sess = "ufi_admin";
+                let sess = "ufi_admin"
 
                 if (typeof localStorage.getObject(user) !== "undefined") {
-                    let user = localStorage.getObject(user);
+                    let user = localStorage.getObject(user)
 
                     if (typeof user.sess !== "undefined") {
-                        sess = user.sess;
+                        sess = user.sess
                     }
                 }
-                xhr.setRequestHeader("X-SESSION", sess);
-                xhr.setRequestHeader("contentType", "application/json; charset=utf-8");
-            };
+                xhr.setRequestHeader("X-SESSION", sess)
+                xhr.setRequestHeader(
+                    "contentType",
+                    "application/json; charset=utf-8"
+                )
+            }
 
             if (Object.keys(data).length !== 0) {
-                options["data"] = JSON.stringify(data);
+                options["data"] = JSON.stringify(data)
             }
 
-            var result = $.ajax(options);
+            var result = $.ajax(options)
 
             if (result.responseJSON) {
-                return result.responseJSON;
+                return result.responseJSON
             }
-            return false;
+            return false
         }
     }
-};
+}
 </script>
 
 <style lang="css">

@@ -10,98 +10,98 @@
 </template>
 
 <script>
-import dataTable from '@components/DataTable'
-import vform from '@components/Form'
+import dataTable from "@components/DataTable"
+import vform from "@components/Form"
 
 const DefaultConf = {
-  url: '',
-  api: 'api/boketes',
-  primaryKey: 'id',
-  columns: {
-    number: {
-      // required: true,
-      label: '編號',
-      type: 'input',
-      inputType: 'text',
-      styleClasses: '', // .form-group
-      placeholder: '編號',
-      disabled: true,
-      render: function(data, type, full, meta) {
-        // console.log(data, type, full, meta);
-        data = $('<a/>', {
-          text: data,
-          href: './boke/' + data
-          // target: "_blank"
-        }).prop('outerHTML')
-        return data
-      }
-    },
-    source: {
-      required: true,
-      label: '來源',
-      type: 'input',
-      inputType: 'text',
-      placeholder: 'MetaTitle',
-      minlength: 6,
-      render: function functionName(data, type, full, meta) {
-        return $('<div/>')
-          .html(data)
-          .text()
-      }
-    },
-    created_at: {
-      label: '建立時間',
-      type: 'input',
-      inputType: 'url',
-      disabled: true
-    },
-    tools: {
-      ignore: ['form', 'table'],
-      type: 'tools',
-      class: 'test-tools',
-      tools: [
-        {
-          'data-ignore': ['table', 'form'],
-          'data-type': 'submit',
-          text: '送出',
-          class: 'btn btn-danger'
+    url: "",
+    api: "api/boketes",
+    primaryKey: "id",
+    columns: {
+        number: {
+            // required: true,
+            label: "編號",
+            type: "input",
+            inputType: "text",
+            styleClasses: "", // .form-group
+            placeholder: "編號",
+            disabled: true,
+            render: function(data, type, full, meta) {
+                // console.log(data, type, full, meta);
+                data = $("<a/>", {
+                    text: data,
+                    href: "./boke/" + data
+                    // target: "_blank"
+                }).prop("outerHTML")
+                return data
+            }
         },
-        {
-          'data-ignore': ['table', 'form'],
-          'data-type': 'back',
-          text: '返回',
-          class: 'btn btn-primary'
+        source: {
+            required: true,
+            label: "來源",
+            type: "input",
+            inputType: "text",
+            placeholder: "MetaTitle",
+            minlength: 6,
+            render: function functionName(data, type, full, meta) {
+                return $("<div/>")
+                    .html(data)
+                    .text()
+            }
+        },
+        created_at: {
+            label: "建立時間",
+            type: "input",
+            inputType: "url",
+            disabled: true
+        },
+        tools: {
+            ignore: ["form", "table"],
+            type: "tools",
+            class: "test-tools",
+            tools: [
+                {
+                    "data-ignore": ["table", "form"],
+                    "data-type": "submit",
+                    text: "送出",
+                    class: "btn btn-danger"
+                },
+                {
+                    "data-ignore": ["table", "form"],
+                    "data-type": "back",
+                    text: "返回",
+                    class: "btn btn-primary"
+                }
+            ]
         }
-      ]
+    },
+    options: {
+        formOptions: {
+            validateAfterLoad: false,
+            validateAfterChanged: false
+        }
     }
-  },
-  options: {
-    formOptions: {
-      validateAfterLoad: false,
-      validateAfterChanged: false
-    }
-  }
 }
 
 export default {
-  props: {
-    id: {
-      type: String,
-      default: '0'
-    }
-  },
-  components: {dataTable, vform},
-  data() {
-    return {
-      DefaultConf: DefaultConf
-    }
-  },
-  mounted() {
-    // save
-    // this.$store.dispatch('initRoot', {key: 'admin', config: DefaultConf})
-    // let config = this.$store.getters.getRootConfigByKey('admin')
-    // console.log(config)
-  },
-  methods: {}
+    props: {
+        id: {
+            type: String,
+            default: "0"
+        }
+    },
+    components: { dataTable, vform },
+    data() {
+        return {
+            DefaultConf: DefaultConf
+        }
+    },
+    mounted() {
+        // save
+        // this.$store.dispatch('initRoot', {key: 'admin', config: DefaultConf})
+        // let config = this.$store.getters.getRootConfigByKey('admin')
+        // console.log(config)
+    },
+    methods: {}
 }
 </script>
