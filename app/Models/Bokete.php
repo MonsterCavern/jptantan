@@ -50,13 +50,10 @@ use Eloquent as Model;
  */
 class Bokete extends Model
 {
-
     public $table = 'boketes';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
 
     public $fillable = [
         'number',
@@ -73,13 +70,13 @@ class Bokete extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'number' => 'integer',
-        'url' => 'string',
-        'imgurl' => 'string',
+        'id'      => 'integer',
+        'number'  => 'integer',
+        'url'     => 'string',
+        'imgurl'  => 'string',
         'content' => 'string',
         'ranting' => 'integer',
-        'source' => 'string'
+        'source'  => 'string'
     ];
 
     /**
@@ -88,8 +85,5 @@ class Bokete extends Model
      * @var array
      */
     public static $rules = [
-        
     ];
-
-    
 }
