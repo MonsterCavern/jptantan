@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+let mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -14,21 +14,33 @@ let mix = require('laravel-mix');
 mix.webpackConfig({
     resolve: {
         alias: {
-            '@components': path.resolve(__dirname, 'resources/assets/js/components')
+            '@components': path.resolve(
+                __dirname,
+                'resources/assets/js/components'
+            )
         }
     }
-});
+})
 
-mix.
-    autoload({
-        jquery: ['$', 'window.jQuery', 'jQuery', 'window.$', 'jquery', 'window.jquery'],
-        'popper.js/dist/umd/popper.js': ['Popper'],
-        tether: ['Tether', 'window.Tether']
-    }).
-    js(['resources/assets/js/pro.js', 'resources/vue/UserEnd/js/main.js'], 'public/js/app.js').
-    version();
+mix.autoload({
+    jquery: [
+        '$',
+        'window.jQuery',
+        'jQuery',
+        'window.$',
+        'jquery',
+        'window.jquery'
+    ],
+    'popper.js/dist/umd/popper.js': ['Popper'],
+    tether: ['Tether', 'window.Tether']
+}).
+    js(
+        ['resources/assets/js/pro.js', 'resources/vue/UserEnd/js/main.js'],
+        'public/js/app.js'
+    ).
+    version()
 
-mix.sass('resources/vue/UserEnd/sass/app.scss', 'public/css').version();
+mix.sass('resources/vue/UserEnd/sass/app.scss', 'public/css').version()
 
 // admin
 // mix.

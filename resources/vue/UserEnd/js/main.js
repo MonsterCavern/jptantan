@@ -19,11 +19,11 @@ import Master from './App'
 
 // 路由跳转
 Vue.prototype.$goRoute = function(index) {
-  this.$router.push(index)
-};
+    this.$router.push(index)
+}
 
 const app = new Vue({
-  el: '#app',
-  router,
-  render: h => h(Master), // 直接 render 在 #app 裡面
+    el: '#app',
+    router,
+    render: h => h(Master) // 直接 render 在 #app 裡面
 })
