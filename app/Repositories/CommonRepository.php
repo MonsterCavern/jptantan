@@ -15,7 +15,8 @@ trait CommonRepository
         $this->applyScope();
     
         $model = $this->model;
-
+        // dd($model->toSql(), $model->getBindings());
+        
         return Datatables::eloquent($model)->make(true);
     }
 }

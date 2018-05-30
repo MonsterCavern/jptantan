@@ -1,8 +1,17 @@
 {
   "root": true,
-  "extends": ["plugin:vue/essential", "plugin:prettier/recommended"],
-  "plugins": ["import", "vue", "prettier"],
+  "extends": [
+    "plugin:vue/essential",
+    "prettier"
+  ],
+  "plugins": [
+    "import",
+    "html",
+    "vue",
+    "prettier"
+  ],
   "parserOptions": {
+    "parser": 'babel-eslint',
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
@@ -13,25 +22,19 @@
     "prettier/prettier": [
       "error",
       {
-        "jsxBracketSameLine": true,
-        "trailingComma": "es5"
+        singleQuote: true,
+        trailingComma: 'all',
       }
     ],
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "ignore",
-        "objects": "always-multiline",
-        "imports": "ignore",
-        "exports": "ignore",
-        "functions": "ignore"
-      }
+    "array-bracket-spacing": [
+      2,
+      "never"
     ],
-    "array-bracket-spacing": [2, "never"],
     "camelcase": 2,
+    "semi": ["error", "never"],
     "indent": [
       "error",
-      4,
+      2,
       {
         "SwitchCase": 1,
         "VariableDeclarator": {
@@ -43,12 +46,24 @@
         "MemberExpression": 1
       }
     ],
-    "curly": ["error", "all"],
-    "dot-location": ["error", "object"],
-    "semi": ["error", "always"],
-    "no-extra-semi": ["error"],
-    "brace-style": ["error"],
-    "no-extra-parens": ["error", "functions"],
+    "curly": [
+      "error",
+      "all"
+    ],
+    "dot-location": [
+      "error",
+      "object"
+    ],
+    "no-extra-semi": [
+      "error"
+    ],
+    "brace-style": [
+      "error"
+    ],
+    "no-extra-parens": [
+      "error",
+      "functions"
+    ],
     "no-multi-spaces": [
       "error",
       {
@@ -65,7 +80,10 @@
         "maxEOF": 1
       }
     ],
-    "newline-after-var": ["error", "always"]
+    "newline-after-var": [
+      "error",
+      "always"
+    ]
   },
   "env": {
     "browser": true,

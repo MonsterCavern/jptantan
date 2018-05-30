@@ -63,7 +63,11 @@ class BoketeAPIController extends AppBaseController
     {
         if ($request->has('draw')) {
             $this->boketeRepository->pushCriteria(new DataTableCriteria($request));
-
+            
+            $this->boketeRepository->scopeQuery(function ($query) {
+                return $query->with('translates');
+            });
+            
             return $this->boketeRepository->datatable();
         } else {
             $this->boketeRepository->pushCriteria(new RequestCriteria($request));

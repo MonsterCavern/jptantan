@@ -47,12 +47,10 @@ class BoketeRepository extends BaseRepository
     
     public function hasManyTranslates()
     {
-        $model = $this->model;
-        $model->addSelect('translates');
-        $model->whereHas('translates', function ($query) {
-            $query->where('target_type', 'bokete');
-        });
-        $this->model = $model;
+        $model = $this->model->addSelect('translates')
+                              ->whereHas('translates', function ($query) {
+                                  $query->where('target_type', 'bokete');
+                              });
 
         return $model;
     }

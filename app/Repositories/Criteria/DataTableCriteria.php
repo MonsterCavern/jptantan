@@ -34,9 +34,10 @@ class DataTableCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         $columns = $this->request->get('columns', null);
+        $table   = $model->getTable();
         if ($columns) {
             foreach ($columns as $column) {
-                $model = $model->addSelect($column['data']);
+                $model = $model->addSelect($table.'.'.$column['data']);
             }
         }
 
