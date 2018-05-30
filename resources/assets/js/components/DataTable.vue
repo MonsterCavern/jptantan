@@ -10,12 +10,12 @@
 //
 // import 'datatables.net';
 // import 'datatables.net-responsive';
-require("datatables.net")
-require("datatables.net-bs4")
-require("datatables.net-responsive")
-require("datatables.net-responsive-bs4")
-require("datatables.net-buttons")
-require("datatables.net-buttons-bs4")
+require('datatables.net')
+require('datatables.net-bs4')
+require('datatables.net-responsive')
+require('datatables.net-responsive-bs4')
+require('datatables.net-buttons')
+require('datatables.net-buttons-bs4')
 
 export default {
     props: {
@@ -37,7 +37,7 @@ export default {
             console.log(m)
         }
 
-        this.$table = $(this.$el).children("table")
+        this.$table = $(this.$el).children('table')
         this.dtHandle = this.initTable()
     },
     watch: {
@@ -52,14 +52,16 @@ export default {
     },
     methods: {
         initTable: function() {
-            let apiPath = "/"
+            let apiPath = '/'
 
-            if (typeof this.config == "undefined") {
+            if (typeof this.config == 'undefined') {
                 apiPath += this.value.api
             } else {
                 apiPath += this.config.api
             }
 
+            var columns = this.value.columns
+            var headers = this.headers
             let table = this.$table.DataTable({
                 lengthChange: false,
                 searching: false,
@@ -67,26 +69,37 @@ export default {
                 serverSide: true,
                 ajax: {
                     url: apiPath,
+                    data: function(d) {
+                        for (let i = d.columns.length - 1; i >= 0; i--) {
+                            let column = d.columns[i].data
+                            if (
+                                columns[column].hasOwnProperty('virtual') &&
+                                columns[column].virtual
+                            ) {
+                                d.columns.splice(i, 1)
+                            }
+                        }
+                    },
                     beforeSend: function(xhr) {
-                        if (localStorage.getObject("user")) {
+                        if (localStorage.getObject('user')) {
                             xhr.setRequestHeader(
-                                "Authorization",
-                                "Bearer " +
-                                    localStorage.getObject("user")["token"]
+                                'Authorization',
+                                'Bearer ' +
+                                    localStorage.getObject('user')['token']
                             )
                         }
 
                         xhr.setRequestHeader(
-                            "Content-Type",
-                            "application/json; charset=utf-8"
+                            'Content-Type',
+                            'application/json; charset=utf-8'
                         )
                     }
                 },
-                columns: this.headers,
+                columns: headers,
                 data: this.rows,
                 dom: 'lfr<"pull-left"i>t<"pull-right"p>',
                 responsive: true,
-                pagingType: "numbers" //"numbers","full_numbers",//"simple_incremental_bootstrap",
+                pagingType: 'numbers' //"numbers","full_numbers",//"simple_incremental_bootstrap",
             })
 
             return table
@@ -100,61 +113,23 @@ export default {
                 }
 
                 if (
-                    columns[column].hasOwnProperty("ignore") &&
-                    columns[column].ignore.indexOf("table") !== -1
+                    columns[column].hasOwnProperty('ignore') &&
+                    columns[column].ignore.indexOf('table') !== -1
                 ) {
                     continue
                 }
+
                 let head = {}
 
                 head.data = column
                 head.title = columns[column].label
-                if (columns[column].hasOwnProperty("render")) {
+                if (columns[column].hasOwnProperty('render')) {
                     head.render = columns[column].render
                 }
 
                 res.push(head)
             }
             return res
-        },
-        ajaxApi: function(url = "index", type = "GET", data = {}) {
-            var options = {
-                dataType: "json",
-                url: restAPI(url),
-                type: type,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false
-            }
-
-            options.beforeSend = function setHeader(xhr) {
-                let sess = "ufi_admin"
-
-                if (typeof localStorage.getObject(user) !== "undefined") {
-                    let user = localStorage.getObject(user)
-
-                    if (typeof user.sess !== "undefined") {
-                        sess = user.sess
-                    }
-                }
-                xhr.setRequestHeader("X-SESSION", sess)
-                xhr.setRequestHeader(
-                    "contentType",
-                    "application/json; charset=utf-8"
-                )
-            }
-
-            if (Object.keys(data).length !== 0) {
-                options["data"] = JSON.stringify(data)
-            }
-
-            var result = $.ajax(options)
-
-            if (result.responseJSON) {
-                return result.responseJSON
-            }
-            return false
         }
     }
 }

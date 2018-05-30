@@ -1,61 +1,74 @@
 function clearEvent(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
+    e.preventDefault()
+    e.stopPropagation()
+    e.stopImmediatePropagation()
 }
 
 Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-};
+    this.setItem(key, JSON.stringify(value))
+}
 
 Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
+    var value = this.getItem(key)
 
-    return value && JSON.parse(value);
-};
+    return value && JSON.parse(value)
+}
 
-function ajaxCase(url = "/", type = "GET", data = {}, options = {}) {
+function ajaxCase(url = '/', type = 'GET', data = {}, options = {}) {
     var options = {
-        dataType: "json",
+        dataType: 'json',
         async: false,
         cache: false,
         contentType: false,
         processData: false
-    };
+    }
 
-    options.url = url;
-    options.type = type;
+    options.url = url
+    options.type = type
 
-    if (type == "GET") {
-        options.data = $.param(data);
+    if (type == 'GET') {
+        options.data = $.param(data)
     } else {
-        options.data = JSON.stringify(data);
+        options.data = JSON.stringify(data)
     }
 
     options.beforeSend = function setHeader(xhr) {
-        if (localStorage.getObject("user")) {
+        if (localStorage.getObject('user')) {
             xhr.setRequestHeader(
-                "Authorization",
-                "Bearer " + localStorage.getObject("user")["token"]
-            );
+                'Authorization',
+                'Bearer ' + localStorage.getObject('user')['token']
+            )
         }
-        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    };
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')
+    }
 
-    var result = $.ajax(options);
+    var result = $.ajax(options)
 
-    responseText = result.responseText;
-    if (typeof responseText == "string") {
+    responseText = result.responseText
+    if (typeof responseText == 'string') {
         try {
-            responseText = JSON.parse(result.responseText);
+            responseText = JSON.parse(result.responseText)
         } catch (e) {
             responseText = {
                 code: 500,
-                message: "IS not Json"
-            };
+                message: 'IS not Json'
+            }
         }
     }
-    var json = responseText; // jQuery.parseJSON
+    var json = responseText // jQuery.parseJSON
 
-    return json;
+    return json
+}
+
+function htmlencode(s) {
+    var div = document.createElement('div')
+
+    div.appendChild(document.createTextNode(s))
+    return div.innerHTML
+}
+function htmldecode(s) {
+    var div = document.createElement('div')
+
+    div.innerHTML = s
+    return div.innerText || div.textContent
 }

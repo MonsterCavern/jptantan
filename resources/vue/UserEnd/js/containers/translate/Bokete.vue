@@ -45,11 +45,34 @@ const DefaultConf = {
             minlength: 6,
             render: function functionName(data, type, full, meta) {
                 return $('<div/>')
-                html(data).text()
+                    .html(data)
+                    .text()
             }
         },
         translates: {
-            label: '翻譯列表'
+            virtual: true,
+            label: '翻譯列表',
+            render: function functionName(data, type, full, meta) {
+                let $html = ''
+                for (var i = 0; i < data.length; i++) {
+                    let contents = JSON.parse(
+                        $('<div/>')
+                            .html(data[i].content)
+                            .text()
+                    )
+
+                    for (var i = 0; i < contents.length; i++) {
+                        $html += $('<div/>')
+                            .append(
+                                $('<p/>', {
+                                    text: contents[i].after
+                                })
+                            )
+                            .html()
+                    }
+                }
+                return $html
+            }
         },
         created_at: {
             label: '建立時間',
