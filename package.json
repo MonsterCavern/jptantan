@@ -23,8 +23,14 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.10",
         "popper.js": "^1.14.3",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2",
         "vue": "^2.5.16",
-        "vue-router": "^3.0.1"
+        "vue-clipboards": "^1.2.4",
+        "vue-lazyload": "^1.2.3",
+        "vue-markdown": "^2.2.4",
+        "vue-router": "^3.0.1",
+        "vuex-router-sync": "^5.0.0"
     },
     "dependencies": {
         "datatables.net": "^1.10.16",
@@ -34,8 +40,10 @@
         "datatables.net-responsive-bs4": "^2.2.1",
         "jquery-serializejson": "^2.8.1",
         "jquery-validation": "^1.17.0",
+        "moment": "^2.22.1",
         "vue-fab": "^2.1.4",
         "vue-form-generator": "^2.2.2",
+        "vuetify": "^1.0.18",
         "vuex": "^3.0.1"
     }
 }
