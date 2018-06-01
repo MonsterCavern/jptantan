@@ -165,7 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+         
+        Spatie\QueryBuilder\QueryBuilderServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -226,5 +227,7 @@ return [
         'Form'         => Collective\Html\FormFacade::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'Flash'        => Laracasts\Flash\Flash::class,
+        
+        'QueryBuilder' => Spatie\QueryBuilder\QueryBuilder::class,
     ],
 ];

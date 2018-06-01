@@ -29,7 +29,7 @@
                                             </v-btn>
                                         </v-card-actions>
                                     </v-card>
-                                    <v-divider v-if="ind + 1 < translates.length" :key="ind"></v-divider>
+                                    <v-divider v-if="ind + 1 < item.translates.length" :key="ind"></v-divider>
                                 </template>
                                 <v-card class="white black--text text-left">
                                     <v-card-actions>
@@ -57,9 +57,6 @@ export default {
     computed: {
         boketes() {
             return this.$store.state.bokete.data
-        },
-        translates() {
-            return [{ title: 'title', subtitle: 'subtitle' }]
         }
     },
     mounted() {
@@ -68,7 +65,10 @@ export default {
     methods: {
         updateTranslatesByBoketeNum(number, index) {
             console.log(number, index)
-            this.$store.dispatch('bokete/updateTranslates', { number: number, index: index })
+            this.$store.dispatch('bokete/updateTranslates', {
+                number: number,
+                index: index
+            })
         }
     }
 }

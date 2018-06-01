@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * [RequestCriteria description]
+ */
 class RequestCriteria implements CriteriaInterface
 {
     /**
@@ -13,6 +16,10 @@ class RequestCriteria implements CriteriaInterface
      */
     protected $request;
 
+    /**
+     * [__construct description]
+     * @param Request $request [description]
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -21,27 +28,24 @@ class RequestCriteria implements CriteriaInterface
     /**
      * Apply criteria in query repository.
      *
-     * @param $model
+     * @param [type] $model
      * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
      *
      * @return mixed
      */
     public function apply($model, \Prettus\Repository\Contracts\RepositoryInterface $repository)
     {
-        $limit  = $this->request->get('limit', null);
-        $offset = $this->request->get('offset', null);
-
-        if ($limit) {
-            $model = $model->limit($limit);
+        $queries = $this->request->all();
+        $model = QueryBuilder::for($model::query(), $this->request)->allowedFilters(['target_type','target_id']);
+        if (isset($queries['equal'])) {
+            foreach ($queries['equal'] as $key => $value) {
+                $model = $model->where($key, $value);
+            }
         }
-
-        if ($offset && $limit) {
-            $model = $model->skip($offset);
+        if (isset($queries['page'])) {
+            $model = $model->skip($queries['page']);
         }
-        // dd($model)->toSql();
         
-        $model = QueryBuilder::for($model)->get();
-        dd($model);
         
         return $model;
     }

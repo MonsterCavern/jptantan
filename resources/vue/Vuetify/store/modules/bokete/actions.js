@@ -1,14 +1,12 @@
 import { log } from '../../utils'
-import Bokete from './Bokete'
+import Bokete from '../../Model/Bokete'
 
 export default {
     async init({ commit, dispatch }) {
         console.log('[INIT] Bokete')
 
         try {
-            const { data, status } = await Bokete.orderBy('ranting', '-number').
-                limit(5).
-                get()
+            const { data, status } = await Bokete.limit(5).get()
 
             // log(data, status)
 
@@ -30,7 +28,11 @@ export default {
     },
     async updateTranslates({ commit, dispatch }, { number, index }) {
         log('[Update] Translate')
-        let translates = await dispatch('translate/getList', { number: number, targetType: 'bokete' }, { root: true })
+        let translates = await dispatch(
+            'translate/getList',
+            { number: number, targetType: 'boketes' },
+            { root: true }
+        )
 
         log(translates)
         commit('setTranslates', { data: translates, index: index })

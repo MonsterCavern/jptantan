@@ -22,6 +22,10 @@ class TranslateAPIController extends AppBaseController
     /** @var  TranslateRepository */
     private $translateRepository;
 
+    /**
+     * [__construct description]
+     * @param TranslateRepository $translateRepo [description]
+     */
     public function __construct(TranslateRepository $translateRepo)
     {
         $this->translateRepository = $translateRepo;

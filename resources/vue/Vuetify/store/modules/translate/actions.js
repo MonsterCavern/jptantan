@@ -1,13 +1,16 @@
 import { log } from '../../utils'
-import Translate from './Translate'
+import Translate from '../../Model/Translate'
 
 export default {
     async init({ commit, dispatch }) {},
     async getList({ commit, dispatch }, { targetType, number }) {
         try {
-            const { data, status } = await Translate.limit(5).
-                where('target_type', targetType).
-                where('target_id', number).
+            const { data, status } = await Translate.select('*').
+                orderBy('target_id').
+                equal('target_type', targetType).
+                equal('target_id', number).
+                // page(1).
+                limit(5).
                 get()
 
             if (status === 200) {
