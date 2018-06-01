@@ -7,7 +7,6 @@
 |
 */
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Repository Pagination Limit Default
@@ -83,7 +82,6 @@ return [
           |
           */
         'clean'      => [
-
             /*
               |--------------------------------------------------------------------------
               | Enable clear cache on repository changes
@@ -210,10 +208,10 @@ return [
         |
         */
         'params'             => [
-            'search'       => 'search',
+            'search'       => 'filter',
             'searchFields' => 'searchFields',
-            'filter'       => 'filter',
-            'orderBy'      => 'orderBy',
+            'filter'       => 'fields',
+            'orderBy'      => 'sort',
             'sortedBy'     => 'sortedBy',
             'with'         => 'with',
             'searchJoin'   => 'searchJoin'
@@ -226,10 +224,10 @@ return [
     |
     */
     'generator'  => [
-        'basePath'      => app()->path(),
-        'rootNamespace' => 'App\\',
+        'basePath'          => app()->path(),
+        'rootNamespace'     => 'App\\',
         'stubsOverridePath' => app()->path(),
-        'paths'         => [
+        'paths'             => [
             'models'       => 'Models',
             'repositories' => 'Repositories',
             'interfaces'   => 'Repositories',

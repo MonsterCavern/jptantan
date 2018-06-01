@@ -15,7 +15,7 @@
         </v-toolbar>
 
         <!--  -->
-        <v-navigation-drawer v-model="drawer" right temporary dark absolute app>
+        <v-navigation-drawer v-model="drawer" width="150" right temporary dark app>
             <v-list class="pt-0" dense>
                 <v-divider light></v-divider>
                 <v-list-tile v-for="item in items" :key="item.title" :href="item.href">

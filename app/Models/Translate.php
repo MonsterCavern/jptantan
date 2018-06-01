@@ -39,13 +39,10 @@ use Eloquent as Model;
  */
 class Translate extends Model
 {
-
     public $table = 'translates';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
 
     public $fillable = [
         'target_id',
@@ -61,11 +58,11 @@ class Translate extends Model
      * @var array
      */
     protected $casts = [
-        'target_id' => 'integer',
+        'target_id'   => 'integer',
         'target_type' => 'string',
-        'user_id' => 'integer',
-        'content' => 'string',
-        'tags' => 'string'
+        'user_id'     => 'integer',
+        'content'     => 'array',
+        'tags'        => 'string'
     ];
 
     /**
@@ -74,8 +71,5 @@ class Translate extends Model
      * @var array
      */
     public static $rules = [
-        
     ];
-
-    
 }

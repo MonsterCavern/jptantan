@@ -7,10 +7,10 @@ use App\Http\Requests\API\UpdateTranslateAPIRequest;
 use App\Models\Translate;
 use App\Repositories\TranslateRepository;
 use App\Repositories\Criteria\DataTableCriteria;
+use App\Repositories\Criteria\RequestCriteria;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
 /**

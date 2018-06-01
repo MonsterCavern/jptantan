@@ -3,12 +3,12 @@ import App from './App.vue'
 // import VueClipboards from 'vue-clipboards'
 // import VueLazyload from 'vue-lazyload'
 // import VueMarkdown from 'vue-markdown'
-
-import axios from 'axios'
-import _ from 'lodash'
+//
+// import axios from 'axios'
+// import _ from 'lodash'
 import Vuetify from 'vuetify'
 
-import * as Components from './components/_index.js'
+// import * as Components from './components/_index.js'
 
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -19,8 +19,8 @@ Vue.use(Vuetify, { theme })
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
-Vue.prototype.$_ = _
-Vue.prototype.$axios = axios
+// Vue.prototype.$_ = _
+// Vue.prototype.$axios = axios
 Vue.prototype.$log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
 
 // create store and router instances

@@ -72,6 +72,11 @@ class BoketeAPIController extends AppBaseController
         } else {
             $this->boketeRepository->pushCriteria(new RequestCriteria($request));
             $this->boketeRepository->pushCriteria(new LimitOffsetCriteria($request));
+            
+            $this->boketeRepository->scopeQuery(function ($query) {
+                return $query->with('translates');
+            });
+            
             $boketes = $this->boketeRepository->all();
         }
 

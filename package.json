@@ -26,6 +26,7 @@
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
         "vue": "^2.5.16",
+        "vue-api-query": "^0.6.0",
         "vue-clipboards": "^1.2.4",
         "vue-lazyload": "^1.2.3",
         "vue-markdown": "^2.2.4",

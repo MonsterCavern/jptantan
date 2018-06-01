@@ -1,4 +1,4 @@
-import { log } from '@local/vue/Vuetify/store/utils'
+import { log } from '../../utils'
 
 export default {
     empty(state) {
@@ -6,5 +6,9 @@ export default {
     },
     set(state, data) {
         state.data = data
+    },
+    setTranslates(state, { data, index }) {
+        log('Update Translate in Bokete[' + index + ']')
+        state.data[index].translates = data
     }
 }
