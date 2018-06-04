@@ -42,16 +42,15 @@ class AuthController extends AppBaseController
           'type'     => 'string',
           'account'  => 'required|string',
           'password' => 'required',
-          
         ]);
       
         if ($validator->fails()) {
-            return response()->json(['code'=>403,'message'=>$validator], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json(['code' => 403,'message' => $validator], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
         
-        $guard = 'admin';
+        $guard       = 'user';
         $credentials = [
-            'account' => $request->account,
+            'account'   => $request->account,
             'password'  => $request->password,
         ];
         
@@ -60,16 +59,17 @@ class AuthController extends AppBaseController
         }
         $auth = Auth::guard($guard);
         if ($auth->attempt($credentials)) {
-            $user = $auth->user();
+            $user        = $auth->user();
             $user->token = $this->restToken($guard, 30);
             $user->save();
             $data = [
-              // 'account'   => $user->account,
-              'token' => $user->token
+              'account'   => $user->getDisplayName(),
+              'token'     => $user->token
             ];
-            return response()->json(['code'=>200,'data'=> $data], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+
+            return response()->json(['code' => 200,'data' => $data], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         } else {
-            return response()->json(['code'=>404,'message'=>'NOT FOUND'], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json(['code' => 404,'message' => 'NOT FOUND'], 200, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
     }
     
@@ -79,8 +79,8 @@ class AuthController extends AppBaseController
         // $expires_in =  date("Y-m-d", strtotime(date("Y-m-d", $time)." + $day day"));
         $token = [
           'random'      => str_random($str_n),
-          'guard'      => $guard,
-          'time'       => $time + (3600*24*$day)
+          'guard'       => $guard,
+          'time'        => $time + (3600 * 24 * $day)
         ];
         $token = implode('@@', $token);
         $token = encrypt($token);

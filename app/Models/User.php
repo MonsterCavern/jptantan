@@ -44,8 +44,6 @@ class User extends Authenticatable
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
-
     public $fillable = [
         'name',
         'email',
@@ -72,8 +70,17 @@ class User extends Authenticatable
      * @var array
      */
     public static $rules = [
-        
     ];
+    
+    public function getAccount()
+    {
+        return 'email';
+    }
+    
+    public function getDisplayName()
+    {
+        return $this->name;
+    }
     
     public function roles()
     {

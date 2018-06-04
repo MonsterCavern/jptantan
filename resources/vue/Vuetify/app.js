@@ -4,11 +4,15 @@ import App from './App.vue'
 // import VueLazyload from 'vue-lazyload'
 // import VueMarkdown from 'vue-markdown'
 //
-// import axios from 'axios'
-// import _ from 'lodash'
+import axios from 'axios'
+import _ from 'lodash'
 import Vuetify from 'vuetify'
 
 // import * as Components from './components/_index.js'
+
+Vue.prototype.$_ = _
+Vue.prototype.$axios = axios
+Vue.prototype.$log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
 
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -19,10 +23,6 @@ Vue.use(Vuetify, { theme })
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
-// Vue.prototype.$_ = _
-// Vue.prototype.$axios = axios
-Vue.prototype.$log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
-
 // create store and router instances
 const store = createStore()
 const router = createRouter()
@@ -32,7 +32,7 @@ const router = createRouter()
 
 // sync the router with the vuex store.
 // this registers `store.state.route`
-// sync(store, router)
+sync(store, router)
 
 const app = new Vue({
     el: '#app',
@@ -40,3 +40,15 @@ const app = new Vue({
     store,
     render: h => h(App)
 })
+
+/***/
+
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value))
+}
+
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key)
+
+    return value && JSON.parse(value)
+}

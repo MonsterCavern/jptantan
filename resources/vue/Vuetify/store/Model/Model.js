@@ -1,5 +1,6 @@
 import qs from 'qs'
 import axios from 'axios'
+
 import { Model as BaseModel } from 'vue-api-query'
 BaseModel.$http = axios
 
@@ -40,19 +41,22 @@ export default class Model extends BaseModel {
 
     // implement a default request method
     request(config) {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+
         if (config.method == 'GET') {
-            config.params = Object.assign(
-                {},
-                this._builder.equals,
-                config.params
-            )
+            config.params = Object.assign({}, this._builder.equals, config.params)
         } else {
             config.data = Object.assign({}, this._builder.equals, config.data)
         }
+        if (localStorage.getObject('user')) {
+            let token = localStorage.getObject('user')['token']
 
-        config.headers = {
-            'Content-Type': 'application/json'
+            headers['Authorization'] = 'Bearer ' + token
         }
+
+        config.headers = headers
         config.paramsSerializer = function(params) {
             // console.log(params)
             return qs.stringify(params, { arrayFormat: 'brackets' })

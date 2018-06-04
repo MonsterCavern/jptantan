@@ -1,7 +1,9 @@
-<?php 
+<?php
+
 /**
  *
  */
+
 namespace App\Foundation\Auth;
 
 use Illuminate\Auth\EloquentUserProvider;
@@ -38,17 +40,26 @@ class AuthUserProvider extends EloquentUserProvider
         // First we will add each credential element to the query as a where clause.
         // Then we can execute the query and, if we found a user, return it in a
         // Eloquent User "model" that will be utilized by the Guard instances.
-        $query = $this->createModel()->newQuery();
-
+        $model = $this->createModel();
+        $query = $model->newQuery();
+        
+        if (isset($credentials['account'])) {
+            if (method_exists($model, 'getAccount')) {
+                $key               = $model->getAccount();
+                $credentials[$key] = $credentials['account'];
+                unset($credentials['account']);
+            }
+        }
+        
         foreach ($credentials as $key => $value) {
             // 排除包含 密碼字元 的欄位
             if (! Str::contains($key, $this->passwordField)) {
                 $query->where($key, $value);
             }
         }
+
         return $query->first();
     }
-    
     
     /**
      * Validate a user against the given credentials.
@@ -60,6 +71,7 @@ class AuthUserProvider extends EloquentUserProvider
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
         $plain = $credentials[$this->passwordField];
+
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
 }

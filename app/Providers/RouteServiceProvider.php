@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Providers;
 
 use Illuminate\Routing\Router;
@@ -75,7 +76,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace($this->namespace."\\API")
+             ->namespace($this->namespace.'\\API')
              ->group(base_path('routes/api.php'));
     }
     

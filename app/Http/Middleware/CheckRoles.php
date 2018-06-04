@@ -33,7 +33,7 @@ class CheckRoles
             // 過期
             return null;
         }
-        
+
         $auth = Auth::guard($guard);
         $user = $auth->user();
         if (! $user) {

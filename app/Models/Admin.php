@@ -45,8 +45,6 @@ class Admin extends Authenticatable
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
-
     public $fillable = [
         'account',
         'password',
@@ -73,8 +71,12 @@ class Admin extends Authenticatable
      * @var array
      */
     public static $rules = [
-        
     ];
+    
+    public function getDisplayName()
+    {
+        return $this->account;
+    }
     
     public function roles()
     {

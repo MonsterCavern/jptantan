@@ -9,11 +9,26 @@ import * as modules from './modules'
 
 Vue.use(Vuex)
 
+const state = {
+    user: null
+}
+
+const mutations = {
+    setUser(state, data) {
+        state.user = data
+        localStorage.setObject('user', data)
+    },
+    logout(state) {
+        state.user = null
+        localStorage.clear()
+    }
+}
+
 export function createStore() {
     return new Vuex.Store({
-        // state,
+        state,
+        mutations,
         // actions,
-        // mutations,
         // getters,
         modules
     })
