@@ -50,7 +50,8 @@ export default class Model extends BaseModel {
         } else {
             config.data = Object.assign({}, this._builder.equals, config.data)
         }
-        if (localStorage.getObject('user')) {
+        console.log(localStorage)
+        if (typeof localStorage.getObject !== 'undefined' && localStorage.getObject('user')) {
             let token = localStorage.getObject('user')['token']
 
             headers['Authorization'] = 'Bearer ' + token

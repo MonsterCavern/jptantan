@@ -36,7 +36,8 @@ class RequestCriteria implements CriteriaInterface
     public function apply($model, \Prettus\Repository\Contracts\RepositoryInterface $repository)
     {
         $queries = $this->request->all();
-        $model = QueryBuilder::for($model::query(), $this->request)->allowedFilters(['target_type','target_id']);
+        
+        $model   = QueryBuilder::for($model::query(), $this->request)->allowedFilters(['target_type','target_id']);
         if (isset($queries['equal'])) {
             foreach ($queries['equal'] as $key => $value) {
                 $model = $model->where($key, $value);
@@ -46,6 +47,10 @@ class RequestCriteria implements CriteriaInterface
             $model = $model->skip($queries['page']);
         }
         
+        if (isset($queries['myself']) && $queries['myself'] == true) {
+            $user  = $this->request->get('_user');
+            $model = $model->where('user_id', $user->id);
+        }
         
         return $model;
     }

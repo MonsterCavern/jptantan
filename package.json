@@ -27,9 +27,9 @@
         "stylus-loader": "^3.0.2",
         "vee-validate": "^2.1.0-beta.1",
         "vue": "^2.5.16",
-        "vue-api-query": "^0.6.0",
+        "vue-api-query": "^0.7.0",
         "vue-clipboards": "^1.2.4",
-        "vue-lazyload": "^1.2.3",
+        "vue-lazyload": "^1.2.4",
         "vue-markdown": "^2.2.4",
         "vue-router": "^3.0.1",
         "vuex-router-sync": "^5.0.0"

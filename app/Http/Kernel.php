@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'check.user',
         ],
     ];
 
@@ -58,5 +59,6 @@ class Kernel extends HttpKernel
         'guest'       => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'    => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'check.roles' => \App\Http\Middleware\CheckRoles::class,
+        'check.user'  => \App\Http\Middleware\CheckUser::class,
     ];
 }

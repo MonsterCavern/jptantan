@@ -3,25 +3,28 @@
         <h1>Bokete</h1>
         <template v-for="(item, index) in boketes">
             <v-layout wrap>
-                <v-flex xl8>
+                <v-flex xl8 offset-xs2>
                     <v-card class="white--text">
                         <v-container fluid style="min-height: 0;" grid-list-lg>
                             <v-layout>
                                 <v-flex>
-                                    <p>
-                                        {{ item.released_at }}
-                                    </p>
+                                    <p>{{ item.released_at }}</p>
                                     <div class="img-responsive" v-html="item.source"></div>
                                 </v-flex>
                                 <v-flex d-flex md4 sm12 xs12>
                                     <!--  -->
                                     <v-list>
+                                        <v-card class="white black--text text-left">
+                                            <v-card-actions>
+                                                <v-btn block color="primary" :to="{path:'/bokete/translate/'+item.number}">我的翻譯</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
                                         <template v-for="(translate, ind) in item.translates">
                                             <v-card class="white black--text text-left">
                                                 <v-card-text>
                                                     <span v-for="content in translate.content">
-                                {{ content.after }}
-                              </span>
+                                                      {{ content.after }}
+                                                    </span>
                                                 </v-card-text>
                                                 <v-card-actions>
                                                     <v-spacer></v-spacer>
@@ -64,6 +67,9 @@ export default {
     },
     mounted() {
         this.$store.dispatch('bokete/init')
+    },
+    updated() {
+        console.log(this)
     },
     methods: {
         updateTranslatesByBoketeNum(number, index) {

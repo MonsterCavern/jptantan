@@ -45,9 +45,7 @@ export default {
             e: false
         }
     },
-    props: {
-        source: String
-    },
+    props: [],
     methods: {
         onSubmit() {
             this.$validator.validate().then(result => {

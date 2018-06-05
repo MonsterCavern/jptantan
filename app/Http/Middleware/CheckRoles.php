@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\Auth;
-
 use App\Utils\Util;
+use Illuminate\Support\Facades\Auth;
 
 class CheckRoles
 {
@@ -19,32 +17,20 @@ class CheckRoles
      */
     public function handle($request, Closure $next)
     {
-        $token = Util::getTokenForRequest($request);
-        $token = Util::decryptToken($token);
-        
-        if (! is_array($token) || ! isset($token[1]) || count($token) !== 3) {
-            return response()->json(['code' => '403','message' => 'TOKEN NOT FOUND'], 404, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
-        }
-        
-        $guard      = $token[1];
-        $expires_in = $token[2];
-        
+        $expires_in = $request->get('_expires_in');
         if ($expires_in < time()) {
             // 過期
             return null;
         }
-
-        $auth = Auth::guard($guard);
-        $user = $auth->user();
-        if (! $user) {
-            return response()->json(['code' => '404','message' => 'NOT FOUND USER'], 404, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
-        }
         
+        $user = $request->get('_user');
+        if (! $user) {
+            return response()->json(['code' => '404','message' => 'NOT USER'], 404, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+        }
         if (! $this->checkPerm($user, $request)) {
             return response()->json(['code' => '403','message' => 'NOT PERM'], 403, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
-        
-        $request->attributes->add(['_user' => $user, '_guard' => $guard]); // 'client'
+      
         return $next($request);
     }
     
