@@ -5,7 +5,6 @@ export default {
     async init({ commit, dispatch }) {},
     // 全部的翻譯內容, 並設定在 state.List
     async getList({ commit }) {},
-
     // 指定 類型與ID 的翻譯列表
     async getTranslates({ commit }, { targetType, targetID }) {
         try {
@@ -60,9 +59,19 @@ export default {
             let { data, status } = await translate.sync({ content: contents })
 
             if (status == 200) {
-                let { index } = rootGetters['bokete/getBoketeByNumber'](data.data.target_id)
+                let { index } = rootGetters['bokete/getBoketeByNumber'](
+                    data.data.target_id
+                )
 
-                commit('bokete/updateTranslateByTargetID', { data: data.data, index: index, translateId: data.data.id }, { root: true })
+                commit(
+                    'bokete/updateTranslateByTargetID',
+                    {
+                        data: data.data,
+                        index: index,
+                        translateId: data.data.id
+                    },
+                    { root: true }
+                )
             }
         } catch (e) {
             log('Translate Update:' + e)

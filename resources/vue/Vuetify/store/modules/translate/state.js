@@ -1,5 +1,5 @@
 export default {
-    List: [],
-    translates: [],
-    translateSelf: {}
+    list: [],
+    bokete: {},
+    syosetu: {}
 }

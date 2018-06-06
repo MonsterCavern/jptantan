@@ -12,7 +12,7 @@
     },
     "rules": {
         "array-bracket-spacing": [2, "never"],
-        "camelcase": 2,
+        # "camelcase": 2,
         "semi": ["error", "never"],
         "indent": [
             "error",
