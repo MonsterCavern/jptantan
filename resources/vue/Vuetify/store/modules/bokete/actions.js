@@ -28,13 +28,12 @@ export default {
     },
     async updateTranslates({ commit, dispatch }, { number, index }) {
         log('[Update] Translate')
-        let translates = await dispatch(
-            'translate/getList',
-            { number: number, targetType: 'boketes' },
-            { root: true }
-        )
+        if (typeof number != 'undefined' && typeof index != 'undefine') {
+            let translates = await dispatch('translate/getTranslates', { targetID: number, targetType: 'boketes' }, { root: true })
 
-        log(translates)
-        commit('setTranslates', { data: translates, index: index })
+            commit('setTranslates', { data: translates, index: index })
+        } else {
+            log('[Update] number or index is exist Translate ')
+        }
     }
 }

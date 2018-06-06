@@ -7,11 +7,11 @@
                     <v-container grid-list-xs,sm,md,lg,xl>
                         <v-layout row wrap>
                             <v-flex xs6>
-                                <div class="img-responsive" v-if="(bokete.hasOwnProperty('source'))" v-html="bokete.source"></div>
+                                <div class="img-responsive" v-if="(bokete != null && bokete.hasOwnProperty('source'))" v-html="bokete.source"></div>
                             </v-flex>
                             <v-flex xs6>
                                 <!--  -->
-                                <v-list>
+                                <v-list v-if="bokete != null">
                                     <template v-for="(translate, ind) in bokete.translates">
                                         <v-card class="white black--text text-left">
                                             <v-card-text>
@@ -42,15 +42,17 @@
             </v-flex>
             <v-flex xs6>
                 <v-card>
-                  <v-card-title primary-title>
-                    翻譯Block
-                  </v-card-title>
-                  <v-card-title primary-title >
-                    <v-text-field  box name="input" multi-line v-for="(content,index) in translateContent" v-model="content.after" :key="index"></v-text-field>
-                  </v-card-title>
-                  <v-card-actions>
-                    <v-btn color="primary">Save</v-btn>
-                  </v-card-actions>
+                    <v-card-title primary-title>
+                        翻譯Block
+                    </v-card-title>
+                    <v-card-title primary-title>
+                      <v-flex xs12 v-for="(content,index) in translateContent" :key="index">
+                        <v-text-field box name="input" multi-line  v-model="content.after" @change="updateContent"></v-text-field>
+                      </v-flex>
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-btn color="primary" @click="addContent">Add</v-btn>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
 
@@ -63,18 +65,26 @@
 export default {
     // Options / Data
     data() {
+        let { bokete, index } = this.$store.getters['bokete/getBoketeByNumber'](this.number)
+        if (bokete === null) {
+            this.$router.push({ path: '/bokete' })
+        }
+
         return {
-            bokete: {},
-            boketeIndex: null
-            // translateContent: null
+            bokete: bokete,
+            boketeIndex: index,
+            translateID: null
         }
     },
     computed: {
         translateContent() {
-            if (this.$store.state.translate.translateEditting.hasOwnProperty('content')) {
-                return this.$store.state.translate.translateEditting.content
+            let translate = this.$store.state.translate.translateSelf
+            if ($.isEmptyObject(translate)) {
+                return []
+            } else {
+                this.translateID = translate.id
+                return translate.content
             }
-            return []
         }
     },
     props: ['number'],
@@ -84,27 +94,30 @@ export default {
                 number: number,
                 index: index
             })
-        }
-    },
-    created() {
-        let { bokete, index } = this.$store.getters['bokete/getBoketeByNumber'](this.number)
-        if (bokete === null) {
-            // this.$router.push({ path: '/bokete' })
-        } else {
+        },
+        async updateContent() {
+            let contents = this.translateContent
+            await this.$store.dispatch('translate/updateContent', { contents: contents, id: this.translateID })
+            let { bokete } = this.$store.getters['bokete/getBoketeByNumber'](this.number)
             this.bokete = bokete
-            this.boketeIndex = index
+        },
+        addContent() {
+            this.translateContent.push({ after: '' })
         }
     },
+    created() {},
     mounted() {
-        if (typeof this.number != 'undefined') {
-            this.$store.dispatch('translate/getTranslateByTargetIDFilterType', { targetID: this.number, targetType: 'boketes' })
-        }
+        // get Translate Self
+        this.$store.dispatch('translate/getTranslateSelf', { targetID: this.number, targetType: 'boketes' })
     },
     watch: {
         translateContent: {
             deep: true,
             handler(newValue, oldValue) {
-                console.log(newValue)
+                if (this.translateID) {
+                    let translateIndex = this.bokete.translates.findIndex(translate => translate.id == this.translateID)
+                    this.bokete.translates[translateIndex].content = newValue
+                }
             }
         }
     }

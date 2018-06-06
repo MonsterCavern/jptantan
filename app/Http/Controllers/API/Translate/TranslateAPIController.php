@@ -227,12 +227,12 @@ class TranslateAPIController extends AppBaseController
 
         /** @var Translate $translate */
         $translate = $this->translateRepository->findWithoutFail($id);
-
         if (empty($translate)) {
             return $this->sendError('Translate not found');
         }
 
         $translate = $this->translateRepository->update($input, $id);
+        // dd($translate, $input);
 
         return $this->sendResponse($translate->toArray(), 'Translate updated successfully');
     }

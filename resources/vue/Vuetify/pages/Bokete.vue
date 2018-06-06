@@ -68,12 +68,8 @@ export default {
     mounted() {
         this.$store.dispatch('bokete/init')
     },
-    updated() {
-        console.log(this)
-    },
     methods: {
         updateTranslatesByBoketeNum(number, index) {
-            console.log(number, index)
             this.$store.dispatch('bokete/updateTranslates', {
                 number: number,
                 index: index

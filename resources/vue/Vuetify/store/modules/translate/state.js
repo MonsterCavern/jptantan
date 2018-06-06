@@ -1,4 +1,5 @@
 export default {
+    List: [],
     translates: [],
-    translateEditting: {}
+    translateSelf: {}
 }

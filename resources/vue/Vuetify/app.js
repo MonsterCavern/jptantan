@@ -1,3 +1,5 @@
+require('./bootstrap')
+
 import Vue from 'vue'
 import App from './App.vue'
 // import VueClipboards from 'vue-clipboards'
@@ -40,15 +42,3 @@ const app = new Vue({
     store,
     render: h => h(App)
 })
-
-/***/
-
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value))
-}
-
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key)
-
-    return value && JSON.parse(value)
-}

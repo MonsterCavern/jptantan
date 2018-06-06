@@ -15,7 +15,7 @@
                                           :append-icon-cb="() => (e = !e)"
                                           :type="e ? 'text' : 'password'"
                                           :counter="25"
-                                          v-validate="'required|min:6|max:16'"
+                                          v-validate="'required|min:3|max:16'"
                                           >
                             </v-text-field>
                             <span v-show="errors.has('password')"  >{{ errors.first('password') }}</span>

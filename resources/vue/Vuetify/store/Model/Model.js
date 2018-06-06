@@ -42,15 +42,18 @@ export default class Model extends BaseModel {
     // implement a default request method
     request(config) {
         let headers = {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json;charset=utf-8',
+            'X-Requested-With': 'XMLHttpRequest'
         }
 
-        if (config.method == 'GET') {
-            config.params = Object.assign({}, this._builder.equals, config.params)
-        } else {
-            config.data = Object.assign({}, this._builder.equals, config.data)
+        if (!$.isEmptyObject(this._builder.equals.equal)) {
+            if (config.method == 'GET') {
+                config.params = Object.assign({}, this._builder.equals, config.params)
+            } else {
+                config.data = Object.assign({}, this._builder.equals, config.data)
+            }
         }
-        console.log(localStorage)
+
         if (typeof localStorage.getObject !== 'undefined' && localStorage.getObject('user')) {
             let token = localStorage.getObject('user')['token']
 
@@ -59,15 +62,12 @@ export default class Model extends BaseModel {
 
         config.headers = headers
         config.paramsSerializer = function(params) {
-            // console.log(params)
             return qs.stringify(params, { arrayFormat: 'brackets' })
         }
 
         return this.$http.
             request(config).
             then(response => {
-                // let data = response.data
-                // console.log(response)
                 response.data.status = response.status
                 return response
             }).

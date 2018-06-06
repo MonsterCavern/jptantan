@@ -5,13 +5,9 @@ export default {
         state.List = []
     },
     setList(state, data) {
-        state.data = data
+        state.List = data
     },
-    setTranslateEditting(state, data) {
-        state.translateEditting = data
-    },
-    setTranslates(state, { data, index }) {
-        log('Update Translate in Bokete[' + index + ']')
-        state.data[index].translates = data
+    setTranslateSelf(state, data) {
+        state.translateSelf = data
     }
 }
