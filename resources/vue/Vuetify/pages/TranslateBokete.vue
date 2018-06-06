@@ -2,7 +2,7 @@
     <v-container>
         <h1>Bokete {{number}}</h1>
         <v-layout row wrap>
-            <v-flex xs6>
+            <v-flex xs6 px-1>
                 <v-card>
                     <v-container grid-list-xs,sm,md,lg,xl>
                         <v-layout row wrap>
@@ -40,7 +40,7 @@
                     </v-container>
                 </v-card>
             </v-flex>
-            <v-flex xs6>
+            <v-flex xs6 px-1>
                 <v-card>
                     <v-card-title primary-title>
                         翻譯Block
