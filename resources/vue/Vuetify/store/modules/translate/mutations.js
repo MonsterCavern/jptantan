@@ -7,7 +7,13 @@ export default {
     setList(state, data) {
         state.List = data
     },
-    setTranslateSelf(state, data) {
-        state.translateSelf = data
+    setTranslateBokete(state, data) {
+        if (typeof data !== 'object') {
+            return false
+        }
+        if (!data.hasOwnProperty('content')) {
+            return false
+        }
+        state.bokete = data
     }
 }

@@ -3,12 +3,14 @@
         <h1>Bokete</h1>
         <template v-for="(item, index) in boketes">
             <v-layout wrap>
-                <v-flex xl8 offset-xs2>
+                <v-flex xl8 class="mx-auto">
                     <v-card class="white--text">
-                        <v-container fluid style="min-height: 0;" grid-list-lg>
-                            <v-layout>
-                                <v-flex>
+                        <v-container grid-list-xs,sm,md,lg,xl>
+                            <v-layout row wrap>
+                                <v-flex xs12>
                                     <p>{{ item.released_at }}</p>
+                                </v-flex>
+                                <v-flex>
                                     <div class="img-responsive" v-html="item.source"></div>
                                 </v-flex>
                                 <v-flex d-flex md4 sm12 xs12>

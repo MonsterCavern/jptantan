@@ -27,7 +27,7 @@ export default {
             }
         }
     },
-    // 指定類型與ID回應一個屬於自己的單獨內容, set translateSelf
+    // 指定類型與ID回應一個屬於自己的單獨內容, set Translate Bokete
     async getTranslateSelf({ commit }, { targetID, targetType }) {
         try {
             const { data, status } = await Translate.select('*').
@@ -43,7 +43,7 @@ export default {
                 get()
 
             if (status === 200) {
-                commit('setTranslateSelf', data[0])
+                commit('setTranslateBokete', data[0])
             } else {
                 log('A problem occurred while gathering the Translate.')
             }
@@ -59,9 +59,7 @@ export default {
             let { data, status } = await translate.sync({ content: contents })
 
             if (status == 200) {
-                let { index } = rootGetters['bokete/getBoketeByNumber'](
-                    data.data.target_id
-                )
+                let { index } = rootGetters['bokete/getBoketeByNumber'](data.data.target_id)
 
                 commit(
                     'bokete/updateTranslateByTargetID',

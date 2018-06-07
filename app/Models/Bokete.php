@@ -89,7 +89,7 @@ class Bokete extends Model
         'id'                  => 'integer',
         'number'              => 'integer',
         'url'                 => 'string',
-        'content'             => 'string',
+        'content'             => 'array',
         'ranting'             => 'integer',
         'source'              => 'string',
         'is_updated'          => 'integer',

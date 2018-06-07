@@ -19,11 +19,11 @@ export function createRouter() {
             }
         },
         routes: [
-            { path: '/' },
-            { path: '/auth/login', component: Login },
-            { path: '/auth/user', component: User },
-            { path: '/bokete', component: Bokete },
-            { path: '/bokete/translate/:number', props: true, component: TranslateBokete },
+            { name: 'index', path: '/' },
+            { name: 'login', path: '/auth/login', component: Login },
+            { name: 'user', path: '/auth/user', component: User },
+            { name: 'bokete', path: '/bokete', component: Bokete },
+            { name: 'bokete/translate', path: '/bokete/translate/:number', props: true, component: TranslateBokete },
             // Global redirect for 404
             { path: '*', redirect: '/' }
         ]

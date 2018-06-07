@@ -10,7 +10,13 @@ import * as modules from './modules'
 Vue.use(Vuex)
 
 const state = {
-    user: null
+    user: null,
+    boketeContent: {
+        after: null,
+        before: null,
+        note: null,
+        relateds: null
+    }
 }
 
 const mutations = {

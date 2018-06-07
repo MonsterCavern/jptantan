@@ -1,5 +1,11 @@
 export default {
     list: [],
-    bokete: {},
+    bokete: {
+        id: null,
+        target_id: null,
+        content: [],
+        updated_at: null,
+        created_at: null
+    },
     syosetu: {}
 }
