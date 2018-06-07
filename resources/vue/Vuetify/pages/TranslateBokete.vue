@@ -5,7 +5,7 @@
                 其他翻譯
             </v-flex>
             <v-flex xs12 lg4 order-xs2 order-lg2 pa-1>
-                <v-tabs fixed-tabs centered value="tab-content">
+                <v-tabs fixed-tabs centered value="tab-before">
                     <v-tabs-slider color="yellow"></v-tabs-slider>
                     <v-tab href="#tab-source">
                         Source
@@ -13,6 +13,10 @@
                     <v-tab href="#tab-content">
                         Content
                     </v-tab>
+                    <v-tab href="#tab-before">
+                        Before
+                    </v-tab>
+
                     <v-tab-item id="tab-source">
                         <v-card flat>
                             <v-card-media contain height="auto">
@@ -20,15 +24,36 @@
                             </v-card-media>
                         </v-card>
                     </v-tab-item>
+
                     <v-tab-item id="tab-content">
                         <v-flex xs12 py-1 v-for="(contextValue,index) in bokete.content" :key="index">
                             <v-card pa-2>
-                                <v-card-title>
-                                    <v-text-field disabled textarea :name="'input-source-'+index" :value="contextValue"></v-text-field>
-                                </v-card-title>
+                                <v-card-actions>
+                                    <v-text-field disabled hide-details textarea :name="'input-source-'+index" :value="contextValue"></v-text-field>
+                                </v-card-actions>
                             </v-card>
                         </v-flex>
                     </v-tab-item>
+
+                    <v-tab-item id="tab-before">
+                        <v-flex xs12 py-1 v-for="(contextValue,index) in translate.content" :key="index">
+                            <v-card pa-2>
+                                <v-card-actions row>
+                                    <v-layout row>
+                                        <v-flex xs11>
+                                            <v-text-field disabled hide-details textarea :name="'input-source-'+index" :value="contextValue.before"></v-text-field>
+                                        </v-flex>
+                                        <v-flex xs1>
+                                            <v-btn small color="primary">
+                                                <v-icon>add</v-icon>
+                                            </v-btn>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-actions>
+                            </v-card>
+                        </v-flex>
+                    </v-tab-item>
+
                 </v-tabs>
             </v-flex>
             <v-flex xs12 lg4 order-xs1 order-lg3 pa-1>
@@ -37,20 +62,14 @@
                     <v-tab href="#tab-translate">
                         Translate
                     </v-tab>
-                    
+
                     <v-tab-item id="tab-translate">
                         <v-flex xs12 py-1 v-for="(contextValue,index) in translate.content" :key="index">
                             <v-card class="black--text">
-                                <v-card-title>
-                                    <v-text-field 
-                                      class="trans-textarea" 
-                                      textarea 
-                                      :name="'input-translate-'+index" 
-                                      v-model="contextValue.after"
-                                      @change="updateContent"
-                                    >
+                                <v-card-actions>
+                                    <v-text-field class="trans-textarea" hide-details textarea :name="'input-translate-'+index" v-model="contextValue.after" @change="updateContent">
                                     </v-text-field>
-                                </v-card-title>
+                                </v-card-actions>
                             </v-card>
                         </v-flex>
                     </v-tab-item>
@@ -158,6 +177,6 @@ textarea {
 }
 
 .trans-textarea>.input-group__input>textarea {
-  color: black !important;
+    color: black !important;
 }
 </style>

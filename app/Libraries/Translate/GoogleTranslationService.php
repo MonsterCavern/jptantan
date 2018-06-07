@@ -15,7 +15,6 @@ class GoogleTranslation
     {
         $tr = new TranslateClient();
         $tr->setTarget($lang);
-        
         try {
             if (is_array($data)) {
                 foreach ($data as &$value) {
@@ -25,7 +24,7 @@ class GoogleTranslation
                 $data = $tr->translate($data);
             }
         } catch (\Exception $e) {
-            // var_dump($e->getMessage());
+            var_dump($e->getMessage());
             // exit;
         }
         

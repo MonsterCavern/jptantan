@@ -61,9 +61,8 @@ class GoogleRobot extends Command
         if (! empty($list)) {
             $bar = $this->output->createProgressBar(count($list));
             foreach ($list as $bokete) {
-                $contents    = Util::JsonDecode($bokete->content);
-                
-                $content = [];
+                $contents    = $bokete->content;
+                $content     = [];
                 foreach ($contents as $value) {
                     $content[] = [
                         'before'   => $value,
@@ -88,7 +87,7 @@ class GoogleRobot extends Command
         Translate::create([
           'target_id'   => $data['target_id'],
           'target_type' => $data['target_type'],
-          'content'     => Util::JsonEncode($data['content']),
+          'content'     => $data['content'],
           'user_id'     => 1,
         ]);
     }
