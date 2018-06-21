@@ -8,7 +8,7 @@ export default {
         try {
             const { data, status } = await Bokete.limit(5).get()
 
-            // log(data, status)
+            log(data, status)
 
             if (status === 200) {
                 commit('set', data)

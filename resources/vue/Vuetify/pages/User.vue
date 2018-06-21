@@ -8,7 +8,12 @@
 export default {
     data() {
         return {
-            name: this.$store.state.user.account
+            name: this.user ? this.user : 'Guest'
+        }
+    },
+    computed: {
+        user() {
+            return this.$store.state.user
         }
     },
     mounted() {}

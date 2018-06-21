@@ -16,7 +16,7 @@
                                 <v-flex d-flex md4 sm12 xs12>
                                     <!--  -->
                                     <v-list>
-                                        <v-card class="white black--text text-left">
+                                        <v-card class="white black--text text-left" v-if="user !== null">
                                             <v-card-actions>
                                                 <v-btn block color="primary" :to="{path:'/bokete/translate/'+item.number}">我的翻譯</v-btn>
                                             </v-card-actions>
@@ -63,6 +63,9 @@ export default {
         }
     },
     computed: {
+        user() {
+            return this.$store.state.user
+        },
         boketes() {
             return this.$store.state.bokete.data
         }
