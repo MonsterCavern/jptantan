@@ -4,7 +4,7 @@
         <!--  -->
         <v-toolbar app>
             <router-link to="/" class="d-flex ml-3">
-              <img src="./images/logo.png" alt="logo" height="38px" width="38px">
+              <img src="/images/logo.png" alt="logo" height="38px" width="38px">
             </router-link>
             <v-toolbar-title>Jptantan</v-toolbar-title>
             <v-toolbar-items v-if="user === null">
