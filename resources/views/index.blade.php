@@ -12,6 +12,6 @@
   </head>
   <body style="background-color: #424242;">
     <div id="app"></div>
-    <script type="text/javascript" charset="UTF-8" src="{{ mix('/js/app.js')}}"></script>
+    <script type="text/javascript" charset="UTF-8" src="{{ env('APP_URL_PREFIX','').mix('/js/app.js')}}"></script>
   </body>
 </html>
