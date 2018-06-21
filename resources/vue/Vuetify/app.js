@@ -12,9 +12,11 @@ import Vuetify from 'vuetify'
 
 // import * as Components from './components/_index.js'
 
-Vue.prototype.$_ = _
-Vue.prototype.$axios = axios
 Vue.prototype.$log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
+Vue.prototype.$_ = _
+Vue.prototype.$axios = axios.create({
+    baseURL: location.pathname
+})
 
 import { createStore } from './store'
 import { createRouter } from './router'
