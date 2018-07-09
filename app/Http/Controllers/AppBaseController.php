@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Utils\ResponseUtil;
 use Response;
 
@@ -23,8 +24,8 @@ class AppBaseController extends Controller
         return Response::json(ResponseUtil::makeResponse($message, $result));
     }
 
-    public function sendError($error, $code = 404)
+    public function sendError($error, $code = 403)
     {
-        return Response::json(ResponseUtil::makeError($error), $code);
+        throw new HttpResponseException(Response::json(ResponseUtil::makeError($error), $code));
     }
 }

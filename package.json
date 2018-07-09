@@ -1,4 +1,8 @@
 {
+    "engines": {
+        "node": "8.9.4",
+        "npm": "6.1.0"
+    },
     "private": true,
     "scripts": {
         "dev": "npm run development",
@@ -11,22 +15,22 @@
     },
     "devDependencies": {
         "axios": "^0.18",
+        "babel-eslint": "^8.2.5",
         "bootstrap": "^4.0.0",
-        "popper.js": "^1.12",
         "cross-env": "^5.1",
+        "eslint": "^5.0.1",
+        "eslint-plugin-html": "^4.0.3",
+        "eslint-plugin-import": "^2.13.0",
+        "eslint-plugin-jsx-a11y": "^6.1.0",
+        "eslint-plugin-vue": "^4.5.0",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
-        "vue": "^2.5.7",
-        "babel-eslint": "^8.2.3",
-        "eslint": "^4.19.1",
-        "eslint-plugin-html": "^4.0.3",
-        "eslint-plugin-import": "^2.12.0",
-        "eslint-plugin-jsx-a11y": "^6.0.3",
-        "eslint-plugin-vue": "^4.5.0",
+        "popper.js": "^1.12",
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
-        "vee-validate": "^2.1.0-beta.1",
+        "vee-validate": "^2.1.0-beta.6",
+        "vue": "^2.5.7",
         "vue-api-query": "^0.7.0",
         "vue-clipboards": "^1.2.4",
         "vue-lazyload": "^1.2.4",
@@ -35,17 +39,17 @@
         "vuex-router-sync": "^5.0.0"
     },
     "dependencies": {
-        "datatables.net": "^1.10.16",
-        "datatables.net-bs4": "^1.10.16",
-        "datatables.net-buttons-bs4": "^1.5.1",
-        "datatables.net-responsive": "^2.2.1",
-        "datatables.net-responsive-bs4": "^2.2.1",
+        "datatables.net": "^1.10.19",
+        "datatables.net-bs4": "^1.10.19",
+        "datatables.net-buttons-bs4": "^1.5.3",
+        "datatables.net-responsive": "^2.2.3",
+        "datatables.net-responsive-bs4": "^2.2.3",
         "jquery-serializejson": "^2.8.1",
         "jquery-validation": "^1.17.0",
         "moment": "^2.22.2",
         "vue-fab": "^2.1.4",
         "vue-form-generator": "^2.2.2",
-        "vuetify": "^1.0.18",
+        "vuetify": "^1.1.1",
         "vuex": "^3.0.1"
     }
 }
