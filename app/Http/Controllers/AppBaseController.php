@@ -19,6 +19,19 @@ use Response;
  */
 class AppBaseController extends Controller
 {
+    public function sendPaginateResponse($result, $message)
+    {
+        $response = ResponseUtil::makeResponse($message, $result['data']);
+      
+        foreach ($result as $key => $value) {
+            if ($key != 'data') {
+                $response[$key] = $value;
+            }
+        }
+
+        return Response::json($response);
+    }
+  
     public function sendResponse($result, $message)
     {
         return Response::json(ResponseUtil::makeResponse($message, $result));

@@ -71,16 +71,15 @@ class BoketeAPIController extends AppBaseController
             return $this->boketeRepository->datatable();
         } else {
             $this->boketeRepository->pushCriteria(new RequestCriteria($request));
-            $this->boketeRepository->pushCriteria(new LimitOffsetCriteria($request));
+            // $this->boketeRepository->pushCriteria(new LimitOffsetCriteria($request));
             
             $this->boketeRepository->scopeQuery(function ($query) {
                 return $query->with('translates');
             });
-            
-            $boketes = $this->boketeRepository->all();
+            $boketes = $this->boketeRepository->paginate($request->get('limit', null));
         }
 
-        return $this->sendResponse($boketes->toArray(), 'Boketes retrieved successfully');
+        return $this->sendPaginateResponse($boketes->toArray(), 'Boketes retrieved successfully');
     }
 
     /**

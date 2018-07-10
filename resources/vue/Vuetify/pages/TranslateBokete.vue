@@ -43,14 +43,6 @@
                                         <v-flex xs11>
                                             <v-text-field disabled hide-details textarea :name="'input-source-'+index" :value="contextValue.before"></v-text-field>
                                         </v-flex>
-                                        <v-flex xs1 align-end>
-                                          <v-btn icon ripple color="primary">
-                                              <v-icon>add</v-icon>
-                                          </v-btn>
-                                          <v-btn icon ripple color="primary">
-                                              <v-icon>remove</v-icon>
-                                          </v-btn>
-                                        </v-flex>
                                     </v-layout>
                                 </v-card-actions>
                             </v-card>
