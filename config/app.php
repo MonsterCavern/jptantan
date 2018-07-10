@@ -167,6 +167,8 @@ return [
          */
          
         Spatie\QueryBuilder\QueryBuilderServiceProvider::class,
+        // Torann\GeoIP\GeoIPServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -229,5 +231,6 @@ return [
         'Flash'        => Laracasts\Flash\Flash::class,
         
         'QueryBuilder' => Spatie\QueryBuilder\QueryBuilder::class,
+        // 'GeoIP'        => Torann\GeoIP\Facades\GeoIP::class,
     ],
 ];

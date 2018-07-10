@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Utils\Util;
 use Illuminate\Support\Facades\Auth;
+use GeoIP;
 
 class CheckUser
 {
@@ -30,7 +31,8 @@ class CheckUser
         $auth = Auth::guard($guard);
         $user = $auth->user();
         if ($auth) {
-            $request->attributes->add(['_user' => $user,'_expires_in' => $expires_in,  '_guard' => $guard]); // 'client'
+            $user->location = GeoIP::getLocation()->toArray();
+            $request->attributes->add(['_user' => $user, '_expires_in' => $expires_in,  '_guard' => $guard]); // 'client'
         }
         
         return $next($request);

@@ -1,6 +1,5 @@
 <template lang="html">
     <v-container>
-        <h1>Bokete</h1>
         <template v-for="(item, index) in boketes">
             <v-layout wrap>
                 <v-flex xl8 class="mx-auto">
