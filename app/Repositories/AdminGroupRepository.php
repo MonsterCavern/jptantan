@@ -13,10 +13,9 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method AdminGroup findWithoutFail($id, $columns = ['*'])
  * @method AdminGroup find($id, $columns = ['*'])
  * @method AdminGroup first($columns = ['*'])
-*/
+ */
 class AdminGroupRepository extends BaseRepository
 {
-    use CommonRepository;
     /**
      * @var array
      */

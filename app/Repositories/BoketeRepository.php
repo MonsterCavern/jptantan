@@ -16,7 +16,6 @@ use InfyOm\Generator\Common\BaseRepository;
  */
 class BoketeRepository extends BaseRepository
 {
-    use CommonRepository;
     /**
      * @var array
      */

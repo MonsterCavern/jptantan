@@ -13,10 +13,9 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method Translate findWithoutFail($id, $columns = ['*'])
  * @method Translate find($id, $columns = ['*'])
  * @method Translate first($columns = ['*'])
-*/
+ */
 class TranslateRepository extends BaseRepository
 {
-    use CommonRepository;
     /**
      * @var array
      */

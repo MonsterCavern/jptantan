@@ -1,6 +1,49 @@
+/*
 
-window._ = require('lodash');
-window.Popper = require('popper.js').default;
+ */
+
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value))
+}
+
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key)
+
+    try {
+        return value && JSON.parse(value)
+    } catch (e) {
+        console.log(e)
+        return null
+    }
+}
+/*
+
+ */
+
+function htmlencode(s) {
+    var div = document.createElement("div")
+
+    div.appendChild(document.createTextNode(s))
+    return div.innerHTML
+}
+function htmldecode(s) {
+    var div = document.createElement("div")
+
+    div.innerHTML = s
+    return div.innerText || div.textContent
+}
+
+function clearEvent(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    event.stopImmediatePropagation()
+}
+
+/*
+
+ */
+window._ = require("lodash")
+window.Popper = require("popper.js").default
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -9,10 +52,13 @@ window.Popper = require('popper.js').default;
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (e) {}
+    window.$ = window.jQuery = require("jquery")
+    require("bootstrap")
+    require("bootstrap/js/dist/util")
+    require("bootstrap/js/dist/dropdown")
+} catch (e) {
+    console.log(e)
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -20,9 +66,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios = require("axios")
+window.axios.defaults.baseURL = document.getElementsByTagName("base")[0].href
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -30,12 +76,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+let token = document.head.querySelector('meta[name="csrf-token"]')
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error(
+        "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
+    )
 }
 
 /**

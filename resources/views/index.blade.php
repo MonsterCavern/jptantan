@@ -1,17 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
     <meta charset="utf-8">
-    <title>Jptantan</title>
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <meta name="description" content="Translate Japanese">
-    <meta name="keywords" content="">
-    <link rel="shortcut icon" href="/static/favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-  </head>
-  <body style="background-color: #424242;">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name') }}</title>
+    <base href="{{url('/')}}">
+
+    <link rel="shortcut icon" href="{{url('favicon.ico')}}"/>
+    <!-- Fonts -->
+    {{-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet"> --}}
+    <!-- Styles -->
+    <link href="{{ url(mix('css/app.css')) }}" rel="stylesheet">
+</head>
+
+<body>
     <div id="app"></div>
-    <script type="text/javascript" charset="UTF-8" src="{{ env('APP_URL_PREFIX','').mix('/js/app.js')}}"></script>
-  </body>
+</body>
+
+<!-- Scripts -->
+<script src="{{ url(mix('js/app.js')) }}" charset="utf-8" defer></script>
+
 </html>

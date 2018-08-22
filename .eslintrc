@@ -1,18 +1,20 @@
 {
     "root": true,
-    "extends": ["plugin:vue/essential"],
-    "plugins": ["import", "html", "vue"],
+    "extends": ["plugin:vue/recommended", "plugin:vue/base"],
+    "plugins": ["import", "vue"],
     "parserOptions": {
-        "parser": "babel-eslint",
-        "ecmaVersion": 6,
+        "ecmaVersion": 2018,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
         }
     },
+    "env": {
+        "browser": true,
+        "node": true
+    },
     "rules": {
         "array-bracket-spacing": [2, "never"],
-        # "camelcase": 2,
         "semi": ["error", "never"],
         "indent": [
             "error",
@@ -50,9 +52,5 @@
             }
         ],
         "newline-after-var": ["error", "always"]
-    },
-    "env": {
-        "browser": true,
-        "node": true
     }
 }
