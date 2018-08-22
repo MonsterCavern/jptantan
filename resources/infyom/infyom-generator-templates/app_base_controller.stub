@@ -2,7 +2,8 @@
 
 namespace $NAMESPACE_APP$\Http\Controllers;
 
-use InfyOm\Generator\Utils\ResponseUtil;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Utils\ResponseUtil;
 use Response;
 
 /**
@@ -25,6 +26,19 @@ class AppBaseController extends Controller
 
     public function sendError($error, $code = 404)
     {
-        return Response::json(ResponseUtil::makeError($error), $code);
+        throw new HttpResponseException(Response::json(ResponseUtil::makeResponse($error, [], $code), $code));
+    }
+    
+    public function sendPaginateResponse($result, $message)
+    {
+        $response = ResponseUtil::makeResponse($message, $result['data']);
+      
+        foreach ($result as $key => $value) {
+            if ($key != 'data') {
+                $response[$key] = $value;
+            }
+        }
+
+        return Response::json($response);
     }
 }
