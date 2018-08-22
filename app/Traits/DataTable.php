@@ -1,20 +1,20 @@
-<?php 
+<?php
+
 namespace App\Traits;
 
 /**
  * Model 會被 實例化一次
  */
-
 trait DataTable
 {
-    public function dataTable($model = Object, $resquest = Object)
+    public function dataTable(Object $model, Object $resquest)
     {
         try {
             // dd($resquest->all());
             $query = $this->DataTableFormat($resquest->all());
         
             // start
-            $model = new $model;
+            $model   = new $model;
             $primary = $model->getKeyName();
             
             // select
@@ -47,8 +47,6 @@ trait DataTable
             dd($e);
         }
         
-        
-        
         return [
           'draw'            => $draw,
           'data'            => $rows,
@@ -59,20 +57,20 @@ trait DataTable
     
     public function DataTableFormat($resquest = [])
     {
-        $draw = $resquest['draw']?? $resquest['_'];
+        $draw = $resquest['draw'] ?? $resquest['_'];
         $skip = $resquest['start'] ?? 0;
-        $take = $resquest['length']?? 0;
+        $take = $resquest['length'] ?? 0;
         
         // dd($resquest);
         $selects = [];
-        if (!empty($resquest['columns'])) {
+        if (! empty($resquest['columns'])) {
             foreach ($resquest['columns'] as $column) {
                 $selects[] = $column['data'];
             }
         }
         
         $orders = [];
-        if (!empty($resquest['order'])) {
+        if (! empty($resquest['order'])) {
             foreach ($resquest['order'] as $order) {
                 $orders[] = [
                   $resquest['columns'][$order['column']]['data'],
