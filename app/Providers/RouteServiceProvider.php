@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -37,14 +36,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        Route::group(['prefix' => LaravelLocalization::setLocale()], function () {
-            /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
-            $this->mapAdminRoutes();
-            
-            $this->mapApiRoutes();
-            
-            $this->mapWebRoutes();
-        });
+        $this->mapAdminRoutes();
+      
+        $this->mapApiRoutes();
+      
+        $this->mapWebRoutes();
 
         // Swagger
         Route::group([
