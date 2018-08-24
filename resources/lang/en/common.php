@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'Jptantan'  => 'Jptantan',
   'Laravel'   => 'LARAVEL',
   'login'     => 'Login',
   'logout'    => 'Logout',
