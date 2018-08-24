@@ -12,11 +12,24 @@
     <title>{{ __('common.'.config('app.name')) }}</title>
     <base href="{{url('/')}}">
 
-    <link rel="shortcut icon" href="{{url('favicon.ico')}}"/>
+    <link rel="shortcut icon" href="{{url('favicon.ico')}}" />
     <!-- Fonts -->
-    {{-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet"> --}}
+    {{--
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet"> --}}
     <!-- Styles -->
     <link href="{{ url(mix('css/app.css')) }}" rel="stylesheet">
+    
+    {{-- Google Adsense --}}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || [])
+    .push(
+    {
+        google_ad_client: "ca-pub-2686993499673181",
+        enable_page_level_ads: true
+    });
+    </script>
+
 </head>
 
 <body>
