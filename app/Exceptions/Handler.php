@@ -2,8 +2,14 @@
 
 namespace App\Exceptions;
 
+use Response;
 use Exception;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+use App\Models\LogError;
+use App\Utils\ResponseUtil;
 
 class Handler extends ExceptionHandler
 {
@@ -58,14 +64,13 @@ class Handler extends ExceptionHandler
                   return Arr::except($trace, ['args']);
               })->all(),
             ];
-          
             LogError::create($log);
-          
+
             // 特殊情況
             if ($exception instanceof ValidationException) {
                 return Response::json(ResponseUtil::makeResponse(head(head($exception->errors()))), 403);
             }
-          
+        
             if (! config('app.debug')) {
                 return Response::json(ResponseUtil::makeResponse(__('error.undefined')), 500);
             }

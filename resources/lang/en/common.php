@@ -6,6 +6,7 @@ return [
   'login'     => 'Login',
   'logout'    => 'Logout',
   'photo'     => 'Photo',
+  'token'     => 'Token',
   
   'success'   => ':attribute Success',
   'retrieved' => ':attribute retrieved successfully',

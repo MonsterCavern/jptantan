@@ -8,12 +8,12 @@ use InfyOm\Generator\Common\BaseRepository;
 /**
  * Class TranslateRepository
  * @package App\Repositories
- * @version May 29, 2018, 7:29 am UTC
+ * @version August 27, 2018, 8:40 am UTC
  *
  * @method Translate findWithoutFail($id, $columns = ['*'])
  * @method Translate find($id, $columns = ['*'])
  * @method Translate first($columns = ['*'])
- */
+*/
 class TranslateRepository extends BaseRepository
 {
     /**

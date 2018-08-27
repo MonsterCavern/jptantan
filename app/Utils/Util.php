@@ -13,16 +13,15 @@ class Util
 {
     const INPUTKEY = 'token';
     
-    
     /**
-    * 將Json格式的字串 轉換為 PHP Array
-    * @param string $inputstring 「JSON」格式字串
-    * @return array PHP陣列
-    */
+     * 將Json格式的字串 轉換為 PHP Array
+     * @param string $inputstring 「JSON」格式字串
+     * @return array PHP陣列
+     */
     public static function JsonDecode($inputstring)
     {
         try {
-            $input = str_replace("'", '"', $inputstring);
+            $input     = str_replace("'", '"', $inputstring);
             $inputjson = json_decode($input, true);
 
             return $inputjson;
@@ -32,10 +31,10 @@ class Util
     }
     
     /**
-    * 將Json格式的字串 轉換為 PHP Array
-    * @param array $phparray 「JSON」格式字串
-    * @return string Json string
-    */
+     * 將Json格式的字串 轉換為 PHP Array
+     * @param array $phparray 「JSON」格式字串
+     * @return string Json string
+     */
     public static function JsonEncode($phparray)
     {
         try {
@@ -47,12 +46,13 @@ class Util
     
     /**
      * Get the token for the current request.
-     *
+     * @param  Request  $request
+     * @param  String  $key
      * @return string
      */
     public static function getTokenForRequest(Request $request, $key = null)
     {
-        $key = $key?? self::INPUTKEY;
+        $key   = $key ?? self::INPUTKEY;
         $token = $request->query($key);
         
         if (empty($token)) {
@@ -71,14 +71,19 @@ class Util
     }
     
     /**
-     *
+     * Get the token for the current request.
+     * @param  String  $token
+     * @param  String  $type
+     * @param Array $verification
+     * @return string
      */
     public static function decryptToken($token, $type = 'string', $verification = [])
     {
         try {
             $token = decrypt($token);
         } catch (DecryptException $e) {
-            return response()->json(['code'=>'403','message'=> 'TOKEN ERROR'], 404, ['Content-Type'=>'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
+            return false;
+            // return response()->json(['code' => '403', 'message' => 'TOKEN ERROR'], 404, ['Content-Type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
         }
         
         if ($type === 'string') {
@@ -91,12 +96,12 @@ class Util
     public static function getSqlLogs()
     {
         $events =  DB::getQueryLog();
-        $logs = [];
+        $logs   = [];
         foreach ($events as $event) {
-            $time = $event['time']; // ms
-            $sql = str_replace("?", "'%s'", $event['query']);
-            $log = vsprintf($sql, $event['bindings']);
-            $logs[] = '[' . date('Y-m-d H:i:s') . ']'. '['.(int)$time.'] ' . $log ;
+            $time   = $event['time']; // ms
+            $sql    = str_replace('?', "'%s'", $event['query']);
+            $log    = vsprintf($sql, $event['bindings']);
+            $logs[] = '['.date('Y-m-d H:i:s').']'.'['.(int)$time.'] '.$log ;
         }
         
         return $logs;

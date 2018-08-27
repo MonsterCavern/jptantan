@@ -7,18 +7,32 @@ use App\Utils\ResponseUtil;
 use Response;
 
 /**
- * @SWG\Swagger(
- *   basePath="/api/v1",
- *   @SWG\Info(
+ * @OA\OpenApi(
+ *   @OA\Info(
  *     title="Laravel Generator APIs",
  *     version="1.0.0",
- *   )
+ *   ),
+ *   @OA\Server(
+ *     description="Api server",
+ *     url="/api",
+ *   ),
+ *
  * )
  * This class should be parent class for other API controllers
  * Class AppBaseController
  */
 class AppBaseController extends Controller
 {
+    public function sendResponse($result, $message)
+    {
+        return Response::json(ResponseUtil::makeResponse($message, $result));
+    }
+
+    public function sendError($error, $code = 404)
+    {
+        throw new HttpResponseException(Response::json(ResponseUtil::makeResponse($error, [], $code), $code));
+    }
+    
     public function sendPaginateResponse($result, $message)
     {
         $response = ResponseUtil::makeResponse($message, $result['data']);
@@ -30,15 +44,5 @@ class AppBaseController extends Controller
         }
 
         return Response::json($response);
-    }
-  
-    public function sendResponse($result, $message)
-    {
-        return Response::json(ResponseUtil::makeResponse($message, $result));
-    }
-
-    public function sendError($error, $code = 403)
-    {
-        throw new HttpResponseException(Response::json(ResponseUtil::makeError($error), $code));
     }
 }

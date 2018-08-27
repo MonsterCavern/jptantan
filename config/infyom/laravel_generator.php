@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Paths
@@ -10,7 +9,6 @@ return [
     */
 
     'path' => [
-
         'migration'         => base_path('database/migrations/'),
 
         'model'             => app_path('Models/'),
@@ -29,7 +27,7 @@ return [
 
         'controller'        => app_path('Http/Controllers/'),
 
-        'api_controller'    => app_path('Http/Controllers/'),
+        'api_controller'    => app_path('Http/Controllers/API/'),
 
         'test_trait'        => base_path('tests/traits/'),
 
@@ -54,7 +52,6 @@ return [
     */
 
     'namespace' => [
-
         'model'             => 'App\Models',
 
         'datatables'        => 'App\DataTables',
@@ -63,7 +60,7 @@ return [
 
         'controller'        => 'App\Http\Controllers',
 
-        'api_controller'    => 'App\Http\Controllers',
+        'api_controller'    => 'App\Http\Controllers\API',
 
         'request'           => 'App\Http\Requests',
 
@@ -107,7 +104,6 @@ return [
     */
 
     'options' => [
-
         'softDelete' => false,
 
         'tables_searchable_default' => false,
@@ -121,7 +117,6 @@ return [
     */
 
     'prefixes' => [
-
         'route' => '',  // using admin will create route('admin.?.index') type routes
 
         'path' => '',
@@ -139,7 +134,6 @@ return [
     */
 
     'add_on' => [
-
         'swagger'       => true,
 
         'tests'         => true,
@@ -147,7 +141,6 @@ return [
         'datatables'    => false,
 
         'menu'          => [
-
             'enabled'       => false,
 
             'menu_file'     => 'layouts/menu.blade.php',
@@ -162,7 +155,6 @@ return [
     */
 
     'timestamps' => [
-
         'enabled'       => true,
 
         'created_at'    => 'created_at',
@@ -179,5 +171,4 @@ return [
     |
     */
     'ignore_model_prefix' => false,
-
 ];

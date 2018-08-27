@@ -37,20 +37,31 @@ class RequestCriteria implements CriteriaInterface
     {
         $queries = $this->request->all();
         
-        $model   = QueryBuilder::for($model::query(), $this->request)->allowedFilters(['target_type','target_id']);
-        if (isset($queries['equal'])) {
-            foreach ($queries['equal'] as $key => $value) {
-                $model = $model->where($key, $value);
-            }
+        // dd($model);
+        $model = QueryBuilder::for($model::query(), $this->request)
+              ->allowedIncludes($model->include)
+              ->allowedFilters($model->fillable)
+              ->allowedSorts($model->fillable);
+              
+        if (isset($queries['limit'])) {
+            $model = $model->limit($queries['limit']);
+            config(['repository.pagination.limit' => (int)$queries['limit']]);
         }
+        
         if (isset($queries['page'])) {
             $model = $model->skip($queries['page']);
         }
         
-        if (isset($queries['myself']) && $queries['myself'] == true) {
-            $user  = $this->request->get('_user');
-            $model = $model->where('user_id', $user->id);
-        }
+        // if (isset($queries['equal'])) {
+        //     foreach ($queries['equal'] as $key => $value) {
+        //         $model = $model->where($key, $value);
+        //     }
+        // }
+        
+        // if (isset($queries['myself']) && $queries['myself'] == true) {
+        //     $user  = $this->request->get('_user');
+        //     $model = $model->where('user_id', $user->id);
+        // }
         
         return $model;
     }

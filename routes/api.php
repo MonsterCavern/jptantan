@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +12,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('boketes', 'Translate\\BoketeAPIController');
-Route::resource('translates', 'Translate\\TranslateAPIController');
+// Route::resource('boketes', 'Translate\\BoketeAPIController');
+// Route::resource('translates', 'Translate\\TranslateAPIController');
+Route::resource('translates', 'TranslateAPIController');
 
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
+
+
+Route::resource('translates', 'TranslateAPIController');
+
+Route::resource('translates', 'TranslateAPIController');
+
+Route::resource('translates', 'TranslateAPIController');

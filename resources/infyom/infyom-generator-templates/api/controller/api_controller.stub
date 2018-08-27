@@ -6,11 +6,9 @@ use $NAMESPACE_API_REQUEST$\Create$MODEL_NAME$APIRequest;
 use $NAMESPACE_API_REQUEST$\Update$MODEL_NAME$APIRequest;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
-use App\Repositories\Criteria\DataTableCriteria;
 use Illuminate\Http\Request;
 use $NAMESPACE_APP$\Http\Controllers\AppBaseController;
-use InfyOm\Generator\Criteria\LimitOffsetCriteria;
-use Prettus\Repository\Criteria\RequestCriteria;
+use App\Repositories\Criteria\RequestCriteria;
 use Response;
 
 $DOC_CONTROLLER$
@@ -27,16 +25,10 @@ class $MODEL_NAME$APIController extends AppBaseController
     $DOC_INDEX$
     public function index(Request $request)
     {
-        if ($request->has('draw')) {
-            $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new DataTableCriteria($request));
-            return $this->$MODEL_NAME_CAMEL$Repository->datatable();
-        }else {
-            $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
-            $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new LimitOffsetCriteria($request));
-            $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->all();
-        }
+        $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
+        $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->paginate();
 
-        return $this->sendResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), '$MODEL_NAME_PLURAL_HUMAN$ retrieved successfully');
+        return $this->sendPaginateResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.retrieved', ['name' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_STORE$
@@ -46,7 +38,7 @@ class $MODEL_NAME$APIController extends AppBaseController
 
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->create($input);
 
-        return $this->sendResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), '$MODEL_NAME_HUMAN$ saved successfully');
+        return $this->sendResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.saved', ['name' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_SHOW$
@@ -56,10 +48,10 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
         }
 
-        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), '$MODEL_NAME_HUMAN$ retrieved successfully');
+        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.retrieved', ['name' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_UPDATE$
@@ -71,12 +63,12 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
         }
 
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->update($input, $id);
 
-        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), '$MODEL_NAME$ updated successfully');
+        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.updated', ['name' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_DESTROY$
@@ -86,11 +78,11 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError('$MODEL_NAME_HUMAN$ not found');
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
         }
 
         $$MODEL_NAME_CAMEL$->delete();
 
-        return $this->sendResponse($id, '$MODEL_NAME_HUMAN$ deleted successfully');
+        return $this->sendResponse($id, __('common.deleted', ['name' => __('model.$MODEL_NAME$')]));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 return [
     'undefined' => 'Undefined',
-    'invalid'   => 'Invalid',
-    'faild'     => 'Faild'
+    'invalid'   => ':attribute Invalid',
+    'faild'     => ':attribute Faild'
 ];
