@@ -12,7 +12,9 @@
 <script>
 export default {
     name: "",
-    data: () => ({}),
+    data() {
+        return {}
+    },
     computed: {
         text() {
             return {}
