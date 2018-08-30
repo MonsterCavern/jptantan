@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Swaggers\Sample;
 
 use Eloquent as Model;
 

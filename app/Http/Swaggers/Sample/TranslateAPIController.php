@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Swaggers\Sample;
 
 use App\Http\Requests\API\CreateTranslateAPIRequest;
 use App\Http\Requests\API\UpdateTranslateAPIRequest;
@@ -15,7 +15,6 @@ use Response;
  * Class TranslateController
  * @package App\Http\Controllers\API
  */
-
 class TranslateAPIController extends AppBaseController
 {
     /** @var  TranslateRepository */
@@ -58,7 +57,6 @@ class TranslateAPIController extends AppBaseController
      *      )
      * )
      */
-
     public function index(Request $request)
     {
         $this->translateRepository->pushCriteria(new RequestCriteria($request));
@@ -104,7 +102,6 @@ class TranslateAPIController extends AppBaseController
      *      )
      * )
      */
-
     public function store(CreateTranslateAPIRequest $request)
     {
         $input = $request->all();
@@ -155,7 +152,6 @@ class TranslateAPIController extends AppBaseController
      *      )
      * )
      */
-
     public function show($id)
     {
         /** @var Translate $translate */
@@ -216,7 +212,6 @@ class TranslateAPIController extends AppBaseController
      *      )
      * )
      */
-
     public function update($id, UpdateTranslateAPIRequest $request)
     {
         $input = $request->all();

@@ -21,6 +21,6 @@ Route::get('/login', function () {
 
 Route::post('/login', 'AuthController@login');
 
-// Route::any('/{all}', function () {
-//     return view('index');
-// })->where(['all' => '.*']);
+Route::any('/{all}', function () {
+    return view('index');
+})->where(['all' => '.*']);

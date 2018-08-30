@@ -14,7 +14,7 @@
         "node": true
     },
     "rules": {
-        "max-len": ["error", { "ignorePattern": "<\\/|\\/>|>" }],
+        "max-len": ["error", { "code": 120, "ignorePattern": "<\\/|\\/>|>" }],
         "array-bracket-spacing": [2, "never"],
         "semi": ["error", "never"],
         "indent": [

@@ -12,6 +12,7 @@
     "devDependencies": {
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
+        "bootstrap-material-design": "^4.1.1",
         "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "2.0.1",
         "cross-env": "^5.1",
@@ -27,12 +28,12 @@
         "vee-validate": "^2.1.0-beta.6",
         "vue": "^2.5.7",
         "vue-api-query": "^0.7.0",
+        "vue-i18n": "^8.0.0",
         "vue-router": "^3.0.1",
         "vuex": "^3.0.1",
-        "vuex-router-sync": "^5.0.0",
-        "vue-i18n": "^8.0.0"
+        "vuex-router-sync": "^5.0.0"
     },
     "dependencies": {
-        "bootstrap-material-design": "^4.1.1"
+        "blueimp-gallery": "^2.33.0"
     }
 }

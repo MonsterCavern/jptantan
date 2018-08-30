@@ -1,6 +1,8 @@
 import Vue from "vue"
 import Router from "vue-router"
 
+import bokete from "./bokete"
+
 Vue.use(Router)
 
 // pages
@@ -25,6 +27,7 @@ export function createRouter() {
         mode: "history", //mode
         base: baseURL ? baseURL : "/" + lang,
         scrollBehavior: () => ({ y: 0 }),
+        linkActiveClass: "active",
         components: {
             render(c) {
                 return c("router-view")
@@ -41,6 +44,7 @@ export function createRouter() {
                     next()
                 }
             },
+            bokete,
             // Global redirect for 404
             { path: "*", redirect: "/" }
         ]

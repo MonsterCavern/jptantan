@@ -65,7 +65,6 @@ export default {
                 count +
                 ";"
 
-            console.log(style)
             return style
         }
     }
