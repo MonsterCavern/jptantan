@@ -4,26 +4,22 @@
 <template>
 
 <div class="v-gallery">
-    <div ref="links" class="lightBoxGallery" @click="openGallery($event, true)"
-      v-if="type.toLowerCase() === 'gallery' && $slots.default"
-    >
+    <div ref="links" class="lightBoxGallery" @click="openGallery($event, true)" v-if="type.toLowerCase() === 'gallery' && $slots.default">
         <slot></slot>
     </div>
 
     <div class="row light-gallery" ref="innerLinks" v-if="type.toLowerCase() === 'gallery' && !$slots.default">
-        <div class="col-md-4" v-for="item in list" :key="item.key">
+        <div class="col-md-4" v-for="(item,index) in list" :key="index">
             <div class="card mb-4 box-shadow">
-                <a href="javascript:void(0);" :data-image="item.href" :data-title="item.title">
-                    <div class="image-container">
-                      <img class="card-img-top" :src="item.thumbnail" alt="item.title">
-                    </div>
-                </a>
-                
+                <div class="image-container" :data-image="item.href" :data-title="item.title" :data-config="JSON.stringify({description:{node:'div',attr:{class:'description'}}})">
+                    <img class="card-img-top" :src="item.thumbnail" :alt="item.title">
+                </div>
+
                 <div class="card-body">
                     <p class="card-text">{{ item.description }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" @click="openGallery($event, false)">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" @click="openGallery($event, false, index)">View</button>
                         </div>
                         <small class="text-muted">{{ item.updated_at }}</small>
                     </div>
@@ -35,9 +31,9 @@
     <div :class="[ctlClass.gallery]" ref="container" id="blueimp-gallery">
         <div class="slides"></div>
         <h3 class="title" v-if="controlTitle"></h3>
-        <a class="prev">‹</a>
-        <a class="next">›</a>
-        <a class="close" v-show="type.toLowerCase() === 'gallery'">×</a>
+        <a class="prev text-white">‹</a>
+        <a class="next text-white">›</a>
+        <a class="close text-white" v-show="type.toLowerCase() === 'gallery'">×</a>
         <a class="play-pause" v-if="controlPause"></a>
         <ol class="indicator"></ol>
     </div>
@@ -95,20 +91,10 @@ export default {
         }
     },
     methods: {
-        openGallery(e, custom) {
+        openGallery(e, custom, index = 0) {
             let that = this
-            let target = e.target || e.srcElement,
-                    link = target.src ? target.parentNode : target
-
-            if (
-                link.className.includes("v-gallery") ||
-                link.className.includes("lightBoxGallery") ||
-                link.className.includes("light-gallery")
-            ) {
-                return
-            }
             let options = {
-                        index: link.closest("a"),
+                        index: index,
                         event: e,
                         container: that.$refs.container,
                         titleProperty: "title",
@@ -120,6 +106,23 @@ export default {
                         toggleControlsOnSlideClick: false, //是否允許鼠標點擊圖片，顯示/隱藏控制按鈕
                         startSlideshow: false, //是否自動開始播放圖片輪播
                         onslide: function(index, slide) {
+                            let listData = this.list[index].dataset,
+                                    config = listData.config ? JSON.parse(listData.config) : {}
+
+                            for (var key in config) {
+                                console.log(config[key].attr.class.split(" "))
+                                // config[key].attr.class = config[key].attr.class.
+                                //     split(" ").
+                                //     unshift(key).
+                                //     join(" ")
+                                let element = document.createElement(config[key].node, config[key].attr),
+                                        node = this.container.find("." + key)
+
+                                node.empty()
+                                console.log(node, element)
+                                slide.appendChild(element)
+                            }
+                            console.log(slide, this, listData, config)
                             that.showed(index)
                         },
                         onclosed: function() {
@@ -127,9 +130,7 @@ export default {
                         }
                     },
                     main = custom ? that.$refs.links : that.$refs.innerLinks,
-                    links = main.getElementsByTagName("a")
-            //console.log(e);
-            //console.log(link.tagName);
+                    links = main.getElementsByClassName("image-container")
 
             gallery(links, options)
         },
