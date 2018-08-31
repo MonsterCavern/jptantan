@@ -11,7 +11,7 @@
     <div class="row light-gallery" ref="innerLinks" v-if="type.toLowerCase() === 'gallery' && !$slots.default">
         <div class="col-md-4" v-for="(item,index) in list" :key="index">
             <div class="card mb-4 box-shadow">
-                <div class="image-container" :data-image="item.href" :data-title="item.title" :data-config="JSON.stringify({description:{node:'div',attr:{class:'description'}}})">
+                <div class="image-container" :data-image="item.href" :data-title="item.title" v-bind="bindAttrData(item)">
                     <img class="card-img-top" :src="item.thumbnail" :alt="item.title">
                 </div>
 
@@ -83,6 +83,26 @@ export default {
                     }
                 }
             }
+        },
+        layoutConfig: {
+            type: Object,
+            default() {
+                return {
+                    title: {
+                        node: "<div/>",
+                        attr: {
+                            text: "title"
+                        }
+                    },
+                    description: {
+                        node: "<p/>",
+                        attr: {
+                            text: "description",
+                            class: "text-content"
+                        }
+                    }
+                }
+            }
         }
     },
     data() {
@@ -91,6 +111,17 @@ export default {
         }
     },
     methods: {
+        bindAttrData(item) {
+            let result = {}
+
+            for (var key in this.layoutConfig) {
+                if (item.hasOwnProperty(key)) {
+                    result[`data-${key}`] = item[key]
+                }
+            }
+
+            return result
+        },
         openGallery(e, custom, index = 0) {
             let that = this
             let options = {
@@ -99,30 +130,43 @@ export default {
                         container: that.$refs.container,
                         titleProperty: "title",
                         urlProperty: "image",
-                        closeOnSlideClick: false, //點擊非圖片區域，非控制按鈕的空白區域時，是否關閉圖片顯示
+                        closeOnSlideClick: true, //點擊非圖片區域，非控制按鈕的空白區域時，是否關閉圖片顯示
                         closeOnSwipeUpOrDown: false, //圖片上下拖動，到屏幕盡頭時，關閉圖片顯示
                         enableKeyboardNavigation: true, //是否打開鍵盤導航
                         toggleControlsOnReturn: false, //是否允許回車，顯示/隱藏控制按鈕
                         toggleControlsOnSlideClick: false, //是否允許鼠標點擊圖片，顯示/隱藏控制按鈕
                         startSlideshow: false, //是否自動開始播放圖片輪播
                         onslide: function(index, slide) {
-                            let listData = this.list[index].dataset,
-                                    config = listData.config ? JSON.parse(listData.config) : {}
+                            let listData = this.list[index].dataset
+                            let layoutConfig = $.extend(true, {}, that.layoutConfig)
 
-                            for (var key in config) {
-                                console.log(config[key].attr.class.split(" "))
-                                // config[key].attr.class = config[key].attr.class.
-                                //     split(" ").
-                                //     unshift(key).
-                                //     join(" ")
-                                let element = document.createElement(config[key].node, config[key].attr),
+                            for (var key in layoutConfig) {
+                                let config = layoutConfig[key]
+
+                                for (var attr in config.attr) {
+                                    if (listData.hasOwnProperty(config.attr[attr])) {
+                                        config.attr[attr] = listData[config.attr[attr]]
+                                    }
+                                }
+
+                                if (config.attr.hasOwnProperty("class")) {
+                                    let temp = config.attr.class.split(" ")
+
+                                    config.attr.class = [key].concat(temp).join(" ")
+                                } else {
+                                    config.attr.class = key
+                                }
+
+                                let element = $(config.node, config.attr),
                                         node = this.container.find("." + key)
 
-                                node.empty()
-                                console.log(node, element)
-                                slide.appendChild(element)
+                                if (node.length > 0) {
+                                    this.container[0].replaceChild(element[0], node[0])
+                                } else {
+                                    this.container[0].appendChild(element[0])
+                                }
                             }
-                            console.log(slide, this, listData, config)
+                            console.log(this, this.container)
                             that.showed(index)
                         },
                         onclosed: function() {
@@ -161,11 +205,13 @@ export default {
         convert() {
             if (Array.isArray(this.images) && this.images.length) {
                 this.list = this.images.concat().map((val, idx) => {
-                    return {
+                    let result = {
                         title: val.title ? val.title : "Image" + (idx + 1),
                         thumbnail: val.thumbnail ? val.thumbnail : val.url,
                         href: val.url
                     }
+
+                    return $.extend(true, val, result)
                 })
             }
         },

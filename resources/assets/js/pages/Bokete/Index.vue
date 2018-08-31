@@ -27,7 +27,7 @@ export default {
         for (var i = 0; i < 50; i++) {
             items.push({
                 title: "Image" + i,
-                description: "",
+                description: "Description" + i,
                 url: "https://via.placeholder.com/600",
                 thumbnail: "https://via.placeholder.com/300",
                 updated_at: "2018/08/30"
