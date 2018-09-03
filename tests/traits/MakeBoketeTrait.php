@@ -46,6 +46,7 @@ trait MakeBoketeTrait
             'url' => $fake->text,
             'content' => $fake->text,
             'ranting' => $fake->randomDigitNotNull,
+            'image' => $fake->text,
             'source' => $fake->text,
             'is_updated' => $fake->randomDigitNotNull,
             'released_at' => $fake->date('Y-m-d H:i:s'),

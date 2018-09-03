@@ -9,6 +9,8 @@ use App\Utils\Util;
 use App\Models\Translate;
 use App\Libraries\Translate\GoogleTranslation;
 use App\Repositories\BoketeRepository;
+use App\Repositories\TranslateRepository;
+
 use Illuminate\Console\Command;
 
 class GoogleRobot extends Command
@@ -32,10 +34,12 @@ class GoogleRobot extends Command
      *
      * @return void
      */
-    public function __construct(GoogleTranslation $googleTranslation)
+    public function __construct(GoogleTranslation $googleTranslation, TranslateRepository $translateRepo, BoketeRepository $boketeRepo)
     {
+        $this->transform     = $googleTranslation;
+        $this->translateRepo = $translateRepo;
+        $this->boketeRepo    = $boketeRepo;
         parent::__construct();
-        $this->transform = $googleTranslation;
     }
 
     /**
@@ -75,7 +79,10 @@ class GoogleRobot extends Command
                 $data['content']     = $content;
                 $data['target_id']   = $bokete->number;
                 $data['target_type'] = 'boketes';
-                $this->saveTranslate($data);
+
+                $bokete->google_translate_id = $this->saveTranslate($data);
+                $bokete->save();
+
                 $bar->advance();
             }
             $bar->finish();
@@ -84,11 +91,13 @@ class GoogleRobot extends Command
     
     public function saveTranslate($data)
     {
-        Translate::create([
-          'target_id'   => $data['target_id'],
-          'target_type' => $data['target_type'],
-          'content'     => $data['content'],
-          'user_id'     => 1,
+        $teanslate = $this->translateRepo->create([
+            'target_id'   => $data['target_id'],
+            'target_type' => $data['target_type'],
+            'content'     => $data['content'],
+            'user_id'     => 1,
         ]);
+
+        return $teanslate->id;
     }
 }

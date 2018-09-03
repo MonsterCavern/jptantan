@@ -1,4 +1,14 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);/*
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+.blueimp-gallery > .slides > .slide > .slide-content {
+  bottom: 30% !important;
+}
+.blueimp-card {
+  bottom: 30%;
+  position: absolute;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+/*
  * Custom translucent site header
  */
 .site-header {

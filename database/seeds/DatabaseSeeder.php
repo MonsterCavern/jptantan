@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         
         Artisan::call('crawler:bokete', [
-             'type'    => 'insert',
-         ]);
-         
+            'type'    => 'insert',
+        ]);
+        
         Artisan::call('crawler:bokete', [
             'type'    => 'update',
         ]);

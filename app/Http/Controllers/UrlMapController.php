@@ -15,7 +15,7 @@ class UrlMapController extends Controller
     public function autoTranslate()
     {
         $mssage = [];
-        $rows = UrlMap::select('id', 'content')->where('is_cached', 0)->get();
+        $rows   = UrlMap::select('id', 'content')->where('is_cached', 0)->get();
         // dd($rows);
         if ($rows) {
             $GTService = new GoogleTranslationService;
@@ -23,26 +23,27 @@ class UrlMapController extends Controller
                 // urlid
                 $GTService->auto($row->id, $row->content);
                 // 更新 is_cached
-                $mssage['id'] = $row->id;
+                $mssage['id']     = $row->id;
                 $mssage['status'] = UrlMap::where('id', $row->id)->update(['is_cached' => 1]);
             }
         }
         
         return response()->json([
-          'code' => 200,
+          'code'    => 200,
           'message' => $mssage
         ]);
     }
     
     public function autoParser(Request $request)
     {
-        $url = ($request->url)??'https://ncode.syosetu.com/n2267be/2/';
+        $url   = ($request->url) ?? 'https://ncode.syosetu.com/n2267be/2/';
         $parse = new HtmlParserController;
-        $res = $parse->parserSyosetu($url);
+        $res   = $parse->parserSyosetu($url);
         // dd($url, $res);
         $status = UrlMap::where('url', $url)->update(['content' => Util::JsonEncode($res)]);
+
         return response()->json([
-          'code' => 200,
+          'code'    => 200,
           'message' => $status
         ]);
     }
@@ -55,6 +56,7 @@ class UrlMapController extends Controller
     public function index(Request $request)
     {
         $urls = $this->dataTable(UrlMap::class, $request);
+
         return $urls;
     }
 
@@ -85,17 +87,17 @@ class UrlMapController extends Controller
         // 驗證 資料
         $request->validate([
           'title' => 'required|max:255',
-          'url' => 'required|url|unique:url_maps',
+          'url'   => 'required|url|unique:url_maps',
         ]);
         
         // 過濾 URL
-        $data = $request->all();
-        $parseUrl = parse_url($data['url']);
+        $data             = $request->all();
+        $parseUrl         = parse_url($data['url']);
         $data['scheme']   = $parseUrl['scheme'];
         $data['host']     = $parseUrl['host'];
-        $data['path']     = $parseUrl['path']??'';
-        $data['query']    = $parseUrl['query']??'';
-        $data['fragment'] = $parseUrl['fragment']??'';
+        $data['path']     = $parseUrl['path'] ?? '';
+        $data['query']    = $parseUrl['query'] ?? '';
+        $data['fragment'] = $parseUrl['fragment'] ?? '';
       
         // Save
         $res = $urlMap->insert($data);

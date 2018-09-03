@@ -1,24 +1,22 @@
-<style lang="scss" >
+
+<style lang="scss">
 </style>
 
 <template>
-
-<div id="">
-
-</div>
-
+  <div id="">
+  </div>
 </template>
 
 <script>
 export default {
-    name: "",
-    data() {
-        return {}
-    },
-    computed: {
-        text() {
-            return {}
-        }
+  name: '',
+  data() {
+    return {}
+  },
+  computed: {
+    text() {
+      return {}
     }
+  }
 }
 </script>

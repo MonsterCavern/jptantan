@@ -102,8 +102,8 @@ class ImportBokete extends Command
                 $arr     = explode('/', $url);
                 $number  = array_pop($arr);
                 Bokete::updateOrCreate([
-                  'number'  => $number,
-                  'url'     => $url,
+                    'number'  => $number,
+                    'url'     => $url,
                 ]);
                 $bar->advance();
             }
@@ -113,17 +113,25 @@ class ImportBokete extends Command
     
     public function saveBokete(BoketeSpider $boketeSpider)
     {
-        $number  = $boketeSpider->getNumber();
-        $content = $boketeSpider->getContent();
-        $content = trim(strip_tags($content));
-        $content = preg_split('/[\r\n]+/s', $content);
-        Bokete::where('number', $number)
-              ->update([
-                'content'     => Util::JsonEncode($content),
-                'source'      => strip_tags($boketeSpider->getSource(), '<a><img>'),
-                'ranting'     => $boketeSpider->getStarts(),
-                'released_at' => $boketeSpider->getReleasedTime(),
-                'is_updated'  => 1
-              ]);
+        $number   = $boketeSpider->getNumber();
+        $imageUrl = $boketeSpider->getImageSource();
+
+        $content  = $boketeSpider->getContent();
+        $content  = trim(strip_tags($content));
+        $content  = preg_split('/[\r\n]+/s', $content);
+        // dd($content);
+
+        $data = [
+            'content'     => $content,
+            'image'       => $imageUrl,
+            'source'      => strip_tags($boketeSpider->getSource(), '<a><img>'),
+            'ranting'     => $boketeSpider->getStarts(),
+            'released_at' => $boketeSpider->getReleasedTime(),
+            'is_updated'  => 1
+        ];
+        // dd($data);
+
+        $bokete = Bokete::where('number', $number)->first();
+        $bokete->update($data);
     }
 }

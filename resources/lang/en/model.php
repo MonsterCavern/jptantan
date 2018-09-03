@@ -4,5 +4,7 @@ return [
   'AdminGroup' => 'AdminGroup',
   'User'       => 'User',
   'Role'       => 'Role',
-  'Permission' => 'Permission'
+  'Permission' => 'Permission',
+
+  'Bokete' => 'Bokete'
 ];

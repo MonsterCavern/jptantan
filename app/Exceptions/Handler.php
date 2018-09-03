@@ -56,13 +56,13 @@ class Handler extends ExceptionHandler
     {
         if ($request->is('api/*')) {
             $log = [
-              'message'   => $exception->getMessage(),
-              'exception' => get_class($exception),
-              'file'      => $exception->getFile(),
-              'line'      => $exception->getLine(),
-              'trace'     => collect($exception->getTrace())->map(function ($trace) {
-                  return Arr::except($trace, ['args']);
-              })->all(),
+                'message'   => $exception->getMessage(),
+                'exception' => get_class($exception),
+                'file'      => $exception->getFile(),
+                'line'      => $exception->getLine(),
+                'trace'     => collect($exception->getTrace())->map(function ($trace) {
+                    return Arr::except($trace, ['args']);
+                })->all(),
             ];
             LogError::create($log);
 
@@ -75,7 +75,7 @@ class Handler extends ExceptionHandler
                 return Response::json(ResponseUtil::makeResponse(__('error.undefined')), 500);
             }
         }
-      
+
         return parent::render($request, $exception);
     }
 }

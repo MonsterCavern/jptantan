@@ -8,7 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 /**
  * Class BoketeRepository
  * @package App\Repositories
- * @version May 29, 2018, 6:48 am UTC
+ * @version September 3, 2018, 8:53 am UTC
  *
  * @method Bokete findWithoutFail($id, $columns = ['*'])
  * @method Bokete find($id, $columns = ['*'])
@@ -24,6 +24,7 @@ class BoketeRepository extends BaseRepository
         'url',
         'content',
         'ranting',
+        'image',
         'source',
         'is_updated',
         'released_at',
@@ -38,19 +39,9 @@ class BoketeRepository extends BaseRepository
     {
         return Bokete::class;
     }
-    
+
     public function getBoketesByGoogleIDisNull()
     {
         return $this->model->whereNull('google_translate_id');
-    }
-    
-    public function hasManyTranslates()
-    {
-        $model = $this->model->addSelect('translates')
-                              ->whereHas('translates', function ($query) {
-                                  $query->where('target_type', 'bokete');
-                              });
-
-        return $model;
     }
 }

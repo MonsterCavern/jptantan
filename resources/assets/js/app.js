@@ -7,8 +7,7 @@
 require("./bootstrap")
 
 import Vue from "vue"
-Vue.prototype.$log = (...args) =>
-    console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
+Vue.prototype.$log = (...args) => console.log(`[${new Date().toLocaleTimeString()}]:`, ...args)
 
 import i18n from "./lang"
 import { createStore } from "./store"
@@ -24,11 +23,11 @@ const router = createRouter()
 sync(store, router)
 
 const vm = new Vue({
-    el: "#app",
-    i18n,
-    router,
-    store,
-    render: h => h(App)
+  el: "#app",
+  i18n,
+  router,
+  store,
+  render: h => h(App)
 })
 
 /*

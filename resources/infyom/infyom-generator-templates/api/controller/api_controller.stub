@@ -28,7 +28,7 @@ class $MODEL_NAME$APIController extends AppBaseController
         $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->paginate();
 
-        return $this->sendPaginateResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.retrieved', ['name' => __('model.$MODEL_NAME$')]));
+        return $this->sendPaginateResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.retrieved', ['attribute' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_STORE$
@@ -38,7 +38,7 @@ class $MODEL_NAME$APIController extends AppBaseController
 
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->create($input);
 
-        return $this->sendResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.saved', ['name' => __('model.$MODEL_NAME$')]));
+        return $this->sendResponse($$MODEL_NAME_PLURAL_CAMEL$->toArray(), __('common.saved', ['attribute' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_SHOW$
@@ -48,10 +48,10 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.$MODEL_NAME$')]));
         }
 
-        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.retrieved', ['name' => __('model.$MODEL_NAME$')]));
+        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.retrieved', ['attribute' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_UPDATE$
@@ -63,12 +63,12 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.$MODEL_NAME$')]));
         }
 
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->update($input, $id);
 
-        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.updated', ['name' => __('model.$MODEL_NAME$')]));
+        return $this->sendResponse($$MODEL_NAME_CAMEL$->toArray(), __('common.updated', ['attribute' => __('model.$MODEL_NAME$')]));
     }
 
     $DOC_DESTROY$
@@ -78,11 +78,11 @@ class $MODEL_NAME$APIController extends AppBaseController
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
         if (empty($$MODEL_NAME_CAMEL$)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['name' => __('model.$MODEL_NAME$')]));
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.$MODEL_NAME$')]));
         }
 
         $$MODEL_NAME_CAMEL$->delete();
 
-        return $this->sendResponse($id, __('common.deleted', ['name' => __('model.$MODEL_NAME$')]));
+        return $this->sendResponse($id, __('common.deleted', ['attribute' => __('model.$MODEL_NAME$')]));
     }
 }
