@@ -2,29 +2,35 @@ import { log } from '../../utils'
 import Bokete from '@model/Bokete'
 
 export default {
-  async getBoketes({ commit, dispatch }, { select, search }) {
+  async getData({ commit, dispatch }, { select = [], search = {} }) {
     try {
       let model = new Bokete()
 
-      if (select.length > 0) {
+      if (select && select.length > 0) {
         model = model.select(select)
       }
 
-      if (Object.keys(search).length > 0) {
+      if (search && Object.keys(search).length > 0) {
         for (var key in search) {
           model = model.where(key, search[key])
         }
       }
 
-      return await model.get().then(function (result) {
-        //
-        if (result.code == 200) {
-          commit('setData', result.data)
-        }
-      })
+      let result = await model.get()
+
+      if (result.code == 200 && result.data.length > 0) {
+        commit('setData', result.data)
+        return result
+      }
+
+      if (result.message) {
+        throw Error(result.message)
+      }
+
     } catch (e) {
       log(e)
     }
+
   },
   async getBoketeByID({ commit, dispatch }, { Id }) {
     try {

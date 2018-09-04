@@ -1,5 +1,6 @@
 <style lang="scss" >
 .blueimp-gallery > .slides > .slide > .slide-content {
+  max-height: 580px !important;
   bottom: 30% !important;
 }
 .blueimp-card {
@@ -21,16 +22,15 @@
       <div class="col-md-4" v-for="(item,index) in list" :key="index">
         <div class="card mb-4 box-shadow">
           <div class="image-container" :data-image="item.href" :data-title="item.title" v-bind="bindAttrData(item)" @click="openGallery($event, false, index)">
-            <img class="card-img-top" :src="item.thumbnail" :alt="item.title">
+            <img class="card-img-top" :src="item.thumbnail" :alt="item.title" style="min-height:580px">
           </div>
 
           <div class="card-body">
-            <p class="card-text">{{ item.description }}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
               </div>
-              <small class="text-muted">{{ item.updated_at }}</small>
+              <small class="text-muted">{{ item.released_at }}</small>
             </div>
           </div>
         </div>
@@ -227,8 +227,8 @@ export default {
         this.list = this.images.concat().map((val, idx) => {
           let result = {
             title: val.title ? val.title : 'Image' + (idx + 1),
-            thumbnail: val.thumbnail ? val.thumbnail : val.url,
-            href: val.url
+            thumbnail: val.thumbnail ? val.thumbnail : val.image,
+            href: val.image
           }
 
           return $.extend(true, val, result)

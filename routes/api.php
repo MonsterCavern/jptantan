@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::resource('boketes', 'Translate\\BoketeAPIController');
-// Route::resource('translates', 'Translate\\TranslateAPIController');
 Route::resource('translates', 'TranslateAPIController');
 Route::resource('boketes', 'BoketeAPIController');
+// Route::get('boketes', function () {
+//     return abort(500);
+// });
 
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);

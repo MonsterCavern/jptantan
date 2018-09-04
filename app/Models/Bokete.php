@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Util;
 use Eloquent as Model;
 
 /**
@@ -105,6 +106,18 @@ class Bokete extends Model
         'google_translate_id' => 'integer',
         'baidu_translate_id'  => 'integer'
     ];
+
+    public function getReleasedAtAttribute($value): string
+    {
+        $date = $this->asDateTime($value);
+    
+        return $date->format('Y/m/d');
+    }
+
+    public function getContentAttribute($value)
+    {
+        return  implode('\r\n', Util::JsonDecode($value));
+    }
 
     /**
      * Validation rules

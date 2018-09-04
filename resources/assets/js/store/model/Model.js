@@ -54,18 +54,48 @@ export default class Model extends BaseModel {
 
     config.onDownloadProgress = function (progressEvent) { }
 
+    // 最好不要在後面繼續接 then
     return this.$http.
       request(config).
       then(function (response) {
-        console.log(response)
+        var collection = response.data.data || response.data
+
+        collection = Array.isArray(collection) ? collection : [collection]
+        if (collection.length == 0) {
+          // TODO: 偷懶沒 custom Error class
+          throw {
+            response: {
+              data: {
+                code: 200404,
+                data: collection,
+                message: ''
+              }
+            }
+          }
+        }
+
         return response
       }).
       catch(error => {
-        console.log(error.response)
-        return error
+        //  捕抓不到之後的 then
+        //  response sample
+        // let response = {
+        //   config: {},
+        //   data: {
+        //     code: 500,
+        //     message: "",
+        //     response_time: 0
+        //   },
+        //   headers: {},
+        //   request: {},
+        //   status: 500,
+        //   statusText: ''
+        // }
+        return error.response
       }).
       finally(() => {
         /* 不論成功失敗，都做些事 */
+        // 這裡不是 Promise 的最後尾
       })
   }
 }

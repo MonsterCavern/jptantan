@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 .blueimp-gallery > .slides > .slide > .slide-content {
+  max-height: 580px !important;
   bottom: 30% !important;
 }
 .blueimp-card {
