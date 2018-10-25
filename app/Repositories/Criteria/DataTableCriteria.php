@@ -22,7 +22,7 @@ class DataTableCriteria implements CriteriaInterface
     {
         $this->request = $request;
     }
-  
+
     /**
      * Apply criteria in query repository
      *

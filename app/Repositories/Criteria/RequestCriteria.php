@@ -39,10 +39,10 @@ class RequestCriteria implements CriteriaInterface
         
         // dd($model);
         $model = QueryBuilder::for($model::query(), $this->request)
-              ->allowedIncludes($model->include)
-              ->allowedFilters($model->fillable)
-              ->allowedSorts($model->fillable);
-              
+                ->allowedIncludes($model->include)
+                ->allowedFilters($model->fillable)
+                ->allowedSorts($model->fillable);
+
         if (isset($queries['limit'])) {
             $model = $model->limit($queries['limit']);
             config(['repository.pagination.limit' => (int)$queries['limit']]);

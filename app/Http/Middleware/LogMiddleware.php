@@ -29,12 +29,14 @@ class LogMiddleware
             
             if (LARAVEL_START) {
                 $laravelRunTime              = round(microtime(true) - LARAVEL_START, 4);
-                $responseData->response_time = $laravelRunTime;
             }
-            
+
+            $sql = Util::getSqlLogs();
+
             if (config('app.debug')) {
-                $responseData->sql = Util::getSqlLogs();
-              
+                $responseData->response_time = $laravelRunTime ?? 0;
+                $responseData->sql           = $sql;
+
                 $response->setData($responseData);
             }
             
@@ -43,27 +45,25 @@ class LogMiddleware
             if ($response->getStatusCode() === 200) {
                 $user            = $request->get('_user');
                 $log             = [
-                  'code'          => $responseContent['code'] ?? 0,
-                  'remote_addr'   => $request->getClientIp(),
-                  'params'        => $request->all(),
-                  'method'        => $request->getMethod(),
-                  'uri'           => $request->getPathInfo(),
-                  'name'          => $request->route()->getActionName(),
-                  'own_id'        => $user->id ?? 0,
-                  'own_type'      => $request->get('_guard') ?? 'guest',
-                  'response'      => $responseContent ?? '',
-                  'response_time' => $laravelRunTime ?? 0,
-                  'user_agent'    => $request->userAgent(),
-                  'header'        => $request->headers->all()
+                    'code'          => $responseContent['code'] ?? 0,
+                    'remote_addr'   => $request->getClientIp(),
+                    'params'        => $request->all(),
+                    'method'        => $request->getMethod(),
+                    'uri'           => $request->getPathInfo(),
+                    'name'          => $request->route()->getActionName(),
+                    'own_id'        => $user->id ?? 0,
+                    'own_type'      => $request->get('_guard') ?? 'guest',
+                    'response'      => $responseContent ?? '',
+                    'response_time' => $laravelRunTime ?? 0,
+                    'user_agent'    => $request->userAgent(),
+                    'header'        => $request->headers->all(),
+                    'sql'           => $sql
                 ];
                 
                 LogApi::create($log);
             }
         }
-        // if ($response instanceof Response) {
-        //
-        // }
-        
+
         return $response;
     }
 }

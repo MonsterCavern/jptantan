@@ -44,7 +44,8 @@ class LogApi extends Model
         'response',
         'response_time',
         'user_agent',
-        'header'
+        'header',
+        'sql'
     ];
 
     /**
@@ -63,7 +64,8 @@ class LogApi extends Model
         'own_type'    => 'string',
         'response'    => 'array',
         'user_agent'  => 'string',
-        'header'      => 'array'
+        'header'      => 'array',
+        'sql'         => 'array'
     ];
 
     /**

@@ -8,8 +8,8 @@ use App\Utils\Util;
 
 use App\Models\Translate;
 use App\Libraries\Translate\GoogleTranslation;
-use App\Repositories\BoketeRepository;
 use App\Repositories\TranslateRepository;
+use App\Repositories\TranslateRepository as BoketeRepository;
 
 use Illuminate\Console\Command;
 
@@ -55,18 +55,20 @@ class GoogleRobot extends Command
             $list = $boketeRepository->getBoketesByGoogleIDisNull()->get();
             $this->transBoketeTW($list);
         }
-        
+
         $this->line("\r\n");
         $this->info('create bokete list!');
     }
-    
+
     public function transBoketeTW($list)
     {
         if (! empty($list)) {
             $bar = $this->output->createProgressBar(count($list));
             foreach ($list as $bokete) {
-                $contents    = $bokete->content;
-                $content     = [];
+                // content 有被用 修改器改過 從 array -> string
+                // $contents    = $bokete->content;
+                $contents = preg_split('/[\r\n]+/s', $bokete->content);
+                $content  = [];
                 foreach ($contents as $value) {
                     $content[] = [
                         'before'   => $value,
@@ -75,7 +77,7 @@ class GoogleRobot extends Command
                         'relateds' => []
                     ];
                 }
-                
+
                 $data['content']     = $content;
                 $data['target_id']   = $bokete->number;
                 $data['target_type'] = 'boketes';
@@ -88,7 +90,7 @@ class GoogleRobot extends Command
             $bar->finish();
         }
     }
-    
+
     public function saveTranslate($data)
     {
         $teanslate = $this->translateRepo->create([
