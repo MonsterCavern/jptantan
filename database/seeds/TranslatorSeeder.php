@@ -28,12 +28,12 @@ class TranslatorSeeder extends Seeder
 
         $faker = Faker\Factory::create();
         //$urls = [];
-        for ($i=0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $urls[] = [
-              'url'   => $faker->url,
-              'title' => $faker->title,
-              'type'  => 'web'
-          ];
+                'url'   => $faker->url,
+                'title' => $faker->title,
+                'type'  => 'web'
+            ];
         }
 
         foreach ($urls as $url) {

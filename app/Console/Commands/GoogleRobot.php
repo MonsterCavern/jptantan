@@ -8,8 +8,6 @@ use App\Utils\Util;
 
 use App\Models\Translate;
 use App\Libraries\Translate\GoogleTranslation;
-use App\Repositories\TranslateRepository;
-use App\Repositories\TranslateRepository as BoketeRepository;
 
 use Illuminate\Console\Command;
 
@@ -34,11 +32,9 @@ class GoogleRobot extends Command
      *
      * @return void
      */
-    public function __construct(GoogleTranslation $googleTranslation, TranslateRepository $translateRepo, BoketeRepository $boketeRepo)
+    public function __construct(GoogleTranslation $googleTranslation)
     {
-        $this->transform     = $googleTranslation;
-        $this->translateRepo = $translateRepo;
-        $this->boketeRepo    = $boketeRepo;
+        $this->transform = $googleTranslation;
         parent::__construct();
     }
 

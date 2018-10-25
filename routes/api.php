@@ -12,16 +12,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 // Route::get('boketes', function () {
 //     return abort(500);
 // });
 
+Route::resource('boketes', 'BoketeAPIController');
+
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
-
-
-
-
