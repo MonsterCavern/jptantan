@@ -22,14 +22,15 @@
         "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
-        "filp/whoops": "~2.0",
-        "nunomaduro/collision": "~1.1",
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~7.0",
         "emanueleminotto/faker-placehold-it-provider": "^1.0",
+        "filp/whoops": "~2.0",
+        "fzaninotto/faker": "~1.4",
         "infyomlabs/laravel-generator": "5.6.x-dev",
-        "infyomlabs/swagger-generator": "dev-master"
+        "infyomlabs/swagger-generator": "dev-master",
+        "laravel/browser-kit-testing": "^4.0",
+        "mockery/mockery": "~1.0",
+        "nunomaduro/collision": "~1.1",
+        "phpunit/phpunit": "~7.0"
     },
     "autoload": {
         "classmap": [

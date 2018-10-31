@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,34 @@ Route::resource('boketes', 'BoketeAPIController');
 Route::any('/{all?}', function () {
     return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
 })->where(['all' => '.*']);
+
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');
+
+Route::resource('boketes', 'BoketeAPIController');

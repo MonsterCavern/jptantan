@@ -1,8 +1,14 @@
 <?php
 
+namespace Tests\Unit;
+
+use App;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\ApiTestTrait;
+use Tests\TestCase;
+use Tests\traits\Make$MODEL_NAME$Trait;
 
 class $MODEL_NAME$RepositoryTest extends TestCase
 {

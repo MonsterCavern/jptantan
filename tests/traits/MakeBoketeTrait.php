@@ -1,8 +1,12 @@
 <?php
 
-use Faker\Factory as Faker;
+namespace Tests\Traits;
+
+use App;
 use App\Models\Bokete;
 use App\Repositories\BoketeRepository;
+use App\Utils\Util;
+use Faker\Factory as Faker;
 
 trait MakeBoketeTrait
 {
@@ -16,7 +20,8 @@ trait MakeBoketeTrait
     {
         /** @var BoketeRepository $boketeRepo */
         $boketeRepo = App::make(BoketeRepository::class);
-        $theme = $this->fakeBoketeData($boketeFields);
+        $theme      = $this->fakeBoketeData($boketeFields);
+
         return $boketeRepo->create($theme);
     }
 
@@ -42,18 +47,18 @@ trait MakeBoketeTrait
         $fake = Faker::create();
 
         return array_merge([
-            'number' => $fake->randomDigitNotNull,
-            'url' => $fake->text,
-            'content' => $fake->text,
-            'ranting' => $fake->randomDigitNotNull,
-            'image' => $fake->text,
-            'source' => $fake->text,
-            'is_updated' => $fake->randomDigitNotNull,
-            'released_at' => $fake->date('Y-m-d H:i:s'),
-            'updated_at' => $fake->date('Y-m-d H:i:s'),
-            'created_at' => $fake->date('Y-m-d H:i:s'),
+            'number'              => $fake->randomDigitNotNull,
+            'url'                 => $fake->text,
+            'content'             => Util::JsonEncode($fake->text),
+            'ranting'             => $fake->randomDigitNotNull,
+            'image'               => $fake->text,
+            'source'              => $fake->text,
+            'is_updated'          => $fake->randomDigitNotNull,
+            'released_at'         => $fake->date('Y-m-d H:i:s'),
             'google_translate_id' => $fake->randomDigitNotNull,
-            'baidu_translate_id' => $fake->randomDigitNotNull
+            'baidu_translate_id'  => $fake->randomDigitNotNull,
+            // 'updated_at'          => $fake->date('Y-m-d H:i:s'),
+            // 'created_at'          => $fake->date('Y-m-d H:i:s'),
         ], $boketeFields);
     }
 }

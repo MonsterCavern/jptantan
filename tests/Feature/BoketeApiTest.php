@@ -1,7 +1,12 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+namespace Tests\Feature;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\ApiTestTrait;
+use Tests\TestCase;
+use Tests\traits\MakeBoketeTrait;
 
 class BoketeApiTest extends TestCase
 {
@@ -13,7 +18,7 @@ class BoketeApiTest extends TestCase
     public function testCreateBokete()
     {
         $bokete = $this->fakeBoketeData();
-        $this->json('POST', '/api/v1/boketes', $bokete);
+        $this->json('POST', '/api/boketes', $bokete);
 
         $this->assertApiResponse($bokete);
     }
@@ -24,7 +29,7 @@ class BoketeApiTest extends TestCase
     public function testReadBokete()
     {
         $bokete = $this->makeBokete();
-        $this->json('GET', '/api/v1/boketes/'.$bokete->id);
+        $this->json('GET', '/api/boketes/' . $bokete->id);
 
         $this->assertApiResponse($bokete->toArray());
     }
@@ -34,10 +39,10 @@ class BoketeApiTest extends TestCase
      */
     public function testUpdateBokete()
     {
-        $bokete = $this->makeBokete();
+        $bokete       = $this->makeBokete();
         $editedBokete = $this->fakeBoketeData();
 
-        $this->json('PUT', '/api/v1/boketes/'.$bokete->id, $editedBokete);
+        $this->json('PUT', '/api/boketes/' . $bokete->id, $editedBokete);
 
         $this->assertApiResponse($editedBokete);
     }
@@ -48,10 +53,10 @@ class BoketeApiTest extends TestCase
     public function testDeleteBokete()
     {
         $bokete = $this->makeBokete();
-        $this->json('DELETE', '/api/v1/boketes/'.$bokete->id);
+        $this->json('DELETE', '/api/boketes/' . $bokete->id);
 
         $this->assertApiSuccess();
-        $this->json('GET', '/api/v1/boketes/'.$bokete->id);
+        $this->json('GET', '/api/boketes/' . $bokete->id);
 
         $this->assertResponseStatus(404);
     }

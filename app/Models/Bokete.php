@@ -9,73 +9,69 @@ use Eloquent as Model;
  *      schema="Bokete",
  *      required={""},
  *      @OA\Property(
-*          property="id",
-*          description="id",
-*          type="integer",
+ *          property="id",
+ *          description="id",
+ *          type="integer",
  *          format="int32"
-*      ),
-*      @OA\Property(
-*          property="number",
-*          description="number",
-*          type="integer",
+ *      ),
+ *      @OA\Property(
+ *          property="number",
+ *          description="number",
+ *          type="integer",
  *          format="int32"
-*      ),
-*      @OA\Property(
-*          property="url",
-*          description="url",
-*          type="string"
-*      ),
-*      @OA\Property(
-*          property="content",
-*          description="content",
-*          type="string"
-*      ),
-*      @OA\Property(
-*          property="ranting",
-*          description="ranting",
-*          type="integer",
+ *      ),
+ *      @OA\Property(
+ *          property="url",
+ *          description="url",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="content",
+ *          description="content",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="ranting",
+ *          description="ranting",
+ *          type="integer",
  *          format="int32"
-*      ),
-*      @OA\Property(
-*          property="image",
-*          description="image",
-*          type="string"
-*      ),
-*      @OA\Property(
-*          property="source",
-*          description="source",
-*          type="string"
-*      ),
-*      @OA\Property(
-*          property="is_updated",
-*          description="is_updated",
-*          type="integer",
+ *      ),
+ *      @OA\Property(
+ *          property="image",
+ *          description="image",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="source",
+ *          description="source",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="is_updated",
+ *          description="is_updated",
+ *          type="integer",
  *          format="int32"
-*      ),
-*      @OA\Property(
-*          property="google_translate_id",
-*          description="google_translate_id",
-*          type="integer",
+ *      ),
+ *      @OA\Property(
+ *          property="google_translate_id",
+ *          description="google_translate_id",
+ *          type="integer",
  *          format="int32"
-*      ),
-*      @OA\Property(
-*          property="baidu_translate_id",
-*          description="baidu_translate_id",
-*          type="integer",
+ *      ),
+ *      @OA\Property(
+ *          property="baidu_translate_id",
+ *          description="baidu_translate_id",
+ *          type="integer",
  *          format="int32"
-*      )
+ *      )
  * )
  */
-
 class Bokete extends Model
 {
-
     public $table = 'boketes';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
 
     public $fillable = [
         'number',
@@ -87,9 +83,9 @@ class Bokete extends Model
         'is_updated',
         'released_at',
         'google_translate_id',
-        'baidu_translate_id'
+        'baidu_translate_id',
     ];
-    
+
     public $include = [];
 
     /**
@@ -98,16 +94,16 @@ class Bokete extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'number' => 'integer',
-        'url' => 'string',
-        'content' => 'string',
-        'ranting' => 'integer',
-        'image' => 'string',
-        'source' => 'string',
-        'is_updated' => 'integer',
+        'id'                  => 'integer',
+        'number'              => 'integer',
+        'url'                 => 'string',
+        'content'             => 'array',
+        'ranting'             => 'integer',
+        'image'               => 'string',
+        'source'              => 'string',
+        'is_updated'          => 'integer',
         'google_translate_id' => 'integer',
-        'baidu_translate_id' => 'integer'
+        'baidu_translate_id'  => 'integer',
     ];
 
     /**
@@ -116,8 +112,5 @@ class Bokete extends Model
      * @var array
      */
     public static $rules = [
-        
     ];
-
-    
 }

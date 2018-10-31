@@ -9,39 +9,39 @@ return [
     */
 
     'path' => [
-        'migration'         => base_path('database/migrations/'),
+        'migration' => base_path('database/migrations/'),
 
-        'model'             => app_path('Models/'),
+        'model' => app_path('Models/'),
 
-        'datatables'        => app_path('DataTables/'),
+        'datatables' => app_path('DataTables/'),
 
-        'repository'        => app_path('Repositories/'),
+        'repository' => app_path('Repositories/'),
 
-        'routes'            => base_path('routes/web.php'),
+        'routes' => base_path('routes/web.php'),
 
-        'api_routes'        => base_path('routes/api.php'),
+        'api_routes' => base_path('routes/api.php'),
 
-        'request'           => app_path('Http/Requests/'),
+        'request' => app_path('Http/Requests/'),
 
-        'api_request'       => app_path('Http/Requests/API/'),
+        'api_request' => app_path('Http/Requests/API/'),
 
-        'controller'        => app_path('Http/Controllers/'),
+        'controller' => app_path('Http/Controllers/'),
 
-        'api_controller'    => app_path('Http/Controllers/API/'),
+        'api_controller' => app_path('Http/Controllers/API/'),
 
-        'test_trait'        => base_path('tests/traits/'),
+        'test_trait' => base_path('tests/traits/'),
 
-        'repository_test'   => base_path('tests/'),
+        'repository_test' => base_path('tests/Unit/'),
 
-        'api_test'          => base_path('tests/'),
+        'api_test' => base_path('tests/Feature/'),
 
-        'views'             => base_path('resources/views/'),
+        'views' => base_path('resources/views/'),
 
-        'schema_files'      => base_path('resources/model_schemas/'),
+        'schema_files' => base_path('resources/model_schemas/'),
 
-        'templates_dir'     => base_path('resources/infyom/infyom-generator-templates/'),
+        'templates_dir' => base_path('resources/infyom/infyom-generator-templates/'),
 
-        'modelJs'           => base_path('resources/assets/js/models/'),
+        'modelJs' => base_path('resources/assets/js/models/'),
     ],
 
     /*
@@ -52,19 +52,19 @@ return [
     */
 
     'namespace' => [
-        'model'             => 'App\Models',
+        'model' => 'App\Models',
 
-        'datatables'        => 'App\DataTables',
+        'datatables' => 'App\DataTables',
 
-        'repository'        => 'App\Repositories',
+        'repository' => 'App\Repositories',
 
-        'controller'        => 'App\Http\Controllers',
+        'controller' => 'App\Http\Controllers',
 
-        'api_controller'    => 'App\Http\Controllers\API',
+        'api_controller' => 'App\Http\Controllers\API',
 
-        'request'           => 'App\Http\Requests',
+        'request' => 'App\Http\Requests',
 
-        'api_request'       => 'App\Http\Requests\API',
+        'api_request' => 'App\Http\Requests\API',
     ],
 
     /*
@@ -74,7 +74,7 @@ return [
     |
     */
 
-    'templates'         => 'adminlte-templates',
+    'templates' => 'adminlte-templates',
 
     /*
     |--------------------------------------------------------------------------
@@ -92,9 +92,9 @@ return [
     |
     */
 
-    'api_prefix'  => 'api',
+    'api_prefix' => 'api',
 
-    'api_version' => 'v1',
+    'api_version' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -134,16 +134,16 @@ return [
     */
 
     'add_on' => [
-        'swagger'       => true,
+        'swagger' => true,
 
-        'tests'         => true,
+        'tests' => true,
 
-        'datatables'    => false,
+        'datatables' => false,
 
-        'menu'          => [
-            'enabled'       => false,
+        'menu' => [
+            'enabled' => false,
 
-            'menu_file'     => 'layouts/menu.blade.php',
+            'menu_file' => 'layouts/menu.blade.php',
         ],
     ],
 
@@ -155,13 +155,13 @@ return [
     */
 
     'timestamps' => [
-        'enabled'       => true,
+        'enabled' => true,
 
-        'created_at'    => 'created_at',
+        'created_at' => 'created_at',
 
-        'updated_at'    => 'updated_at',
+        'updated_at' => 'updated_at',
 
-        'deleted_at'    => 'deleted_at',
+        'deleted_at' => 'deleted_at',
     ],
 
     /*

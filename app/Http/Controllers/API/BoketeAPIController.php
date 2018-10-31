@@ -9,13 +9,13 @@ use App\Repositories\BoketeRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\Criteria\RequestCriteria;
-use App\Http\Resources\BoketeResource as BoketeResource;
 use Response;
 
 /**
  * Class BoketeController
  * @package App\Http\Controllers\API
  */
+
 class BoketeAPIController extends AppBaseController
 {
     /** @var  BoketeRepository */
@@ -58,14 +58,13 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
+
     public function index(Request $request)
     {
         $this->boketeRepository->pushCriteria(new RequestCriteria($request));
         $boketes = $this->boketeRepository->paginate();
 
-        return new BoketeResource($boketes);
-
-        // return $this->sendPaginateResponse($boketes->toArray(), __('common.retrieved', ['attribute' => __('model.Bokete')]));
+        return $this->sendPaginateResponse($boketes->toArray(), __('common.retrieved', ['attribute' => __('model.Bokete')]));
     }
 
     /**
@@ -105,6 +104,7 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
+
     public function store(CreateBoketeAPIRequest $request)
     {
         $input = $request->all();
@@ -155,6 +155,7 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
+
     public function show($id)
     {
         /** @var Bokete $bokete */
@@ -163,8 +164,6 @@ class BoketeAPIController extends AppBaseController
         if (empty($bokete)) {
             return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Bokete')]));
         }
-
-        return new BoketeResource($bokete);
 
         return $this->sendResponse($bokete->toArray(), __('common.retrieved', ['attribute' => __('model.Bokete')]));
     }
@@ -217,6 +216,7 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
+
     public function update($id, UpdateBoketeAPIRequest $request)
     {
         $input = $request->all();

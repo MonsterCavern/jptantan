@@ -8,7 +8,7 @@ use InfyOm\Generator\Common\BaseRepository;
 /**
  * Class BoketeRepository
  * @package App\Repositories
- * @version October 25, 2018, 9:31 am UTC
+ * @version October 31, 2018, 9:23 am UTC
  *
  * @method Bokete findWithoutFail($id, $columns = ['*'])
  * @method Bokete find($id, $columns = ['*'])
