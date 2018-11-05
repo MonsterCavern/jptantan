@@ -4,11 +4,9 @@ namespace App\Console\Commands;
 
 use App;
 
-use App\Utils\Util;
-
-use App\Models\Translate;
 use App\Libraries\Translate\GoogleTranslation;
-
+use App\Repositories\BoketeRepository;
+use App\Repositories\TranslateRepository;
 use Illuminate\Console\Command;
 
 class GoogleRobot extends Command
@@ -32,9 +30,11 @@ class GoogleRobot extends Command
      *
      * @return void
      */
-    public function __construct(GoogleTranslation $googleTranslation)
+    public function __construct(GoogleTranslation $googleTranslation, TranslateRepository $translateRepo, BoketeRepository $boketeRepo)
     {
-        $this->transform = $googleTranslation;
+        $this->transform     = $googleTranslation;
+        $this->translateRepo = $translateRepo;
+        $this->boketeRepo    = $boketeRepo;
         parent::__construct();
     }
 
@@ -62,15 +62,15 @@ class GoogleRobot extends Command
             $bar = $this->output->createProgressBar(count($list));
             foreach ($list as $bokete) {
                 // content 有被用 修改器改過 從 array -> string
-                // $contents    = $bokete->content;
-                $contents = preg_split('/[\r\n]+/s', $bokete->content);
-                $content  = [];
+                $contents = $bokete->content;
+                // $contents = preg_split('/[\r\n]+/s', $bokete->content);
+                $content = [];
                 foreach ($contents as $value) {
                     $content[] = [
                         'before'   => $value,
                         'after'    => $this->transform->execute($value, 'zh-TW'),
                         'note'     => '',
-                        'relateds' => []
+                        'relateds' => [],
                     ];
                 }
 

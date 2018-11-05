@@ -23,14 +23,14 @@ class DatabaseSeeder extends Seeder
         $this->call(UserGroupSeeder::class);
         $this->call(UserSeeder::class);
 
-        // Artisan::call('crawler:bokete', [
-        //     'type'    => 'insert',
-        // ]);
+        Artisan::call('crawler:bokete', [
+            'type' => 'insert',
+        ]);
 
-        // Artisan::call('crawler:bokete', [
-        //     'type'    => 'update',
-        // ]);
+        Artisan::call('crawler:bokete', [
+            'type' => 'update',
+        ]);
 
-        // Artisan::call('robot:google');
+        Artisan::call('robot:google');
     }
 }

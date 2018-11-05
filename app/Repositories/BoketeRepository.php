@@ -13,7 +13,7 @@ use InfyOm\Generator\Common\BaseRepository;
  * @method Bokete findWithoutFail($id, $columns = ['*'])
  * @method Bokete find($id, $columns = ['*'])
  * @method Bokete first($columns = ['*'])
-*/
+ */
 class BoketeRepository extends BaseRepository
 {
     /**
@@ -29,7 +29,7 @@ class BoketeRepository extends BaseRepository
         'is_updated',
         'released_at',
         'google_translate_id',
-        'baidu_translate_id'
+        'baidu_translate_id',
     ];
 
     /**
@@ -38,5 +38,10 @@ class BoketeRepository extends BaseRepository
     public function model()
     {
         return Bokete::class;
+    }
+
+    public function getBoketesByGoogleIDisNull()
+    {
+        return $this->model->whereNull('google_translate_id');
     }
 }

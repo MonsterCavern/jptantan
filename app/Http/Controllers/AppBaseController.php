@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Utils\ResponseUtil;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Response;
 
 /**
@@ -32,10 +32,11 @@ class AppBaseController extends Controller
     {
         throw new HttpResponseException(Response::json(ResponseUtil::makeResponse($error, [], $code), $code));
     }
-    
+
     public function sendPaginateResponse($result, $message)
     {
         $response = ResponseUtil::makeResponse($message, $result['data']);
+
         foreach ($result as $key => $value) {
             if ($key != 'data') {
                 $response[$key] = $value;

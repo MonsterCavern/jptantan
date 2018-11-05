@@ -5,31 +5,86 @@ namespace App\Models;
 use Eloquent as Model;
 
 /**
- * Class LogApi
- * @package App\Models
- * @version August 14, 2018, 6:36 am UTC
- *
- * @property string|\Carbon\Carbon timestamp
- * @property integer code
- * @property string remote_addr
- * @property string params
- * @property string method
- * @property string uri
- * @property string name
- * @property integer own_id
- * @property string own_type
- * @property string response
- * @property decimal response_time
- * @property string user_agent
- * @property string header
+ * @OA\Schema(
+ *      schema="LogApi",
+ *      required={""},
+ *      @OA\Property(
+ *          property="code",
+ *          description="code",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @OA\Property(
+ *          property="remote_addr",
+ *          description="remote_addr",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="params",
+ *          description="params",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="method",
+ *          description="method",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="uri",
+ *          description="uri",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="name",
+ *          description="name",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="own_id",
+ *          description="own_id",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @OA\Property(
+ *          property="own_type",
+ *          description="own_type",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="response",
+ *          description="response",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="response_time",
+ *          description="response_time",
+ *          type="number",
+ *          format="float"
+ *      ),
+ *      @OA\Property(
+ *          property="user_agent",
+ *          description="user_agent",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="header",
+ *          description="header",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="sql",
+ *          description="sql",
+ *          type="string"
+ *      )
+ * )
  */
 class LogApi extends Model
 {
-    public $table = 'logs_api';
-    
+    public $table      = 'logs_api';
     public $timestamps = false;
-    const CREATED_AT   = 'created_at';
-    const UPDATED_AT   = 'updated_at';
+
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
     public $fillable = [
         'timestamp',
@@ -45,8 +100,10 @@ class LogApi extends Model
         'response_time',
         'user_agent',
         'header',
-        'sql'
+        'sql',
     ];
+
+    public $include = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -65,7 +122,7 @@ class LogApi extends Model
         'response'    => 'array',
         'user_agent'  => 'string',
         'header'      => 'array',
-        'sql'         => 'array'
+        'sql'         => 'array',
     ];
 
     /**

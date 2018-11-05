@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\API\CreateBoketeAPIRequest;
-use App\Http\Requests\API\UpdateBoketeAPIRequest;
-use App\Models\Bokete;
-use App\Repositories\BoketeRepository;
+use App\Http\Requests\API\CreateTranslateAPIRequest;
+use App\Http\Requests\API\UpdateTranslateAPIRequest;
+use App\Models\Translate;
 use App\Repositories\Criteria\RequestCriteria;
+use App\Repositories\TranslateRepository;
 use Illuminate\Http\Request;
 use Response;
 
 /**
- * Class BoketeController
+ * Class TranslateController
  * @package App\Http\Controllers\API
  */
-class BoketeAPIController extends AppBaseController
+class TranslateAPIController extends AppBaseController
 {
-    /** @var  BoketeRepository */
-    private $boketeRepository;
+    /** @var  TranslateRepository */
+    private $translateRepository;
 
-    public function __construct(BoketeRepository $boketeRepo)
+    public function __construct(TranslateRepository $translateRepo)
     {
-        $this->boketeRepository = $boketeRepo;
+        $this->translateRepository = $translateRepo;
     }
 
     /**
@@ -30,11 +30,11 @@ class BoketeAPIController extends AppBaseController
      * @return Response
      *
      * @OA\Get(
-     *      path="/boketes",
-     *      summary="Get a listing of the Boketes.",
+     *      path="/translates",
+     *      summary="Get a listing of the Translates.",
      *      operationId="index",
-     *      tags={"Bokete"},
-     *      description="Get all Boketes",
+     *      tags={"Translate"},
+     *      description="Get all Translates",
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",
@@ -47,7 +47,7 @@ class BoketeAPIController extends AppBaseController
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(ref="#/components/schemas/Bokete"),
+     *                  @OA\Items(ref="#/components/schemas/Translate"),
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -59,27 +59,27 @@ class BoketeAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->boketeRepository->pushCriteria(new RequestCriteria($request));
-        $boketes = $this->boketeRepository->paginate();
+        $this->translateRepository->pushCriteria(new RequestCriteria($request));
+        $translates = $this->translateRepository->paginate();
 
-        return $this->sendPaginateResponse($boketes->toArray(), __('common.retrieved', ['attribute' => __('model.Bokete')]));
+        return $this->sendPaginateResponse($translates->toArray(), __('common.retrieved', ['attribute' => __('model.Translate')]));
     }
 
     /**
-     * @param CreateBoketeAPIRequest $request
+     * @param CreateTranslateAPIRequest $request
      * @return Response
      *
      * @OA\Post(
-     *      path="/boketes",
-     *      summary="Store a newly created Bokete in storage",
+     *      path="/translates",
+     *      summary="Store a newly created Translate in storage",
      *      operationId="store",
-     *      tags={"Bokete"},
-     *      description="Store Bokete",
+     *      tags={"Translate"},
+     *      description="Store Translate",
      *      @OA\RequestBody(
-     *          request="Bokete",
-     *          description="Bokete that should be stored",
+     *          request="Translate",
+     *          description="Translate that should be stored",
      *          required=false,
-     *          @OA\JsonContent(ref="#/components/schemas/Bokete")
+     *          @OA\JsonContent(ref="#/components/schemas/Translate")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -92,7 +92,7 @@ class BoketeAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Bokete"
+     *                  ref="#/components/schemas/Translate"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -102,13 +102,13 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateBoketeAPIRequest $request)
+    public function store(CreateTranslateAPIRequest $request)
     {
         $input = $request->all();
 
-        $boketes = $this->boketeRepository->create($input);
+        $translates = $this->translateRepository->create($input);
 
-        return $this->sendResponse($boketes->toArray(), __('common.saved', ['attribute' => __('model.Bokete')]));
+        return $this->sendResponse($translates->toArray(), __('common.saved', ['attribute' => __('model.Translate')]));
     }
 
     /**
@@ -116,15 +116,15 @@ class BoketeAPIController extends AppBaseController
      * @return Response
      *
      * @OA\Get(
-     *      path="/boketes/{id}",
-     *      summary="Display the specified Bokete",
+     *      path="/translates/{id}",
+     *      summary="Display the specified Translate",
      *      operationId="show",
-     *      tags={"Bokete"},
-     *      description="Get Bokete",
+     *      tags={"Translate"},
+     *      description="Get Translate",
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
-     *          description="id of Bokete",
+     *          description="id of Translate",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -142,7 +142,7 @@ class BoketeAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Bokete"
+     *                  ref="#/components/schemas/Translate"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -154,31 +154,31 @@ class BoketeAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Bokete $bokete */
-        $bokete = $this->boketeRepository->findWithoutFail($id);
+        /** @var Translate $translate */
+        $translate = $this->translateRepository->findWithoutFail($id);
 
-        if (empty($bokete)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Bokete')]));
+        if (empty($translate)) {
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Translate')]));
         }
 
-        return $this->sendResponse($bokete->toArray(), __('common.retrieved', ['attribute' => __('model.Bokete')]));
+        return $this->sendResponse($translate->toArray(), __('common.retrieved', ['attribute' => __('model.Translate')]));
     }
 
     /**
      * @param int $id
-     * @param UpdateBoketeAPIRequest $request
+     * @param UpdateTranslateAPIRequest $request
      * @return Response
      *
      * @OA\Put(
-     *      path="/boketes/{id}",
-     *      summary="Update the specified Bokete in storage",
+     *      path="/translates/{id}",
+     *      summary="Update the specified Translate in storage",
      *      operationId="update",
-     *      tags={"Bokete"},
-     *      description="Update Bokete",
+     *      tags={"Translate"},
+     *      description="Update Translate",
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
-     *          description="id of Bokete",
+     *          description="id of Translate",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -186,10 +186,10 @@ class BoketeAPIController extends AppBaseController
      *          )
      *      ),
      *      @OA\RequestBody(
-     *          request="Bokete",
-     *          description="Bokete that should be updated",
+     *          request="Translate",
+     *          description="Translate that should be updated",
      *          required=false,
-     *          @OA\JsonContent(ref="#/components/schemas/Bokete")
+     *          @OA\JsonContent(ref="#/components/schemas/Translate")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -202,7 +202,7 @@ class BoketeAPIController extends AppBaseController
      *              ),
      *              @OA\Property(
      *                  property="data",
-     *                  ref="#/components/schemas/Bokete"
+     *                  ref="#/components/schemas/Translate"
      *              ),
      *              @OA\Property(
      *                  property="message",
@@ -212,20 +212,20 @@ class BoketeAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateBoketeAPIRequest $request)
+    public function update($id, UpdateTranslateAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Bokete $bokete */
-        $bokete = $this->boketeRepository->findWithoutFail($id);
+        /** @var Translate $translate */
+        $translate = $this->translateRepository->findWithoutFail($id);
 
-        if (empty($bokete)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Bokete')]));
+        if (empty($translate)) {
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Translate')]));
         }
 
-        $bokete = $this->boketeRepository->update($input, $id);
+        $translate = $this->translateRepository->update($input, $id);
 
-        return $this->sendResponse($bokete->toArray(), __('common.updated', ['attribute' => __('model.Bokete')]));
+        return $this->sendResponse($translate->toArray(), __('common.updated', ['attribute' => __('model.Translate')]));
     }
 
     /**
@@ -233,15 +233,15 @@ class BoketeAPIController extends AppBaseController
      * @return Response
      *
      * @OA\Delete(
-     *      path="/boketes/{id}",
-     *      summary="Remove the specified Bokete from storage",
+     *      path="/translates/{id}",
+     *      summary="Remove the specified Translate from storage",
      *      operationId="destroy",
-     *      tags={"Bokete"},
-     *      description="Delete Bokete",
+     *      tags={"Translate"},
+     *      description="Delete Translate",
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
-     *          description="id of Bokete",
+     *          description="id of Translate",
      *          required=true,
      *          @OA\Schema(
      *              type="integer",
@@ -271,15 +271,15 @@ class BoketeAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Bokete $bokete */
-        $bokete = $this->boketeRepository->findWithoutFail($id);
+        /** @var Translate $translate */
+        $translate = $this->translateRepository->findWithoutFail($id);
 
-        if (empty($bokete)) {
-            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Bokete')]));
+        if (empty($translate)) {
+            return $this->sendError(__('error.ERR_NOT_FOUND', ['attribute' => __('model.Translate')]));
         }
 
-        $bokete->delete();
+        $translate->delete();
 
-        return $this->sendResponse($id, __('common.deleted', ['attribute' => __('model.Bokete')]));
+        return $this->sendResponse($id, __('common.deleted', ['attribute' => __('model.Translate')]));
     }
 }

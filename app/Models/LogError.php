@@ -5,22 +5,42 @@ namespace App\Models;
 use Eloquent as Model;
 
 /**
- * Class LogError
- * @package App\Models
- * @version August 19, 2018, 1:42 pm UTC
- *
- * @property string|\Carbon\Carbon timestamp
- * @property string exception
- * @property string message
- * @property string file
- * @property integer line
- * @property string trace
+ * @OA\Schema(
+ *      schema="LogError",
+ *      required={""},
+ *      @OA\Property(
+ *          property="exception",
+ *          description="exception",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="message",
+ *          description="message",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="file",
+ *          description="file",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="line",
+ *          description="line",
+ *          type="integer",
+ *          format="int32"
+ *      ),
+ *      @OA\Property(
+ *          property="trace",
+ *          description="trace",
+ *          type="string"
+ *      )
+ * )
  */
 class LogError extends Model
 {
     public $table      = 'logs_err';
     public $timestamps = false;
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -30,8 +50,10 @@ class LogError extends Model
         'message',
         'file',
         'line',
-        'trace'
+        'trace',
     ];
+
+    public $include = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -43,7 +65,7 @@ class LogError extends Model
         'message'   => 'string',
         'file'      => 'string',
         'line'      => 'integer',
-        'trace'     => 'array'
+        'trace'     => 'array',
     ];
 
     /**
