@@ -7,7 +7,6 @@
     <HeaderRoot></HeaderRoot>
 
     <main role="main">
-      <router-view name="Jumbotron"></router-view>
       <router-view></router-view>
     </main>
   </div>

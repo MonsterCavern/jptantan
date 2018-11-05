@@ -5,7 +5,7 @@
 <template>
   <div class="bokete">
     <div class="container">
-      <BoleteGallery :images="list" :controlTitle="false" :layoutConfig="layoutConfig"></BoleteGallery>
+      <!-- <BoleteGallery :images="list" :controlTitle="false" :layoutConfig="layoutConfig"></BoleteGallery> -->
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
   },
   mounted() {
     // init
-    this.getBokete()
+    // this.getBokete()
   },
   methods: {
     getBokete() {
