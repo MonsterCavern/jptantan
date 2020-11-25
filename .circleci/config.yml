@@ -1,0 +1,101 @@
+# PHP CircleCI 2.0 configuration file
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+version: 2
+jobs:
+  run_unit_test:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/php:7.4-node-browsers
+        environment:
+          DB_DATABASE: testing
+          DB_USERNAME: root
+          DB_PASSWORD: ""
+      # Specify service dependencies here if necessary
+      - image: circleci/mysql:5.7-ram
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-large-prefix=true --innodb-file-format=Barracuda
+        environment:
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      #
+      - image: circleci/redis:5.0
+    steps:
+      - checkout
+      # PHP CircleCI 2.0 Configuration File
+      # PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - run:
+          name: "Prepare Environment"
+          command: |
+            sudo apt update
+            sudo docker-php-ext-install zip
+            sudo docker-php-ext-install mbstring gd bcmath pdo_mysql
+            sudo apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libonig-dev
+            sudo apt-get install -y default-mysql-client
+            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: "Install Dependencies"
+          command: |
+            composer --version
+            composer self-update
+            composer install -n --prefer-dist
+            composer --version
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
+      # prepare the database
+      - run:
+          # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+      - run:
+          name: Create database;
+          command: mysqladmin create testing --host="127.0.0.1" --user="root"
+      # laravel
+      - run: cp .env.example .env
+      - run: php artisan key:generate
+      - run: php artisan migrate --force --seed
+
+      # run tests with phpunit
+      - run: ./vendor/bin/phpunit
+
+  deploy_to_gce:
+    machine: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "4a:ef:d0:ae:d4:fa:3d:db:d1:96:8a:24:d3:ec:e6:59"
+      - run:
+          name: Deploy to GCE
+          command: |
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && git checkout master && git pull"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php composer.phar install"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan optimize:clear"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan config:cache"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan migrate"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan queue:restart"
+
+workflows:
+  version: 2
+  pre-build:
+    jobs:
+      - run_unit_test
+
+  deploy:
+    jobs:
+      - run_unit_test
+      - deploy_to_gce:
+          requires:
+            - run_unit_test
+          filters:
+            branches:
+              only:
+                - main
+                - feature-circle-ci
