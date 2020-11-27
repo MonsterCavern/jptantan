@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateUrlsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('url_maps', function (Blueprint $table) {
+            $table->bigIncrements('id')->comment('*編號');
+            $table->string('url')->unique()->comment('*被翻譯網址');
+            $table->string('title', 100)->comment('*標題');
+            $table->jsonb('content')->nullable()->comment('快取內容');
+            $table->integer('is_cached')->default(0)->comment('已被快取');
+
+            $table->string('scheme')->comment('*Scheme');
+            $table->string('host')->comment('*網域');
+            $table->text('path')->nullable()->comment('路徑');
+            $table->text('query')->nullable()->comment('請求參數');
+            $table->text('fragment')->nullable()->comment('錨點');
+
+            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('created_at')->useCurrent();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('url_maps');
+    }
+}
