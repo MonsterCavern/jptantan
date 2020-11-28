@@ -12,5 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+#    return view('welcome');
+$messages=App\Message::all();
+    return view('message',[
+        'messages' => $messages
+    ]);
 });
+
+use Illuminate\Http\Request;
+Route::post('/messages', function (Request $request) {
+    #    return view('welcome');
+    
+        $input = $request->all();
+        
+        App\Message::create($input);
+        return redirect('/');
+    });
