@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('messages', 'MessageController@viewdidload');
+Route::get('messages/{id}', 'MessageController@show');
