@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('boketes', function () {
-//     return abort(500);
-// });
-
-Route::resource('boketes', 'BoketeAPIController');
-Route::resource('translates', 'TranslateAPIController');
-
-Route::any('/{all?}', function () {
-    return response()->json(['code' => 404, 'message' => 'NOT FOUND']);
-})->where(['all' => '.*']);
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

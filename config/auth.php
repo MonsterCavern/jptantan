@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard'     => 'user',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -36,24 +36,15 @@ return [
     */
 
     'guards' => [
-        // 'web' => [
-        //     'driver'   => 'session',
-        //     'provider' => 'users',
-        // ],
-
-        // 'api' => [
-        //     'driver'   => 'token',
-        //     'provider' => 'users',
-        // ],
-        
-        'admin' => [
-            'driver'   => 'admin',
-            'provider' => 'admins',
-        ],
-        
-        'user' => [
-            'driver'   => 'user',
+        'web' => [
+            'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
         ],
     ],
 
@@ -75,19 +66,9 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model'  => App\Models\User::class,
-        // ],
-        'admins' => [
-            'driver'   => 'auth',
-            'model'    => App\Models\Admin::class,
-            'password' => 'password'
-        ],
         'users' => [
-            'driver'   => 'auth',
-            'model'    => App\Models\User::class,
-            'password' => 'password'
+            'driver' => 'eloquent',
+            'model' => App\User::class,
         ],
 
         // 'users' => [
@@ -114,9 +95,23 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table'    => 'password_resets',
-            'expire'   => 60,
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password Confirmation Timeout
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the amount of seconds before a password confirmation
+    | times out and the user is prompted to re-enter their password via the
+    | confirmation screen. By default, the timeout lasts for three hours.
+    |
+    */
+
+    'password_timeout' => 10800,
 
 ];

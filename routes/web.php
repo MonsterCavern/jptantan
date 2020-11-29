@@ -12,15 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
-
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::post('/login', 'AuthController@login');
-
-Route::any('/{all}', function () {
-    return view('index');
-})->where(['all' => '.*']);
