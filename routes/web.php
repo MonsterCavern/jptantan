@@ -16,3 +16,8 @@ Auth::routes();
 Route::get('/', function () {
     return view('pure.index');
 });
+
+Route::view('/login', 'pure.auth.login');
+
+// 未知路由導回首頁
+Route::view('/{all}', 'pure.index')->where(['all' => '.*']);
