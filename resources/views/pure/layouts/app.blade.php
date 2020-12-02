@@ -17,14 +17,29 @@
     <div id="layout" class="pure-g">
         <div class="sidebar pure-u-1 pure-u-md-1-4" style="height: 100%;">
             <div class="header">
-                <h1 class="brand-title">Jptantan</h1>
+                <h1 class="brand-title">
+
+                    <a href="/">Jptantan</a>
+                </h1>
                 <h2 class="brand-tagline">一個日文網站的<br>翻譯農場</h2>
+
+                @auth
+                <div class="brand-tagline">
+                    <h2> Hi, {{ auth()->user()->name }} </h2>
+                    <form action="{{ url('/logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="pure-button">登出</button>
+                    </form>
+                </div>
+                @endauth
 
                 <nav class="nav">
                     <ul class="nav-list">
+                        @guest
                         <li class="nav-item">
-                            <a class="pure-button" href="#">開始使用</a>
+                            <a class="pure-button" href="/login">開始使用</a>
                         </li>
+                        @endguest
                         <li class="nav-item">
                             <a class="pure-button" href="/message">問題回饋</a>
                         </li>
@@ -45,9 +60,10 @@
             </div>
         </div>
 
-        <div class="content pure-u-1 pure-u-md-3-4">
-            @yield('content')
-        </div>
+        {{-- --}}
+        @yield('content')
+        {{-- --}}
+
     </div>
     {{-- include js  --}}
     @stack('js-package')

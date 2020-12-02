@@ -1,7 +1,7 @@
 @extends('pure.layouts.app')
 
 @section('content')
-<div>
+<div class="content pure-u-1 pure-u-md-3-4">
     <!-- A wrapper for all the blog posts -->
     <div class="posts">
         <h1 class="content-subhead">Pinned Post</h1>
@@ -101,7 +101,5 @@
             </div>
         </section>
     </div>
-
-
 </div>
 @endsection
