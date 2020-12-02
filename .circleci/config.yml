@@ -82,6 +82,22 @@ jobs:
             ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan migrate"
             ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan queue:restart"
 
+  deploy_master_to_gce:
+    machine: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "4a:ef:d0:ae:d4:fa:3d:db:d1:96:8a:24:d3:ec:e6:59"
+      - run:
+          name: Deploy to GCE
+          command: |
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && git checkout master && git pull"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php composer.phar install"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan optimize:clear"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan config:cache"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan migrate"
+            ssh cosmos@$JPTANTAN_IP_ADDRESS "cd $JPTANTAN_PROJECT_ROOT && php artisan queue:restart"
+
 workflows:
   version: 2
   pre-build:
@@ -91,6 +107,13 @@ workflows:
   deploy:
     jobs:
       - run_unit_test
+      - deploy_master_to_gce:
+          requires:
+            - run_unit_test
+          filters:
+            branches:
+              only:
+                - master
       - deploy_to_gce:
           requires:
             - run_unit_test
