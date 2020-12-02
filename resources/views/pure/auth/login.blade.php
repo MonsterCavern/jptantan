@@ -32,6 +32,7 @@
                     <div class="pure-controls">
                         <button type="submit" class="pure-button pure-button-primary">Submit</button>
                         <span>or <a href="/register">註冊</a></span>
+                        <span>or <a href="/login/github">GitHub</a></span>
                     </div>
 
                 </fieldset>

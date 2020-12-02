@@ -10,8 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes();
+
+//將用戶重新導向至OAuth提供程序
+Route::get('login/github', 'Auth\SocialController@redirectToGitHub');
+//在身份驗證之後接收來自提供程序的回調。
+Route::get('login/github/callback', 'Auth\SocialController@handleGitHubCallback');
+
+//
 
 Route::get('/', function () {
     return view('pure.index');
