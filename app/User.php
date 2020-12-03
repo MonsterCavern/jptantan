@@ -36,4 +36,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function tokens()
+    {
+        return $this->hasMany('App\UserToken');
+    }
+
+    public function gitHubTokens()
+    {
+        return $this->hasMany('App\UserToken')->where('type', 'github');
+    }
+
+    public function googleTokens()
+    {
+        return $this->hasMany('App\UserToken')->where('type', 'google');
+    }
 }
