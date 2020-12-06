@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- --}}
-<div>
+<div class="pure-u-1">
     <h2 class="content-head is-center">個人資料</h2>
     <div class="pure-g">
         <div class="l-box-lrg pure-u-1">

@@ -13,9 +13,9 @@
 Auth::routes();
 
 //將用戶重新導向至OAuth提供程序
-Route::get('login/github', 'Auth\SocialController@redirectToGitHub');
+Route::get('login/oauth/{type}', 'Auth\SocialController@redirectToProvider');
 //在身份驗證之後接收來自提供程序的回調。
-Route::get('login/github/callback', 'Auth\SocialController@handleGitHubCallback');
+Route::get('login/oauth/{type}/callback', 'Auth\SocialController@handleProviderCallback');
 
 Route::get('/', function () {
     return view('pure.index');

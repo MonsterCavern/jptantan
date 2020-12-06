@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- --}}
-<div class="content pure-u-1">
+<div class="pure-u-1">
     <h2 class="content-head is-center">登入</h2>
     <div class="pure-g">
         <div class="l-box-lrg pure-u-1">
@@ -32,7 +32,8 @@
                     <div class="pure-controls">
                         <button type="submit" class="pure-button pure-button-primary">Submit</button>
                         <span>or <a href="/register">註冊</a></span>
-                        <span>or <a href="/login/github">GitHub</a></span>
+                        <span>or <a href="/login/oauth/github">GitHub</a></span>
+                        <span>or <a href="/login/oauth/google">Google</a></span>
                     </div>
 
                 </fieldset>

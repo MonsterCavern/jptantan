@@ -21,9 +21,9 @@ class SocialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function redirectToGitHub()
+    public function redirectToProvider($type)
     {
-        return Socialite::driver('github')->redirect();
+        return Socialite::driver($type)->redirect();
     }
 
     /**
@@ -31,16 +31,15 @@ class SocialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleGitHubCallback()
+    public function handleProviderCallback($type)
     {
         //
-        $response = Socialite::driver('github')->user();
+        $response = Socialite::driver($type)->user();
         $token    = $response->token;
         $email    = $response->email;
         $name     = $response->name;
         $name     = $name ? $name : $response->nickname;
-        // $name     = $name ? $name : strstr($email, '@', true);
-        //
+        // $name = $name ? $name : strstr($email, '@', true);
 
         $user = User::where('email', $response['email'])->first();
 
@@ -62,6 +61,7 @@ class SocialController extends Controller
             throw $th;
         }
         DB::commit();
+        //
 
         // 登入
         Auth::guard()->login($user);

@@ -13,7 +13,8 @@
         "laravel/framework": "^6.20",
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.5",
-        "socialiteproviders/github": "^4.1"
+        "socialiteproviders/github": "^4.1",
+        "socialiteproviders/google": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
