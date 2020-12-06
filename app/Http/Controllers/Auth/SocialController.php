@@ -39,7 +39,7 @@ class SocialController extends Controller
         $email    = $response->email;
         $name     = $response->name;
         $name     = $name ? $name : $response->nickname;
-        $name     = $name ? $name : strstr($email, '@', true);
+        // $name     = $name ? $name : strstr($email, '@', true);
         //
 
         $user = User::where('email', $response['email'])->first();
@@ -65,14 +65,10 @@ class SocialController extends Controller
 
         // 登入
         Auth::guard()->login($user);
-
-        if ($user->status === '未確認個人資料') {
-            return redirect('/profile')->with('token', $token);
+        //
+        if (empty($user->name)) {
+            return redirect()->route('users.show', [$user]);
         }
-
-        // if ($user->status === '未驗證信箱') {
-        //     return redirect('/profile')->with('token', $token);
-        // }
 
         return redirect('/')->with('token', $token);
     }

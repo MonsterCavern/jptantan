@@ -17,13 +17,15 @@ Route::get('login/github', 'Auth\SocialController@redirectToGitHub');
 //在身份驗證之後接收來自提供程序的回調。
 Route::get('login/github/callback', 'Auth\SocialController@handleGitHubCallback');
 
-//
-
 Route::get('/', function () {
     return view('pure.index');
 });
 
 Route::view('/login', 'pure.auth.login');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('users', 'UserController');
+});
 
 // 未知路由導回首頁
 Route::view('/{all}', 'pure.index')->where(['all' => '.*']);

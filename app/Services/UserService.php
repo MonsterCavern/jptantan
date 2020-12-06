@@ -24,6 +24,7 @@ class UserService
         $user = User::create([
           'name'     => $attributes['name'],
           'email'    => $attributes['email'],
+          'status'   => $attributes['status'],
           'password' => Hash::make(Str::random(10))
         ]);
 

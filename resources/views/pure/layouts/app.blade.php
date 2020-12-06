@@ -8,9 +8,30 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Jptantan') }}</title>
+
     <link rel="stylesheet" href="{{ asset('css/pure/pure-min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/pure/grids-responsive-min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/pure/styles.css') }}">
+    <style>
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+
+        .alert-danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,7 +46,10 @@
 
                 @auth
                 <div class="brand-tagline">
-                    <h2> Hi, {{ auth()->user()->name }} </h2>
+                    <h2>
+                        Hi,
+                        <a href="/users/{{auth()->user()->id}}">{{ auth()->user()->name }}</a>
+                    </h2>
                     <form action="{{ url('/logout') }}" method="post">
                         @csrf
                         <button type="submit" class="pure-button">登出</button>
@@ -60,9 +84,23 @@
             </div>
         </div>
 
-        {{-- --}}
-        @yield('content')
-        {{-- --}}
+        <div class="content pure-u-1">
+            @if (session('success'))
+            <div class="alert alert-success">
+                <strong> {{ session('success') }} </strong>
+            </div>
+            @endif
+
+            @if (session('error'))
+            <div class="alert alert-danger">
+                <strong> {{ session('error') }} </strong>
+            </div>
+            @endif
+
+            {{-- --}}
+            @yield('content')
+            {{-- --}}
+        </div>
 
     </div>
     {{-- include js  --}}
