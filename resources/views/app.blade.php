@@ -27,6 +27,9 @@
                         <li class="nav-item">
                             <a class="pure-button" href="/messages">Messages</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="pure-button" href="/register">Registger</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

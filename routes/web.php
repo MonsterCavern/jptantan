@@ -21,6 +21,10 @@ Route::get('/messages', function () {
     return view('messages');
 });
 
+Route::get('/register', function () {
+    return view('register');
+});
+
 Route::post('/messages', function (Request $request) {
     #    return view('welcome');
 
