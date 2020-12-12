@@ -8,4 +8,8 @@ class Message extends Model
 {
     //
     protected $table = 'messages';
+
+    protected $fillable = [
+        'context'
+    ];
 }
