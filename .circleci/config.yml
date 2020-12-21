@@ -90,12 +90,12 @@ workflows:
 
   deploy:
     jobs:
-      - run_unit_test
-      - deploy_to_gce:
-          requires:
-            - run_unit_test
+      - run_unit_test:
           filters:
             branches:
               only:
                 - main
                 - feature-circle-ci
+      - deploy_to_gce:
+          requires:
+            - run_unit_test
