@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.4",
         "imangazaliev/didom": "^1.16",
         "laravel/framework": "^6.20",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "nesk/puphpeteer": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
