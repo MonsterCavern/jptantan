@@ -29,7 +29,7 @@ jobs:
             sudo apt update
             sudo apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libonig-dev
             sudo apt-get install -y default-mysql-client
-            sudo docker-php-ext-install zip
+            sudo docker-php-ext-install zip sockets
             sudo docker-php-ext-install mbstring gd bcmath pdo_mysql
             sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
       # Download and cache dependencies
