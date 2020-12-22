@@ -2,13 +2,14 @@
 
 namespace App\Jobs;
 
+use DiDom\Document;
 use Illuminate\Bus\Queueable;
+use Nesk\Puphpeteer\Puppeteer;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Nesk\Puphpeteer\Puppeteer;
-use DiDom\Document;
 
 class CrawlerWenku8Data implements ShouldQueue
 {
@@ -16,14 +17,19 @@ class CrawlerWenku8Data implements ShouldQueue
 
     protected $url;
 
+    protected $uuid;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($url)
+    public function __construct($uuid)
     {
-        $this->url = $url;
+        // $baseUrl    = "https://www.wenku8.net/book/";
+        $baseUrl    = 'https://www.wenku8.net/modules/article/articleinfo.php';
+        $this->url  = $baseUrl."?id={$uuid}&charset=big5";
+        $this->uuid = $uuid;
     }
 
     /**
@@ -36,10 +42,20 @@ class CrawlerWenku8Data implements ShouldQueue
         $html     = $this->scrape($this->url);
         $document = new Document($html);
         $title    = $document->first('title');
-        dd($title->text());
+        $info     = explode('-', $title->text());
+
+        $result = $this->updateIndex($this->uuid, [
+            'url'        => $this->url,
+            'title'      => trim($info[0]),
+            'author'     => trim($info[1]),
+            'publishing' => trim($info[2]),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        return $result;
     }
 
-    public function scrape(String $url)
+    private function scrape(String $url)
     {
         $puppeteer = new Puppeteer; // 新建 Puppeteer 例項
         $browser   = $puppeteer->launch(); // 啟動無頭瀏覽器
@@ -53,5 +69,20 @@ class CrawlerWenku8Data implements ShouldQueue
         }
 
         return $html; // 返回 js 渲染後的頁面
+    }
+
+    private function updateIndex($index, $data)
+    {
+        //
+        $wenku8Index     = Storage::disk('wenku8')->get('index.json');
+        $wenku8IndexData = json_decode($wenku8Index, true);
+
+        $wenku8IndexData['data'][$index] = $data;
+        $wenku8IndexData['length']       = count($wenku8IndexData['data']);
+
+        $json   = json_encode($wenku8IndexData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $result = Storage::disk('wenku8')->put('index.json', $json);
+
+        return $result;
     }
 }
