@@ -3,10 +3,10 @@
 namespace App\Jobs;
 
 use DiDom\Document;
+use App\Models\Wenku8;
 use Illuminate\Bus\Queueable;
 use Nesk\Puphpeteer\Puppeteer;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,21 +15,16 @@ class CrawlerWenku8Data implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $url;
-
-    protected $uuid;
+    protected $uuids;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($uuid)
+    public function __construct(array $uuids)
     {
-        // $baseUrl    = "https://www.wenku8.net/book/";
-        $baseUrl    = 'https://www.wenku8.net/modules/article/articleinfo.php';
-        $this->url  = $baseUrl."?id={$uuid}&charset=big5";
-        $this->uuid = $uuid;
+        $this->uuids = $uuids;
     }
 
     /**
@@ -39,50 +34,87 @@ class CrawlerWenku8Data implements ShouldQueue
      */
     public function handle()
     {
-        $html     = $this->scrape($this->url);
-        $document = new Document($html);
-        $title    = $document->first('title');
-        $info     = explode('-', $title->text());
+        //
+        $htmls = $this->scrape($this->uuids);
+        //
+        foreach ($htmls as $id => $html) {
+            $attributes = [];
+            $document   = new Document($html);
+            // dd($document->format()->html());
 
-        $result = $this->updateIndex($this->uuid, [
-            'url'        => $this->url,
-            'title'      => trim($info[0]),
-            'author'     => trim($info[1]),
-            'publishing' => trim($info[2]),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]);
+            $span = $document->find('span.hottext');
+            if ($span) {
+                foreach ($span as $content) {
+                    if ('內容簡介︰' === $content->text()) {
+                        $attributes['description'] = $content->nextSibling('span')->text();
+                    }
+                }
+            }
 
-        return $result;
+            //
+            $table = $document->first('table');
+            if ($table) {
+                foreach ($table->find('td') as $td) {
+                    $info = explode('︰', $td->text());
+                    if ($info[0] === '文庫分類') {
+                        $attributes['publishing'] = $info[1];
+                    }
+                    if ($info[0] === '小說作者') {
+                        $attributes['author'] = $info[1];
+                    }
+                    if ($info[0] === '文章狀態') {
+                        $attributes['status'] = $info[1];
+                    }
+                    if ($info[0] === '最後更新') {
+                        $attributes['lasted_at'] = $info[1];
+                    }
+                }
+            }
+            //
+            $title = $document->first('title');
+            if ($title->text() === '出現錯誤') {
+                $attributes['status'] = '紀錄遺失';
+            } else {
+                $info                = explode('-', $title->text());
+                $attributes['title'] = trim($info[0]);
+            }
+            //
+
+            Wenku8::updateOrCreate(['id' => $id], array_merge([
+                'id'         => $id,
+                'url'        => "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5",
+                'title'      => '無',
+                'author'     => '無',
+                'publishing' => '無',
+                'lasted_at'  => date('Y-m-d H:i:s')
+            ], $attributes));
+        }
+
+        return true;
     }
 
-    private function scrape(String $url)
+    private function scrape(array $ids)
     {
         $puppeteer = new Puppeteer; // 新建 Puppeteer 例項
         $browser   = $puppeteer->launch(); // 啟動無頭瀏覽器
         $page      = $browser->newPage(); // 開啟新的標籤頁
-        try {
-            $page->tryCatch->goto($url); // 訪問頁面
-            $html = $page->content();
-            $browser->close();
-        } catch (\Exception $error) {
-            throw new $error;
+        $htmls     = [];
+
+        foreach ($ids as $id) {
+            $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5";
+            try {
+                $page->tryCatch->goto($url); // 訪問頁面
+                $content =  $page->content();
+            } catch (\Exception $error) {
+                // throw new $error;
+                $content = null;
+            }
+
+            $htmls[$id] = $content;
         }
 
-        return $html; // 返回 js 渲染後的頁面
-    }
+        $browser->close();
 
-    private function updateIndex($index, $data)
-    {
-        //
-        $wenku8Index     = Storage::disk('wenku8')->get('index.json');
-        $wenku8IndexData = json_decode($wenku8Index, true);
-
-        $wenku8IndexData['data'][$index] = $data;
-        $wenku8IndexData['length']       = count($wenku8IndexData['data']);
-
-        $json   = json_encode($wenku8IndexData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        $result = Storage::disk('wenku8')->put('index.json', $json);
-
-        return $result;
+        return $htmls; // 返回 js 渲染後的頁面
     }
 }
