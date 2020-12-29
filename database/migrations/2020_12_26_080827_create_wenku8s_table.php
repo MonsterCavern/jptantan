@@ -15,11 +15,13 @@ class CreateWenku8sTable extends Migration
     {
         Schema::create('wenku8s', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('cover_id')->nullable()->comment('封面圖');
             $table->string('title')->comment('標題');
             $table->string('author')->comment('作者');
-            $table->string('url')->comment('網址');
+            $table->text('url')->comment('網址');
+            $table->text('url_img')->nullable()->comment('網址');
             $table->string('publishing')->comment('出版社');
-            $table->text('description')->nullable()->comment('簡介');
+            $table->text('summary')->nullable()->comment('摘要');
             $table->integer('word_length')->nullable()->comment('字數');
 
             $table->string('status')->default('連載中')->comment('狀態');

@@ -7,6 +7,7 @@ use App\Models\Wenku8;
 use Illuminate\Bus\Queueable;
 use Nesk\Puphpeteer\Puppeteer;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,13 +41,13 @@ class CrawlerWenku8Data implements ShouldQueue
         foreach ($htmls as $id => $html) {
             $attributes = [];
             $document   = new Document($html);
-            // dd($document->format()->html());
+            Storage::disk('wenku8')->put($id.'/index.html', $html);
 
             $span = $document->find('span.hottext');
             if ($span) {
                 foreach ($span as $content) {
                     if ('內容簡介︰' === $content->text()) {
-                        $attributes['description'] = $content->nextSibling('span')->text();
+                        $attributes['summary'] = $content->nextSibling('span')->text();
                     }
                 }
             }
@@ -54,6 +55,7 @@ class CrawlerWenku8Data implements ShouldQueue
             //
             $table = $document->first('table');
             if ($table) {
+                //
                 foreach ($table->find('td') as $td) {
                     $info = explode('︰', $td->text());
                     if ($info[0] === '文庫分類') {
@@ -68,6 +70,12 @@ class CrawlerWenku8Data implements ShouldQueue
                     if ($info[0] === '最後更新') {
                         $attributes['lasted_at'] = $info[1];
                     }
+                }
+                // 封面
+                $table = $table->nextSibling('table');
+                if ($table) {
+                    $image                 = $table->first('img');
+                    $attributes['url_img'] = ($image ? $image->attr('src') : null);
                 }
             }
             //
@@ -101,6 +109,9 @@ class CrawlerWenku8Data implements ShouldQueue
         $htmls     = [];
 
         foreach ($ids as $id) {
+            // if (Storage::disk('wenku8')->exists($id.'/index.html')) {
+            //     $content = Storage::disk('wenku8')->get($id.'/index.html');
+            // } else {
             $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5";
             try {
                 $page->tryCatch->goto($url); // 訪問頁面
@@ -109,10 +120,9 @@ class CrawlerWenku8Data implements ShouldQueue
                 // throw new $error;
                 $content = null;
             }
-
+            // }
             $htmls[$id] = $content;
         }
-
         $browser->close();
 
         return $htmls; // 返回 js 渲染後的頁面
