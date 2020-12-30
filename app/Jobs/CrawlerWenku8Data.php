@@ -70,6 +70,9 @@ class CrawlerWenku8Data implements ShouldQueue
                     if ($info[0] === '最後更新') {
                         $attributes['lasted_at'] = $info[1];
                     }
+                    if ($info[0] === '全文長度') {
+                        $attributes['word_length'] = preg_replace('/\D/', '', $info[1]);
+                    }
                 }
                 // 封面
                 $table = $table->nextSibling('table');

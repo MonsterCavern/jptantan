@@ -77,7 +77,7 @@ class SyncWenku8Data extends Command
             for ($i = 1; $i <= $max; $i++) {
                 $this->info('UUID:'.$i.' Start');
                 $wenku8 = Wenku8::where('status', '=', '連載中')
-                    ->where('lasted_at', '<', \Carbon\Carbon::now()->copy()->firstOfMonth())
+                    ->orWhere('status', '=', '已完成')
                     ->find($i);
 
                 if (! $wenku8) {

@@ -15,6 +15,7 @@ class Wenku8 extends Model
         'url_img',
         'publishing',
         'summary',
+        'word_length',
         'status',
         'lasted_at'
     ];
