@@ -90,8 +90,7 @@ class CrawlerWenku8Data implements ShouldQueue
                 $attributes['title'] = trim($info[0]);
             }
             //
-
-            Wenku8::updateOrCreate(['id' => $id], array_merge([
+            $wenku8 = Wenku8::firstOrNew(['id' => $id], array_merge([
                 'id'         => $id,
                 'url'        => "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5",
                 'title'      => '無',
@@ -99,6 +98,10 @@ class CrawlerWenku8Data implements ShouldQueue
                 'publishing' => '無',
                 'lasted_at'  => date('Y-m-d H:i:s')
             ], $attributes));
+
+            if ($wenku8->title === '無') {
+                $wenku8->fill($attributes)->save();
+            }
         }
 
         return true;
@@ -112,18 +115,18 @@ class CrawlerWenku8Data implements ShouldQueue
         $htmls     = [];
 
         foreach ($ids as $id) {
-            // if (Storage::disk('wenku8')->exists($id.'/index.html')) {
-            //     $content = Storage::disk('wenku8')->get($id.'/index.html');
-            // } else {
-            $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5";
-            try {
-                $page->tryCatch->goto($url); // 訪問頁面
-                $content =  $page->content();
-            } catch (\Exception $error) {
-                // throw new $error;
-                $content = null;
+            if (Storage::disk('wenku8')->exists('novels/'.$id.'/index.html')) {
+                $content = Storage::disk('wenku8')->get('novels/'.$id.'/index.html');
+            } else {
+                $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=big5";
+                try {
+                    $page->tryCatch->goto($url); // 訪問頁面
+                    $content =  $page->content();
+                } catch (\Exception $error) {
+                    // throw new $error;
+                    $content = null;
+                }
             }
-            // }
             $htmls[$id] = $content;
         }
         $browser->close();

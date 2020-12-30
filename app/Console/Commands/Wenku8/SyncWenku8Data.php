@@ -69,9 +69,9 @@ class SyncWenku8Data extends Command
 
         //
         $ids  = $this->option('id');
-        $max  = Wenku8::max('id') + 5;
+        $max  = Wenku8::where('status', '!=', '紀錄遺失')->max('id') + 5;
         if ($ids) {
-            CrawlerWenku8Data::dispatch($ids)->onConnection('database')->onQueue('wenku8');
+            CrawlerWenku8Data::dispatch($ids)->onConnection('sync')->onQueue('wenku8');
         } else {
             $index = [];
             for ($i = 1; $i <= $max; $i++) {
