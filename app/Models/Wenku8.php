@@ -11,6 +11,7 @@ class Wenku8 extends Model
         'id',
         'title',
         'author',
+        'charset',
         'url',
         'url_img',
         'url_catalog',

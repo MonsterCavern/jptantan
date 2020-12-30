@@ -46,7 +46,7 @@ class CrawlerWenku8Data implements ShouldQueue
             $span = $document->find('span.hottext');
             if ($span) {
                 foreach ($span as $content) {
-                    if ('內容簡介︰' === $content->text()) {
+                    if ('内容简介：' === $content->text()) {
                         $attributes['summary'] = $content->nextSibling('span')->text();
                     }
                 }
@@ -55,22 +55,22 @@ class CrawlerWenku8Data implements ShouldQueue
             //
             $table = $document->first('table');
             if ($table) {
-                //
+                // 編碼為 gbk
                 foreach ($table->find('td') as $td) {
-                    $info = explode('︰', $td->text());
-                    if ($info[0] === '文庫分類') {
+                    $info = explode('：', $td->text());
+                    if ($info[0] === '文库分类') {
                         $attributes['publishing'] = $info[1];
                     }
-                    if ($info[0] === '小說作者') {
+                    if ($info[0] === '小说作者') {
                         $attributes['author'] = $info[1];
                     }
-                    if ($info[0] === '文章狀態') {
+                    if ($info[0] === '文章状态') {
                         $attributes['status'] = $info[1];
                     }
-                    if ($info[0] === '最後更新') {
+                    if ($info[0] === '最后更新') {
                         $attributes['lasted_at'] = $info[1];
                     }
-                    if ($info[0] === '全文長度') {
+                    if ($info[0] === '全文长度') {
                         $attributes['word_length'] = preg_replace('/\D/', '', $info[1]);
                     }
                 }
@@ -82,15 +82,26 @@ class CrawlerWenku8Data implements ShouldQueue
                 }
             }
             //
+            $catalog = $document->find('a[href^=https://www.wenku8.net/novel]');
+            if ($catalog) {
+                foreach ($catalog as $element) {
+                    if ($element->text() === '小说目录') {
+                        $attributes['url_catalog'] = $element->attr('href');
+                        break;
+                    }
+                }
+            }
+
+            //
             $title = $document->first('title');
-            if (empty($title) || $title->text() === '出現錯誤') {
+            if (empty($title) || $title->text() === '出现错误') {
                 $attributes['status'] = '紀錄遺失';
             } else {
                 $info                = explode('-', $title->text());
                 $attributes['title'] = trim($info[0]);
             }
             //
-            $wenku8 = Wenku8::firstOrNew(['id' => $id], array_merge([
+            $wenku8 = Wenku8::firstOrCreate(['id' => $id], array_merge([
                 'id'         => $id,
                 'url'        => "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}",
                 'title'      => '無',
@@ -115,18 +126,18 @@ class CrawlerWenku8Data implements ShouldQueue
         $htmls     = [];
 
         foreach ($ids as $id) {
-            // if (Storage::disk('wenku8')->exists('novels/'.$id.'/index.html')) {
-            //     $content = Storage::disk('wenku8')->get('novels/'.$id.'/index.html');
-            // } else {
-            $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}";
-            try {
-                $page->tryCatch->goto($url); // 訪問頁面
-                $content =  $page->content();
-            } catch (\Exception $error) {
-                // throw new $error;
-                $content = null;
+            if (Storage::disk('wenku8')->exists('novels/'.$id.'/index.html')) {
+                $content = Storage::disk('wenku8')->get('novels/'.$id.'/index.html');
+            } else {
+                $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=gbk";
+                try {
+                    $page->tryCatch->goto($url); // 訪問頁面
+                    $content =  $page->content();
+                } catch (\Exception $error) {
+                    // throw new $error;
+                    $content = null;
+                }
             }
-            // }
             $htmls[$id] = $content;
         }
         $browser->close();

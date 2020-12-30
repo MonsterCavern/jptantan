@@ -18,6 +18,7 @@ class CreateWenku8sTable extends Migration
             $table->unsignedBigInteger('cover_id')->nullable()->comment('封面圖');
             $table->string('title')->comment('標題');
             $table->string('author')->comment('作者');
+            $table->string('charset')->default('gbk')->comment('編碼');
             $table->text('url')->comment('網址');
             $table->text('url_img')->nullable()->comment('網址');
             $table->text('url_catalog')->nullable()->comment('目錄');
