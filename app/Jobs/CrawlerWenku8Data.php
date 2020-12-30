@@ -41,7 +41,7 @@ class CrawlerWenku8Data implements ShouldQueue
         foreach ($htmls as $id => $html) {
             $attributes = [];
             $document   = new Document($html);
-            Storage::disk('wenku8')->put($id.'/index.html', $html);
+            Storage::disk('wenku8')->put('novels/'.$id.'/index.html', $html);
 
             $span = $document->find('span.hottext');
             if ($span) {
@@ -80,7 +80,7 @@ class CrawlerWenku8Data implements ShouldQueue
             }
             //
             $title = $document->first('title');
-            if ($title->text() === '出現錯誤') {
+            if (empty($title) || $title->text() === '出現錯誤') {
                 $attributes['status'] = '紀錄遺失';
             } else {
                 $info                = explode('-', $title->text());

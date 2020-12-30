@@ -51,7 +51,7 @@ class SaveCoverImage extends Command
             $this->info('UUID:'.$data->id.' Join Cover Download Job');
             $path = pathinfo($data->url_img);
 
-            CrawlerWenku8Cover::dispatch($data->id, $data->id.'/cover.'.$path['extension'], 'wenku8')
+            CrawlerWenku8Cover::dispatch($data->id, 'novels/'.$data->id.'/cover.'.$path['extension'], 'wenku8')
                 ->onConnection('database')
                 ->onQueue('wenku8');
         }
