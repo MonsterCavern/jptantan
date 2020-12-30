@@ -20,6 +20,7 @@ class CreateWenku8sTable extends Migration
             $table->string('author')->comment('作者');
             $table->text('url')->comment('網址');
             $table->text('url_img')->nullable()->comment('網址');
+            $table->text('url_catalog')->nullable()->comment('目錄');
             $table->string('publishing')->comment('出版社');
             $table->text('summary')->nullable()->comment('摘要');
             $table->integer('word_length')->nullable()->comment('字數');
