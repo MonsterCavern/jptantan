@@ -14,7 +14,7 @@ class SyncWenku8Data extends Command
      *
      * @var string
      */
-    protected $signature = 'wenku8:sync {--id=*}';
+    protected $signature = 'wenku8:sync {--id=*} {--max=}';
 
     /**
      * The console command description.
@@ -68,24 +68,25 @@ class SyncWenku8Data extends Command
         }
 
         //
-        $ids  = $this->option('id');
-        $max  = Wenku8::where('status', '!=', '紀錄遺失')->max('id') + 5;
+        $ids = $this->option('id');
+        $max = $this->option('max');
+        $max = $max ? (int)$max : Wenku8::where('status', '!=', '紀錄遺失')->max('id') + 5;
         if ($ids) {
             CrawlerWenku8Data::dispatch($ids)->onConnection('sync')->onQueue('wenku8');
         } else {
             $index = [];
             for ($i = 1; $i <= $max; $i++) {
                 $this->info('UUID:'.$i.' Start');
-                $wenku8 = Wenku8::where('status', '=', '連載中')
-                    ->orWhere('status', '=', '已完成')
-                    ->find($i);
+                $wenku8 = Wenku8::where(function ($query) {
+                    $query->where('status', '=', '连载中')->orWhere('status', '=', '已完成');
+                })->find($i);
 
                 if (! $wenku8) {
                     $this->info('UUID:'.$i.' Join Job');
                     $index[] = $i;
                 }
 
-                if (count($index) % 10 === 0) {
+                if (count($index) > 0 && count($index) % 10 === 0) {
                     CrawlerWenku8Data::dispatch($index)->onConnection('database')->onQueue('wenku8');
                     $index = [];
                 }

@@ -126,9 +126,12 @@ class CrawlerWenku8Data implements ShouldQueue
         $htmls     = [];
 
         foreach ($ids as $id) {
+            $content = null;
             if (Storage::disk('wenku8')->exists('novels/'.$id.'/index.html')) {
                 $content = Storage::disk('wenku8')->get('novels/'.$id.'/index.html');
-            } else {
+            }
+
+            if (! $content) {
                 $url = "https://www.wenku8.net/modules/article/articleinfo.php?id={$id}&charset=gbk";
                 try {
                     $page->tryCatch->goto($url); // 訪問頁面
