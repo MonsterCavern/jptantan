@@ -1,0 +1,3 @@
+[submodule "opencc4php"]
+	path = opencc4php
+	url = git@github.com:NauxLiu/opencc4php.git
