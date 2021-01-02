@@ -5,7 +5,7 @@ jobs:
   run_unit_test:
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.4-node-browsers
+      - image: circleci/php:7.4-fpm-node-browsers
         environment:
           DB_DATABASE: testing
           DB_USERNAME: root
@@ -29,7 +29,6 @@ jobs:
             sudo apt update
             sudo apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libonig-dev
             sudo apt-get install -y default-mysql-client
-            sudo apt-get install -y libopencc-dev
             sudo docker-php-ext-install zip sockets
             sudo docker-php-ext-install mbstring gd bcmath pdo_mysql
             sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
@@ -64,6 +63,7 @@ jobs:
       - run:
           name: install OpenCC;
           command: |
+            sudo apt-get install -y libopencc-phpizedev
             git submodule init && git submodule update
             cd opencc4php
             phpize
