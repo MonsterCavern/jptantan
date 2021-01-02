@@ -9,6 +9,8 @@
 
 @section('content')
 
+<h1 class="content-subhead">問題回報</h1>
+
 <form class="pure-form" action="/messages" method="POST">
     @CSRF
     <fieldset class=" pure-group">
