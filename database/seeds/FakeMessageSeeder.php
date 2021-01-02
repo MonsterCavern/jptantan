@@ -13,7 +13,8 @@ class FakeMessageSeeder extends Seeder
     {
         //
         \DB::table('messages')->insert([
-            'context' => Str::random(10),
+            'user_name' => Str::random(10),
+            'content' => Str::random(10),
             'is_delete' => false
         ]);
     }

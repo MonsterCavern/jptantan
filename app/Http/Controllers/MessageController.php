@@ -10,8 +10,7 @@ class MessageController extends Controller
     public function viewDidLoad()
     {
         return view("messages", [
-            'messages' => Message::all(),
-            'test' =>  Message::findOrFail(1)->context
+            'messages' => Message::all()->sortByDesc('created_at'),
         ]);
     }
 
@@ -28,19 +27,19 @@ class MessageController extends Controller
 
         // create
         $message = Message::create([
-            'context' => $input['context']
+            'user_name' => $input['user_name'],
+            'content' => $input['content']
         ]);
 
 
         // update
         // $message = Message::find(1);
-        // $message->fill(['context' => $input['context']]);
+        // $message->fill(['content' => $input['content']]);
         // $message->save();
 
 
         return view("messages", [
             'messages' => Message::all(),
-            'test' => $message->context
         ]);
     }
 }
