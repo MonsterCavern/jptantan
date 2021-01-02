@@ -5,9 +5,28 @@
     <title>訊息頁面</title>
 </head>
 
-@foreach ($messages as $message)
-<p>msg: {{ $message->context }}</p>
-@endforeach
+
+<table class="pure-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>內容</th>
+            <th>日期</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach ($messages as $message)
+        <tr>
+            <td>{{ $message->id }}</td>
+            <td>{{ $message->context }}</td>
+            <td>{{ $message->created_at }}</td>
+        </tr>
+        @endforeach
+
+    </tbody>
+</table>
+
 
 
 {{$test}}
