@@ -26,12 +26,12 @@ jobs:
       - run:
           name: "Prepare Environment"
           command: |
-            sudo apt update
-            sudo apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libonig-dev
-            sudo apt-get install -y default-mysql-client
-            sudo docker-php-ext-install zip sockets
-            sudo docker-php-ext-install mbstring gd bcmath pdo_mysql
-            sudo docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
+            apt update
+            apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libonig-dev
+            apt-get install -y default-mysql-client
+            docker-php-ext-install zip sockets
+            docker-php-ext-install mbstring gd bcmath pdo_mysql
+            docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -63,12 +63,12 @@ jobs:
       - run:
           name: install OpenCC;
           command: |
-            sudo apt-get install -y libopencc-dev
+            apt-get install -y libopencc-dev
             git submodule init && git submodule update
             cd opencc4php
             phpize
             ./configure
-            make && sudo make install
+            make && make install
 
       # laravel
       - run: cp .env.example .env
