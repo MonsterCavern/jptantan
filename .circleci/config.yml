@@ -5,6 +5,7 @@ jobs:
   run_unit_test:
     docker:
       # Specify the version you desire here
+      - image: jwilder/dockerize
       - image: cosmosweng/docker-jptantan-workspace
         environment:
           DB_DATABASE: testing
