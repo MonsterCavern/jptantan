@@ -9,7 +9,7 @@ class MessageController extends Controller
 {
     public function index()
     {
-        return view("messages", [
+        return view("pure.messages.index", [
             'messages' => Message::orderBy('created_at')->paginate(10)
         ]);
     }
@@ -42,7 +42,7 @@ class MessageController extends Controller
         // $message->save();
 
 
-        return view("messages", [
+        return view("pure.messages.index", [
             'messages' => Message::all(),
         ]);
     }
