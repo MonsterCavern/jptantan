@@ -11,18 +11,30 @@
 |
 */
 
+// Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 use Illuminate\Http\Request;
 
+// Route::get('/register', function () {
+//     return view('register');
+// });
+
 Route::get('/messages', function () {
     return view('messages');
 });
 
-Route::get('/register', function () {
-    return view('register');
+Route::post('/register', function (Request $request) {
+    #    return view('welcome');
+
+    $input = $request->all();
+
+    App\Message::create($input);
+
+    return redirect('/register');
 });
 
 Route::post('/messages', function (Request $request) {
@@ -34,3 +46,7 @@ Route::post('/messages', function (Request $request) {
 
     return redirect('/messages');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
