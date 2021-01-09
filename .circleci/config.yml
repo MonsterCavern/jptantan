@@ -11,7 +11,6 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: ""
       # Specify service dependencies here if necessary
-      - image: jwilder/dockerize
       - image: circleci/mysql:5.7-ram
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-large-prefix=true --innodb-file-format=Barracuda
         environment:
