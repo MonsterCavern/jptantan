@@ -56,17 +56,6 @@ jobs:
           name: Create database;
           command: mysqladmin create testing --host="127.0.0.1" --user="root"
 
-      # opencc
-      - run:
-          name: install OpenCC;
-          command: |
-            apt-get install -y libopencc-dev
-            git submodule init && git submodule update
-            cd opencc4php
-            phpize
-            ./configure
-            make && make install
-
       # laravel
       - run: cp .env.example .env
       - run: php artisan key:generate
