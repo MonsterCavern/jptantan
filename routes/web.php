@@ -14,10 +14,10 @@
 Auth::routes();
 Route::view('/', 'pure.index');
 
-Route::get('messages', 'MessageController@viewDidLoad');
+Route::get('messages', 'MessageController@index');
 Route::get('messages/{id}', 'MessageController@show');
 
-Route::post('messages', 'MessageController@onPost');
+Route::post('messages', 'MessageController@store');
 
 // 未知路由導回首頁
 Route::view('/{all}', 'pure.index')->where(['all' => '.*']);

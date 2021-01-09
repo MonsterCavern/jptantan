@@ -7,10 +7,10 @@ use App\Models\Message;
 
 class MessageController extends Controller
 {
-    public function viewDidLoad()
+    public function index()
     {
         return view("messages", [
-            'messages' => Message::all()->sortByDesc('created_at'),
+            'messages' => Message::orderBy('created_at')->paginate(10)
         ]);
     }
 
@@ -21,13 +21,17 @@ class MessageController extends Controller
     }
 
 
-    public function onPost(Request $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
+        $input = $request->validate([
+            'username' => 'required|max:255',
+            'content' => 'required',
+        ]);
+
 
         // create
         $message = Message::create([
-            'user_name' => $input['user_name'],
+            'username' => $input['username'],
             'content' => $input['content']
         ]);
 
