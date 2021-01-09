@@ -78,7 +78,7 @@ class SyncWenku8Data extends Command
             for ($i = 1; $i <= $max; $i++) {
                 $this->info('UUID:'.$i.' Start');
                 $wenku8 = Wenku8::where(function ($query) {
-                    $query->where('status', '=', '连载中')->orWhere('status', '=', '已完成');
+                    $query->where('status', '=', '連載中')->orWhere('status', '=', '已完成');
                 })->find($i);
 
                 if (! $wenku8) {
