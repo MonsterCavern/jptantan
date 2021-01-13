@@ -41,10 +41,32 @@ class CacheWenku8Data extends Command
     {
         //
         $wenku8s = Wenku8::all();
+
+        $wenku8s = $wenku8s->map(function ($item) {
+            if ($item->charset == 'gbk') {
+                $this->info('UUID: '.$item->id.' Start');
+                $item->fill(openccs([
+                    'charset'    => 'big5',
+                    'title'      => $item->title,
+                    'author'     => $item->author,
+                    'publishing' => $item->publishing,
+                    'summary'    => $item->summary,
+                    'status'     => $item->status,
+                ]))->save();
+            }
+
+            return $item;
+        });
+
+        //
         $data    = $wenku8s->mapWithKeys(function ($item, $key) {
             return [$item['id'] => $item->only($item->fillable)];
         });
-        $wenku8Index     = Storage::disk('wenku8')->get('index.json');
+
+        $wenku8Index = null;
+        if (Storage::disk('wenku8')->exists('index.json')) {
+            $wenku8Index = Storage::disk('wenku8')->get('index.json');
+        }
         $wenku8IndexData = json_decode($wenku8Index, true);
 
         $wenku8IndexData['data']   = $data;
