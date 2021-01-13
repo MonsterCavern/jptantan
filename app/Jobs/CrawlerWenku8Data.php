@@ -101,11 +101,6 @@ class CrawlerWenku8Data implements ShouldQueue
                 $attributes['title'] = trim($info[0]);
             }
 
-            // 轉繁體
-            foreach ($attributes as $key => $attribute) {
-                $attributes[$key] = opencc($attribute);
-            }
-
             //
             $wenku8 = Wenku8::firstOrCreate(['id' => $id], array_merge([
                 'id'         => $id,

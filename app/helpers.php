@@ -12,6 +12,19 @@ if (! function_exists('opencc')) {
     }
 }
 
+if (! function_exists('openccs')) {
+    function openccs($strings, $config = 's2twp.json')
+    {
+        $od   = opencc_open($config);
+        foreach ($strings as $key => $string) {
+            $strings[$key] = opencc_convert($string, $od);
+        }
+        opencc_close($od);
+
+        return $strings;
+    }
+}
+
 if (! function_exists('encodeJson')) {
     function encodeJson($str)
     {
