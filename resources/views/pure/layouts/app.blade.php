@@ -31,6 +31,7 @@
             border-color: #ebccd1;
             color: #a94442;
         }
+
     </style>
 </head>
 
@@ -65,7 +66,7 @@
                         </li>
                         @endguest
                         <li class="nav-item">
-                            <a class="pure-button" href="/message">問題回饋</a>
+                            <a class="pure-button" href="/messages">問題回饋</a>
                         </li>
 
                         <li class="nav-item">
