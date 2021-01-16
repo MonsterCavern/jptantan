@@ -16,7 +16,7 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('username')->comment('使用者名稱');
-            $table->string('content')->comment('訊息內容');
+            $table->text('content')->comment('訊息內容');
             $table->timestamps();
             $table->softDeletes();
         });
