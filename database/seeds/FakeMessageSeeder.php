@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Message;
 
 class FakeMessageSeeder extends Seeder
 {
@@ -11,11 +12,10 @@ class FakeMessageSeeder extends Seeder
      */
     public function run()
     {
-        //
-        \DB::table('messages')->insert([
-            'user_name' => Str::random(10),
-            'content' => Str::random(10),
-            'is_delete' => false
+        $message = Message::create([
+            'nickname' => Str::random(10),
+            'content' => Str::random(100),
+            'email' => Str::random(100)
         ]);
     }
 }
