@@ -14,7 +14,10 @@
 <form class="pure-form" action="/messages" method="POST">
     @CSRF
     <fieldset class=" pure-group">
-        <input name="username" type="text" class="pure-input-1-2" placeholder="你的暱稱" />
+        <input name="email" type="text" class="pure-input-1-2" placeholder="信箱" />
+    </fieldset>
+    <fieldset class=" pure-group">
+        <input name="nickname" type="text" class="pure-input-1-2" placeholder="你的暱稱" />
     </fieldset>
     <fieldset class="pure-group">
         <textarea name="content" class="pure-input-1-2" placeholder="你的訊息"></textarea>
@@ -27,6 +30,7 @@
     <thead>
         <tr>
             <th>樓層</th>
+            <th>信箱</th>
             <th>暱稱</th>
             <th>內容</th>
             <th>日期</th>
@@ -37,7 +41,8 @@
         @foreach ($messages as $message)
         <tr>
             <td>{{ $message->id }}</td>
-            <td>{{ $message->username }}</td>
+            <td>{{ $message->email }}</td>
+            <td>{{ $message->nickname }}</td>
             <td>{{ $message->content }}</td>
             <td>{{ $message->created_at }}</td>
         </tr>
