@@ -24,14 +24,16 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $input = $request->validate([
-            'username' => 'required|max:255',
-            'content' => 'required',
+            'email' => 'required|max:255',
+            'nickname' => 'required|max:255',
+            'content' => 'required|max:255',
         ]);
 
 
         // create
         $message = Message::create([
-            'username' => $input['username'],
+            'nickname' => $input['nickname'],
+            'email' => $input['email'],
             'content' => $input['content']
         ]);
 
