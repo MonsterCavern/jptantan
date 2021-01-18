@@ -20,10 +20,12 @@ class CreateWenku8ChaptersTable extends Migration
             $table->string('episode')->comment('集數');
             $table->integer('sequence')->comment('排序號');
             $table->text('title')->comment('標題');
-            $table->text('content')->comment('內文');
+            $table->text('content')->nullable()->comment('內文');
 
             $table->nullableTimestamps();
             $table->softDeletes();
+
+            $table->foreign('wenku8_id')->references('id')->on('wenku8s');
         });
     }
 
