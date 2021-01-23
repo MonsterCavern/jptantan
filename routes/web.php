@@ -13,7 +13,17 @@
 
 Auth::routes();
 
-//
+// <a href="/users/{{auth()->user()->id}}">{{ auth()->user()->name }}</
 Route::view('/', 'pure.index');
+Route::get('/profile', function () {
+    $user = auth()->user();
+    return view('pure.users.profile', [
+      'user' => $user
+    ]);
+});
+
+Route::resource('users', 'UserController');
+
+
 // 未知路由導回首頁
 Route::view('/{all}', 'pure.index')->where(['all' => '.*']);
