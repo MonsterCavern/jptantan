@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class UserController extends Controller
 {
@@ -68,7 +69,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->validate([
+            'name' => 'required'
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $input['name'];
+        $user->save();
+        return redirect('profile');
     }
 
     /**
