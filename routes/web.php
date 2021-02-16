@@ -14,6 +14,10 @@
 Auth::routes();
 
 // <a href="/users/{{auth()->user()->id}}">{{ auth()->user()->name }}</
+
+Route::get('/login/oauth/github', 'SocialController@redirectToProvider');
+Route::get('/login/oauth/github/callback', 'SocialController@handleProviderCallback');
+
 Route::view('/', 'pure.index');
 Route::get('/profile', function () {
     $user = auth()->user();
