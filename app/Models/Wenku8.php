@@ -21,4 +21,9 @@ class Wenku8 extends Model
         'status',
         'lasted_at'
     ];
+
+    public function chapters()
+    {
+        return $this->hasMany(\App\Models\Wenku8Chapter::class);
+    }
 }
